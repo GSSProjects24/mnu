@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "773709137304",
+    "firebase_url": "https://mnuapp-66a6f-default-rtdb.firebaseio.com",
+    "project_id": "mnuapp-66a6f",
+    "storage_bucket": "mnuapp-66a6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773709137304:android:b7f9e3643853ee11af97ed",
+        "android_client_info": {
+          "package_name": "com.app.mnu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773709137304-0qtj41bp62dnn5jbnc2623q600hd4de5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLQMqbV-8z0_CyoBtqe3cWJtfvfIm4Lt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773709137304-0qtj41bp62dnn5jbnc2623q600hd4de5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
