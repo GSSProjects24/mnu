@@ -156,10 +156,12 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '${snapshot.data?.data?.memberName} ' ??
-                                          '',
-                                      style: getText(context).headlineSmall,
+                                      '${snapshot.data?.data?.memberName ?? ''}',
+                                      style: getText(context).headlineSmall?.copyWith(
+                                        color: Colors.white,
+                                      ),
                                     ),
+
                                     Text(
                                       snapshot.data?.data?.position ?? '',
                                       style: getText(context).titleLarge,

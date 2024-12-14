@@ -453,7 +453,7 @@ class _FormRegistrationState extends State<FormRegistration> {
                         onPressed: () {
                           showDates(context, DateTime.now()).then((value) {
                             controller.doe.text =
-                                '${value?.year.toString()}-${value?.month.toString()}-${value?.day.toString()}';
+                                '${value?.day.toString()}-${value?.month.toString()}-${value?.year.toString()}';
                           });
                         },
                         icon: const Icon(Icons.date_range_outlined),

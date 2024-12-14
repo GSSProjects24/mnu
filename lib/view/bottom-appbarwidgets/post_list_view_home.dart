@@ -955,7 +955,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                                                                             if (status ==
                                                                                 true) {
                                                                               debugPrint("Success: $message");
-                                                                              Get.snackbar("Hide Successfully", message ?? "Success", snackPosition: SnackPosition.BOTTOM);
+                                                                              Get.snackbar("Hide Successfully","", snackPosition: SnackPosition.BOTTOM);
 
                                                                               if (mounted) {
                                                                                 try {

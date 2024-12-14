@@ -658,7 +658,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                         "my_status : ${data["data"]["status"] == true}");
                                     if (data["data"]["status"] == true) {
                                       Get.snackbar("Post Updated Successfully",
-                                          data["message"] ?? "Success",
+                                           "",
                                           snackPosition: SnackPosition.BOTTOM);
                                       Navigator.pop(context);
                                       Navigator.pop(context);
@@ -685,7 +685,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 30.0,
                               ),
-                              child: Text(widget.isEdit ? 'Edit Post' : 'Post'),
+                              child: Text(widget.isEdit ? 'Update Post' : 'Post'),
                             )),
                         const SizedBox(
                           height: 50,

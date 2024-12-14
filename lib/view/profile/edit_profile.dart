@@ -233,7 +233,7 @@ class _EditProfileState extends State<EditProfile> {
       String month = dateParts[1];
       String year = dateParts[2];
 
-      return '$year/$month/$day';
+      return '$day/$month/$year';
     } else {
       return "Invalid date format";
     }

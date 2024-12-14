@@ -835,7 +835,7 @@ class _HidePostPageState extends State<HidePostPage>
                                                                             if (status ==
                                                                                 true) {
                                                                               debugPrint("Success: $message");
-                                                                              Get.snackbar("UnHide Successfully", message ?? "Success", snackPosition: SnackPosition.BOTTOM);
+                                                                              Get.snackbar("UnHide Successfully", "", snackPosition: SnackPosition.BOTTOM);
 
                                                                               if (mounted) {
                                                                                 try {
