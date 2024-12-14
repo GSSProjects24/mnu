@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mnu_app/theme/myfonts.dart';
 import 'package:mnu_app/view/bottom-appbarwidgets/post_list_view_home.dart';
+import 'package:mnu_app/view/homePage.dart';
 // import 'package:mnu_app/main.dart';
 // import 'package:mnu_app/view/bottom-appbarwidgets/single_post_view.dart';
 import '../../models/pendngrequestmodel.dart';
@@ -314,22 +315,17 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                     '',
                                                 name: '',
                                               ));
-
                                         }
                                         if (snapshot
-                                            .data
-                                            ?.data
-                                            ?.notifcationDetails
-                                            ?.notications?[index]
-                                            .heading ==
-                                            "New Post"
-                                           ) {
-                                          Get.to(() => const HomeListPostPage(
-                                              title: 'Timeline',
-                                              apiurl: 'http://mnuapi.graspsoftwaresolutions.com/api_post_list',
-                                              isHome: true
-                                          )
-                                          );
+                                                .data
+                                                ?.data
+                                                ?.notifcationDetails
+                                                ?.notications?[index]
+                                                .heading ==
+                                            "New Post") {
+                                          Get.to(() => const HomePage(
+                                                selectedTab: 0,
+                                              ));
                                         }
                                       },
                                       dense: true,

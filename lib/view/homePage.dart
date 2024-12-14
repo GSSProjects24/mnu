@@ -190,32 +190,48 @@ class _HomePageState extends State<HomePage> {
 
   int _selectedindex = 0;
   late Future<String?> token;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.selectedTab == 3) {
-      setState(() {
-        _selectedindex = 3;
-        loadMember();
-      });
-    }
+  callApis() async {
     if (widget.selectedTab == 0) {
       setState(() {
         _selectedindex = 0;
         loadMember();
       });
     }
+    if (widget.selectedTab == 1) {
+      setState(() {
+        _selectedindex = 1;
+        loadMember();
+      });
+    }
+    if (widget.selectedTab == 2) {
+      setState(() {
+        _selectedindex = 2;
+        loadMember();
+      });
+    }
+    if (widget.selectedTab == 3) {
+      setState(() {
+        _selectedindex = 3;
+        loadMember();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint("firstTimeInit:$_selectedindex");
+    callApis();
     onBoardeds = getOnboards();
     SharedPreferences.getInstance().then((prefs) {
       final bool isOnboarded = prefs.getBool('isOnboardeds') ?? false;
 
       if (!isOnboarded) {
-        Future.delayed(Duration(seconds: 2)).then((value) {
+        Future.delayed(const Duration(seconds: 2)).then((value) {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return ThankyouDialogbox();
+              return const ThankyouDialogbox();
             },
           ).then((value) {
             // Dialog closed, update isOnboarded in SharedPreferences
@@ -245,7 +261,6 @@ class _HomePageState extends State<HomePage> {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     String? token = await messaging.getToken();
-    print('${token}3333333333333333333');
 
     return token;
   }
@@ -255,6 +270,7 @@ class _HomePageState extends State<HomePage> {
     return PopScope(
       canPop: _selectedindex == 0,
       onPopInvokedWithResult: (didPop, result) {
+        debugPrint("Pop :$_selectedindex");
         if (didPop) {
           if (_selectedindex == 0) {
             Navigator.pop(context);
@@ -262,7 +278,6 @@ class _HomePageState extends State<HomePage> {
         } else {
           debugPrint("Pop action was blocked.");
           setState(() {
-            _selectedindex = 0;
             loadMember();
           });
           debugPrint("selectedIndexDashWillpop:$_selectedindex");
@@ -297,129 +312,8 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.chat),
               label: 'Chat',
             ),
-
             const NavigationDestination(
                 icon: Icon(Icons.high_quality_rounded), label: 'HQ'),
-            // StreamBuilder<NotificationsModel>(
-            //   stream: Stream.periodic(const Duration(microseconds: 1))
-            //       .asyncMap((event) async {
-            //     return loadNotifications();
-            //   }),
-            //   builder: (BuildContext context,
-            //       AsyncSnapshot<NotificationsModel> snapshot) {
-            //     if (snapshot.hasData != true ||
-            //         snapshot.data!.data!.status == false) {
-            //       return const NavigationDestination(
-            //         icon: Icon(Icons.notifications),
-            //         label: 'Alert',
-            //       );
-            //     } else if (snapshot.data!.data!.status == false &&
-            //         snapshot.data!.data!.notifcationDetails!.totalReports!
-            //                 .unseenCount ==
-            //             0 &&
-            //         snapshot.data!.data!.notifcationDetails!.totalReports!
-            //                 .unseenCount ==
-            //             null) {
-            //       return const NavigationDestination(
-            //         icon: Icon(Icons.notifications),
-            //         label: 'Alert',
-            //       );
-            //     } else {
-            //       return badge.Badge(
-            //         showBadge: snapshot.data!.data!.notifcationDetails!
-            //                     .totalReports!.unseenCount ==
-            //                 0
-            //             ? false
-            //             : true,
-            //         badgeStyle: badge.BadgeStyle(
-            //             badgeColor: Colors.red,
-            //             borderRadius: BorderRadius.circular(3)),
-            //         badgeContent: Text(snapshot.data!.data!.notifcationDetails!
-            //             .totalReports!.unseenCount
-            //             .toString()),
-            //         child: const NavigationDestination(
-            //           icon: Icon(Icons.notifications),
-            //           label: 'Alert',
-            //         ),
-            //       );
-            //     }
-            //   },
-            // ),
-
-            // badge.Badge(
-            //   badgeStyle: badge.BadgeStyle(badgeColor:Colors.red,
-            //   borderRadius:BorderRadius.circular(3)),
-            //   showBadge: showbadge!,
-            //   badgeContent: FutureBuilder<NotificationsModel>(
-            //     future: loadNotifications(),
-            //     builder: (context, snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.waiting) {
-            //         return SizedBox();
-
-            //       }
-
-            //        else if (snapshot.connectionState == ConnectionState.done) {
-            //         if (snapshot.hasError) {
-            //           return Text('');
-            //         }
-            //       }
-            //       // if(snapshot.data!.data!.notifcationDetails!.totalReports!.unseenCount == 0)
-            //       // {
-
-            //       //   setState(() {
-            //       //   showbadge = false;
-            //       // });
-
-            //       // }
-
-            //       return snapshot.data!.data!.notifcationDetails!.totalReports!.unseenCount == 0 ? Text('') : Text(snapshot.data!.data!.notifcationDetails!.totalReports!.unseenCount.toString());
-            //     },
-            //   ),
-            // child: NavigationDestination(
-            //   icon: Icon(Icons.notifications),
-            //   label: 'Alert',
-            // ),
-            // ),
-            // FutureBuilder<NotificationsModel>(
-            //     future: loadNotifications(),
-            //     builder: (context, snapshot) {
-            //       return Stack(
-            //         children: [
-            //           NavigationDestination(
-            //             icon: Icon(Icons.notifications),
-            //             label: 'Alert',
-            //           ),
-            //           Positioned(
-            //             top: 0,
-            //             right: 0,
-            //             child: snapshot.data!.data!.notifcationDetails!
-            //                             .totalReports!.unseenCount ==
-            //                         0 ||
-            //                     snapshot.data == null
-            //                 ? Text('')
-            //                 : Container(
-            //                     padding: EdgeInsets.all(5),
-            //                     decoration: BoxDecoration(
-            //                       color: Colors.red,
-            //                       shape: BoxShape.circle,
-            //                     ),
-            //                     child: Text(
-            //                       snapshot.data!.data!.notifcationDetails!
-            //                               .totalReports!.unseenCount!
-            //                               .toString() ??
-            //                           '',
-            //                       style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontSize: 12,
-            //                         fontWeight: FontWeight.bold,
-            //                       ),
-            //                     ),
-            //                   ),
-            //           ),
-            //         ],
-            //       );
-            //     }),
-
             NavigationDestination(
               icon: SizedBox(
                   height: 25,
@@ -428,7 +322,6 @@ class _HomePageState extends State<HomePage> {
                     radius: 40,
                     backgroundImage: const NetworkImage(
                         'http://upcwapi.graspsoftwaresolutions.com/public/images/user.png'),
-                    //const AssetImage('assets/profile.png'),
                     foregroundImage:
                         (profileimage != null && profileimage!.isNotEmpty)
                             ? NetworkImage(profileimage!)
@@ -438,37 +331,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        // BottomNavigationBar(
-        //   elevation: 5,
-        //
-        //   type: BottomNavigationBarType.fixed,
-        //   // backgroundColor: clrschm.outline,
-        //   currentIndex: _selectedindex,
-        //   selectedItemColor: clrschm.primary,
-        //   unselectedItemColor: Theme.of(context).disabledColor,
-        //   showUnselectedLabels: false,
-        //   // showSelectedLabels: false,
-        //   // elevation: 100,
-        //   // iconSize: 25,
-        //   onTap: (value) {
-        //     setState(() {
-        //       _selectedindex = value;
-        //     });
-        //   },
-        //
-        //   items: [
-        //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: 'Chat'),
-        //     // BottomNavigationBarItem(
-        //     //
-        //     //     icon: Image.asset('assets/addbutton.png',height: _selectedindex==2?30:25,),
-        //     //     label: ''),
-        //     BottomNavigationBarItem(icon: Icon(Icons.notifications ), label: 'Alerts'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.person_pin)
-        //     , label: 'Profile'),
-        //
-        //   ],
-        // ),
       ),
     );
   }

@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:like_button/like_button.dart';
 import 'package:mnu_app/controllers/hide_post_controller.dart';
 
 import 'package:photo_view/photo_view.dart';
@@ -22,8 +21,6 @@ import 'package:mnu_app/view/bottom-appbarwidgets/single_post_view.dart'
     as video;
 import '../homePage.dart';
 import '../profile/create-post-page.dart';
-import '../profile/friend_requestlist.dart';
-import '../profile/friends-profile.dart';
 import '../profile/suggestionprofile.dart';
 import '../widgets/custom_progress_indicator.dart';
 import 'package:carousel_indicator/carousel_indicator.dart';
@@ -213,15 +210,10 @@ class _HidePostPageState extends State<HidePostPage>
   @override
   Widget build(BuildContext context) {
     final uri = Uri.tryParse('');
-    return WillPopScope(
-      onWillPop: () async {
-        await Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const HomePage(
-                      selectedTab: 3,
-                    )));
-        return false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        debugPrint("Pop action ************.");
       },
       child: Scaffold(
         appBar: AppBar(
@@ -235,14 +227,8 @@ class _HidePostPageState extends State<HidePostPage>
                   ),
                 )
               : BackButton(
-                  onPressed: () async {
-                    const CustomProgressIndicator();
-                    await Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage(
-                                  selectedTab: 3,
-                                )));
+                  onPressed: () {
+                    Navigator.pop(context, true);
                     setState(() {});
                   },
                 ),
@@ -317,11 +303,6 @@ class _HidePostPageState extends State<HidePostPage>
                 itemCount:
                     snapshot.post.value.data?.postDetails?.posts?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-                  debugPrint(
-                      "userName:${snapshot.post.value.data!.postDetails!.posts![index]!.userDetails!.userId}");
-                  debugPrint(
-                      "userNameOwn:${Get.find<SessionController>().session.value.data?.userId.toString()}");
-
                   return Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Card(
@@ -332,29 +313,7 @@ class _HidePostPageState extends State<HidePostPage>
                         children: [
                           ListTile(
                             dense: true,
-                            onTap: () {
-                              // Get.to(() => FriendsProfile(
-                              //       memberNo: snapshot
-                              //           .post
-                              //           .value
-                              //           .data!
-                              //           .postDetails!
-                              //           .posts![index]!
-                              //           .userDetails!
-                              //           .userId
-                              //           .toString(),
-                              //       profileImage: snapshot
-                              //               .post
-                              //               .value
-                              //               .data!
-                              //               .postDetails!
-                              //               .posts![index]!
-                              //               .userDetails
-                              //               ?.profileImg ??
-                              //           '',
-                              //       name: '',
-                              //     ));
-                            },
+                            onTap: () {},
                             leading: CircleAvatar(
                               radius: 23,
                               backgroundImage: const NetworkImage(
@@ -364,7 +323,7 @@ class _HidePostPageState extends State<HidePostPage>
                                               .value
                                               .data!
                                               .postDetails!
-                                              .posts![index]!
+                                              .posts![index]
                                               .userDetails!
                                               .profileImg
                                               ?.toString() ??
@@ -375,7 +334,7 @@ class _HidePostPageState extends State<HidePostPage>
                                           .value
                                           .data!
                                           .postDetails!
-                                          .posts![index]!
+                                          .posts![index]
                                           .userDetails!
                                           .profileImg
                                           ?.toString() ??
@@ -384,7 +343,7 @@ class _HidePostPageState extends State<HidePostPage>
                             ),
                             title: Text(
                               snapshot.post.value.data?.postDetails
-                                      ?.posts![index]?.userDetails!.name
+                                      ?.posts![index].userDetails!.name
                                       .toString() ??
                                   '',
                               style: const TextStyle(
@@ -397,18 +356,18 @@ class _HidePostPageState extends State<HidePostPage>
                               children: [
                                 Text(
                                   snapshot.post.value.data?.postDetails
-                                          ?.posts![index]?.date
+                                          ?.posts![index].date
                                           .toString() ??
                                       '',
                                   style: const TextStyle(fontSize: 10),
                                 ),
                                 Text(
                                   snapshot.post.value.data?.postDetails
-                                              ?.posts![index]?.title ==
+                                              ?.posts![index].title ==
                                           null
                                       ? ''
                                       : snapshot.post.value.data?.postDetails
-                                              ?.posts![index]?.title
+                                              ?.posts![index].title
                                               .toString() ??
                                           "",
                                   style: const TextStyle(
@@ -419,7 +378,7 @@ class _HidePostPageState extends State<HidePostPage>
                             ),
                             trailing:
                                 snapshot.post.value.data!.postDetails!
-                                            .posts![index]!.userDetails!.userId
+                                            .posts![index].userDetails!.userId
                                             .toString() ==
                                         '1'
                                     ? null
@@ -552,234 +511,6 @@ class _HidePostPageState extends State<HidePostPage>
                                             ? Text('')
                                             : PopupMenuButton(
                                                 itemBuilder: (itemBuilder) => [
-                                                      // PopupMenuItem(
-                                                      //     child: TextButton(
-                                                      //   onPressed: () {
-                                                      //     showDialog(
-                                                      //         context: context,
-                                                      //         builder: (context) {
-                                                      //           return AlertDialog(
-                                                      //             title:
-                                                      //                 const Text(
-                                                      //               'Are you sure to block this User',
-                                                      //               style: TextStyle(
-                                                      //                   fontSize:
-                                                      //                       16),
-                                                      //             ),
-                                                      //             actions: [
-                                                      //               TextButton(
-                                                      //                   onPressed:
-                                                      //                       () {
-                                                      //                     Navigator.pop(
-                                                      //                         context);
-                                                      //                     Navigator.pop(
-                                                      //                         context);
-                                                      //                   },
-                                                      //                   child: Text(
-                                                      //                       'Cancel')),
-                                                      //               TextButton(
-                                                      //                   onPressed:
-                                                      //                       () async {
-                                                      //                     debugPrint(
-                                                      //                         'block user url ${widget.apiurl} limit ${limit}, ');
-                                                      //                     showLoading(
-                                                      //                         context); // Show loading spinner
-                                                      //                     var response =
-                                                      //                         await block(
-                                                      //                       snapshot
-                                                      //                           .post
-                                                      //                           .value
-                                                      //                           .data!
-                                                      //                           .postDetails!
-                                                      //                           .posts![index]!
-                                                      //                           .userDetails!
-                                                      //                           .userId
-                                                      //                           .toString(),
-                                                      //                     );
-                                                      //
-                                                      //                     // Check if the response has a successful status
-                                                      //                     if (response["data"]["status"] ==
-                                                      //                         true) {
-                                                      //                       Get.find<ListOfPostController>()
-                                                      //                           .post
-                                                      //                           .value = await snapshot.loadPost(
-                                                      //                         '',
-                                                      //                         limit,
-                                                      //                         widget.apiurl,
-                                                      //                       )!;
-                                                      //
-                                                      //                       Navigator.pop(
-                                                      //                           context); // Close the loading dialog
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                     } else {
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //
-                                                      //                       Get.snackbar(
-                                                      //                         "Failed",
-                                                      //                         response["data"]["error_msg"] ??
-                                                      //                             "Something went wrong. Please contact administrator.",
-                                                      //                         snackPosition:
-                                                      //                             SnackPosition.BOTTOM,
-                                                      //                         duration:
-                                                      //                             Duration(seconds: 3),
-                                                      //                       );
-                                                      //                     }
-                                                      //                   },
-                                                      //                   child: const Text(
-                                                      //                       'Block'))
-                                                      //             ],
-                                                      //           );
-                                                      //         });
-                                                      //   },
-                                                      //   child: const Row(
-                                                      //     children: [
-                                                      //       Icon(Icons.person),
-                                                      //       SizedBox(
-                                                      //         width: 5,
-                                                      //       ),
-                                                      //       Text('Block user'),
-                                                      //     ],
-                                                      //   ),
-                                                      // )),
-                                                      // PopupMenuItem(
-                                                      //     child: TextButton(
-                                                      //   onPressed: () {
-                                                      //     showDialog(
-                                                      //         context: context,
-                                                      //         builder: (context) {
-                                                      //           return AlertDialog(
-                                                      //             title: const Text(
-                                                      //                 'Report this content',
-                                                      //                 style: TextStyle(
-                                                      //                     fontSize:
-                                                      //                         16)),
-                                                      //             actions: [
-                                                      //               TextButton(
-                                                      //                   onPressed:
-                                                      //                       () {
-                                                      //                     Navigator.pop(
-                                                      //                         context);
-                                                      //                     Navigator.pop(
-                                                      //                         context);
-                                                      //                   },
-                                                      //                   child: const Text(
-                                                      //                       'Cancel')),
-                                                      //               TextButton(
-                                                      //                   onPressed:
-                                                      //                       () async {
-                                                      //                     showLoading(
-                                                      //                         context); // Show loading spinner
-                                                      //                     var response =
-                                                      //                         await block(
-                                                      //                       snapshot
-                                                      //                           .post
-                                                      //                           .value
-                                                      //                           .data!
-                                                      //                           .postDetails!
-                                                      //                           .posts![index]!
-                                                      //                           .userDetails!
-                                                      //                           .userId
-                                                      //                           .toString(),
-                                                      //                     );
-                                                      //
-                                                      //                     // Check if the response has a successful status
-                                                      //                     if (response["data"]["status"] ==
-                                                      //                         true) {
-                                                      //                       Get.find<ListOfPostController>()
-                                                      //                           .post
-                                                      //                           .value = await snapshot.loadPost(
-                                                      //                         '',
-                                                      //                         limit,
-                                                      //                         widget.apiurl,
-                                                      //                       );
-                                                      //
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                     } else {
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //                       Navigator.pop(
-                                                      //                           context);
-                                                      //
-                                                      //                       Get.snackbar(
-                                                      //                         "Failed",
-                                                      //                         response["data"]["error_msg"] ??
-                                                      //                             "Something went wrong. Please contact administrator.",
-                                                      //                         snackPosition:
-                                                      //                             SnackPosition.BOTTOM,
-                                                      //                         duration:
-                                                      //                             const Duration(seconds: 3),
-                                                      //                       );
-                                                      //                     }
-                                                      //                   },
-                                                      //                   //     () async {
-                                                      //                   //   debugPrint(
-                                                      //                   //       ' report post url ${widget.apiurl} limit ${limit}, ');
-                                                      //                   //   showLoading(
-                                                      //                   //       context);
-                                                      //                   //   block(snapshot
-                                                      //                   //           .post
-                                                      //                   //           .value
-                                                      //                   //           .data!
-                                                      //                   //           .postDetails!
-                                                      //                   //           .posts![
-                                                      //                   //               index]!
-                                                      //                   //           .userDetails!
-                                                      //                   //           .userId
-                                                      //                   //           .toString())
-                                                      //                   //       .then(
-                                                      //                   //           (value) async {
-                                                      //                   //     if (value[
-                                                      //                   //             "data"]
-                                                      //                   //         [
-                                                      //                   //         "status"]) {
-                                                      //                   //       Get.find<ListOfPostController>()
-                                                      //                   //               .post
-                                                      //                   //               .value =
-                                                      //                   //           (await snapshot.loadPost(
-                                                      //                   //               '',
-                                                      //                   //               limit,
-                                                      //                   //               widget.apiurl))!;
-                                                      //                   //
-                                                      //                   //       Navigator.pop(
-                                                      //                   //           context);
-                                                      //                   //       Navigator.pop(
-                                                      //                   //           context);
-                                                      //                   //       Navigator.pop(
-                                                      //                   //           context);
-                                                      //                   //     }
-                                                      //                   //   });
-                                                      //                   // },
-                                                      //                   child: const Text(
-                                                      //                       'Report '))
-                                                      //             ],
-                                                      //           );
-                                                      //         });
-                                                      //   },
-                                                      //   child: const Row(
-                                                      //     children: [
-                                                      //       Icon(Icons.warning),
-                                                      //       SizedBox(
-                                                      //         width: 5,
-                                                      //       ),
-                                                      //       Text('Report post'),
-                                                      //     ],
-                                                      //   ),
-                                                      // )),
                                                       PopupMenuItem(
                                                           child: TextButton(
                                                         onPressed: () {
@@ -855,47 +586,35 @@ class _HidePostPageState extends State<HidePostPage>
                                                                                   // Handle errors appropriately
                                                                                 }
                                                                               }
-
-                                                                              Navigator.pushReplacement(
-                                                                                context,
-                                                                                MaterialPageRoute(
-                                                                                  builder: (context) => const HomePage(selectedTab: 3),
-                                                                                ),
-                                                                              );
+                                                                              Navigator.pop(context, true);
+                                                                              Navigator.pop(context, true);
                                                                             } else {
                                                                               final String? errorMsg = response["data"]["error_msg"];
                                                                               debugPrint("Failure: ${errorMsg ?? "Unknown error"}");
                                                                               Get.snackbar("Failed", errorMsg ?? "Something went wrong", snackPosition: SnackPosition.BOTTOM);
-                                                                              Navigator.pushReplacement(
-                                                                                context,
-                                                                                MaterialPageRoute(
-                                                                                  builder: (context) => const HomePage(selectedTab: 3),
-                                                                                ),
-                                                                              );
+                                                                              Navigator.pop(context, true);
+                                                                              Navigator.pop(context, true);
                                                                             }
                                                                           } else {
                                                                             debugPrint("Invalid response format.");
                                                                             Get.snackbar("Error",
                                                                                 "Invalid response format.",
                                                                                 snackPosition: SnackPosition.BOTTOM);
-                                                                            Navigator.pushReplacement(
-                                                                              context,
-                                                                              MaterialPageRoute(
-                                                                                builder: (context) => const HomePage(selectedTab: 3),
-                                                                              ),
-                                                                            );
+                                                                            Navigator.pop(context,
+                                                                                true);
+                                                                            Navigator.pop(context,
+                                                                                true);
                                                                           }
                                                                         } catch (e) {
                                                                           debugPrint(
                                                                               "Exception: $e");
                                                                         } finally {
-                                                                          Navigator
-                                                                              .pushReplacement(
-                                                                            context,
-                                                                            MaterialPageRoute(
-                                                                              builder: (context) => const HomePage(selectedTab: 3),
-                                                                            ),
-                                                                          );
+                                                                          Navigator.pop(
+                                                                              context,
+                                                                              true);
+                                                                          Navigator.pop(
+                                                                              context,
+                                                                              true);
                                                                           // Ensure loading spinner is dismissed
                                                                         }
                                                                       },
@@ -919,64 +638,14 @@ class _HidePostPageState extends State<HidePostPage>
                                                       ))
                                                     ]),
                           ),
-                          snapshot.post.value.data!.postDetails!.posts![index]!
+                          snapshot.post.value.data!.postDetails!.posts![index]
                                       .image!.isEmpty &&
                                   snapshot.post.value.data!.postDetails!
-                                      .posts![index]!.video!.isEmpty
+                                      .posts![index].video!.isEmpty
                               ? Container()
                               : SizedBox(
                                   height: Get.height * 0.30,
                                   width: Get.width * 0.95,
-                                  // child: snapshot.post.value.data!.postDetails!
-                                  //             .posts![index]!.image!.isEmpty &&
-                                  //         snapshot.post.value.data!.postDetails!
-                                  //             .posts![index]!.video!.isEmpty
-                                  //     ?
-                                  //  ClipRRect(
-                                  //     borderRadius: BorderRadius.circular(15),
-                                  //     child: GestureDetector(
-                                  //       onTap: () {
-                                  //         showDialog(
-                                  //             context: context,
-                                  //             builder: (context) {
-                                  //               return SizedBox(
-                                  //                 height: Get.height,
-                                  //                 width: Get.width,
-                                  //                 child: video.SinglePostView(
-                                  //                     postId: snapshot
-                                  //                         .post
-                                  //                         .value
-                                  //                         .data!
-                                  //                         .postDetails!
-                                  //                         .posts![index]!
-                                  //                         .postId
-                                  //                         .toString()),
-                                  //               );
-                                  //             }).then((value) async {
-                                  //           Get.find<ListOfPostController>()
-                                  //               .post
-                                  //               .value = await Get.find<
-                                  //                   ListOfPostController>()
-                                  //               .loadPost(
-                                  //                   '', limit, widget.apiurl);
-                                  //         });
-
-                                  //         // Get.to(() => HomePostView(
-                                  //         //   index: index,
-                                  //         //   limit: limit,
-                                  //         //   apiurl: widget.apiurl,
-                                  //         // ));
-                                  //       },
-                                  //       // child: Placeholder(
-                                  //       //   fallbackHeight: 50,
-                                  //       //   fallbackWidth: 300,
-                                  //       // ),
-                                  //       // child: Image.network(
-                                  //       //   'http://upcwapi.graspsoftwaresolutions.com/public/images/user.png',
-                                  //       //   fit: BoxFit.cover,
-                                  //       // ),
-                                  //     ),
-                                  //   )
                                   child: CustomCarouselSlider(
                                     items: snapshot.post.value.data!
                                             .postDetails!.posts![index]!.image!
@@ -997,7 +666,7 @@ class _HidePostPageState extends State<HidePostPage>
                                                               .value
                                                               .data!
                                                               .postDetails!
-                                                              .posts![index]!
+                                                              .posts![index]
                                                               .postId
                                                               .toString());
                                                           showDialog(
@@ -1015,7 +684,7 @@ class _HidePostPageState extends State<HidePostPage>
                                                                               .value
                                                                               .data!
                                                                               .postDetails!
-                                                                              .posts![index]!
+                                                                              .posts![index]
                                                                               .postId
                                                                               .toString()),
                                                                     );
@@ -1034,11 +703,6 @@ class _HidePostPageState extends State<HidePostPage>
                                                                     widget
                                                                         .apiurl);
                                                           });
-                                                          // Get.to(() => HomePostView(
-                                                          //   index: index,
-                                                          //   limit: limit,
-                                                          //   apiurl: widget.apiurl,
-                                                          // ));
                                                         },
                                                         child: Image.network(
                                                           i,
@@ -1062,7 +726,7 @@ class _HidePostPageState extends State<HidePostPage>
                                                                         0.95,
                                                               );
                                                             } else {
-                                                              return CustomProgressIndicator();
+                                                              return const CustomProgressIndicator();
                                                             }
                                                           },
                                                         ))),
@@ -1071,7 +735,7 @@ class _HidePostPageState extends State<HidePostPage>
                                           );
                                         }).toList() +
                                         snapshot.post.value.data!.postDetails!
-                                            .posts![index]!.video!
+                                            .posts![index].video!
                                             .map((i) {
                                           return Builder(
                                             builder: (BuildContext context) {
@@ -1347,28 +1011,28 @@ class _HidePostPageState extends State<HidePostPage>
                                                         .data
                                                         ?.postDetails
                                                         ?.posts![index]
-                                                        ?.video,
+                                                        .video,
                                                     content: snapshot
                                                         .post
                                                         .value
                                                         .data
                                                         ?.postDetails
                                                         ?.posts![index]
-                                                        ?.content,
+                                                        .content,
                                                     title: snapshot
                                                         .post
                                                         .value
                                                         .data
                                                         ?.postDetails
                                                         ?.posts![index]
-                                                        ?.title,
+                                                        .title,
                                                     postId: snapshot
                                                         .post
                                                         .value
                                                         .data
                                                         ?.postDetails
                                                         ?.posts![index]
-                                                        ?.postId
+                                                        .postId
                                                         .toString(),
                                                   ));
                                             },
@@ -1444,7 +1108,7 @@ class _HidePostPageState extends State<HidePostPage>
                                 Text('')
                             ],
                           ),
-                          (snapshot.post.value.data!.postDetails?.posts![index]!
+                          (snapshot.post.value.data!.postDetails?.posts![index]
                                           .content!
                                           .contains("http") ==
                                       true ||

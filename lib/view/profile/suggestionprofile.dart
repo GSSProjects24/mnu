@@ -157,11 +157,12 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
                                   children: [
                                     Text(
                                       '${snapshot.data?.data?.memberName ?? ''}',
-                                      style: getText(context).headlineSmall?.copyWith(
-                                        color: Colors.white,
-                                      ),
+                                      style: getText(context)
+                                          .headlineSmall
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                          ),
                                     ),
-
                                     Text(
                                       snapshot.data?.data?.position ?? '',
                                       style: getText(context).titleLarge,
@@ -219,7 +220,7 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SuggestionList()),
+                                                    const SuggestionList()),
                                           );
                                         });
                                         setState(() {

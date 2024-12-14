@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:mnu_app/view/homePage.dart';
 
 import '../../controllers/sessioncontroller.dart';
 import '../../main.dart';
@@ -84,6 +85,14 @@ class _ChatListState extends State<ChatList> {
           selectedindex = null;
           isSelected = false;
         });
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(
+              selectedTab: 0,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
       child: Scaffold(
           appBar: AppBar(

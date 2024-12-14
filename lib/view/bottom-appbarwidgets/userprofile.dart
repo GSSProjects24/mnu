@@ -169,11 +169,11 @@ class _UsersProfileState extends State<UsersProfile> {
                               TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
-                                    setState(() {
-                                      Get.to(() => const HomePage(
-                                            selectedTab: 0,
-                                          ));
-                                    });
+                                    // setState(() {
+                                    //   Get.to(() => const HomePage(
+                                    //         selectedTab: 0,
+                                    //       ));
+                                    // });
                                   },
                                   child: const Text('No')),
                             ],
@@ -322,29 +322,34 @@ class _UsersProfileState extends State<UsersProfile> {
                                 flex: 0,
                                 child: GestureDetector(
                                   onTap: () async {
-                                    bool? result = await Get.to(() =>
-                                        HomeListPostPage(
-                                          title: 'My posts',
-                                          apiurl: Get.find<SessionController>()
-                                                      .session
-                                                      .value
-                                                      .data
-                                                      ?.userId
-                                                      .toString() ==
-                                                  "1"
-                                              ? "http://mnuapi.graspsoftwaresolutions.com/api_member_post_list"
-                                              : 'http://mnuapi.graspsoftwaresolutions.com/api_member_post_list',
-                                          isMember: true,
-                                        ));
-                                    debugPrint("result:$result");
-                                    if (result == null) {
-                                      setState(() {
-                                        member = loadMember();
-                                      });
-                                    } else if (result == true) {
-                                      setState(() {
-                                        member = loadMember();
-                                      });
+                                    if (snapshot.data?.data?.postCount
+                                            .toString() !=
+                                        'null') {
+                                      bool? result =
+                                          await Get.to(() => HomeListPostPage(
+                                                title: 'My posts',
+                                                apiurl: Get.find<
+                                                                SessionController>()
+                                                            .session
+                                                            .value
+                                                            .data
+                                                            ?.userId
+                                                            .toString() ==
+                                                        "1"
+                                                    ? "http://mnuapi.graspsoftwaresolutions.com/api_member_post_list"
+                                                    : 'http://mnuapi.graspsoftwaresolutions.com/api_member_post_list',
+                                                isMember: true,
+                                              ));
+                                      debugPrint("result:$result");
+                                      if (result == null) {
+                                        setState(() {
+                                          member = loadMember();
+                                        });
+                                      } else if (result == true) {
+                                        setState(() {
+                                          member = loadMember();
+                                        });
+                                      }
                                     }
                                   },
                                   child: Column(
@@ -382,7 +387,11 @@ class _UsersProfileState extends State<UsersProfile> {
                                 flex: 1,
                                 child: GestureDetector(
                                   onTap: () {
-                                    Get.to(() => const FollowersList());
+                                    if (snapshot.data?.data?.followersCount
+                                            .toString() !=
+                                        'null') {
+                                      Get.to(() => const FollowersList());
+                                    }
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -420,7 +429,11 @@ class _UsersProfileState extends State<UsersProfile> {
                                 flex: 1,
                                 child: GestureDetector(
                                   onTap: () {
-                                    Get.to(() => FollowingList());
+                                    if (snapshot.data?.data?.followingCount
+                                            .toString() !=
+                                        'null') {
+                                      Get.to(() => const FollowingList());
+                                    }
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -428,12 +441,12 @@ class _UsersProfileState extends State<UsersProfile> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        snapshot?.data?.data?.followingCount
+                                        snapshot.data?.data?.followingCount
                                                     .toString() ==
                                                 'null'
                                             ? '0'
                                             : snapshot
-                                                    ?.data?.data?.followingCount
+                                                    .data?.data?.followingCount
                                                     .toString() ??
                                                 '',
                                         style: getText(context)
@@ -457,11 +470,27 @@ class _UsersProfileState extends State<UsersProfile> {
                               Expanded(
                                 flex: 1,
                                 child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => const HidePostPage(
-                                        title: "Hide Post",
-                                        apiurl:
-                                            "http://mnuapi.graspsoftwaresolutions.com/api_post_hide_list"));
+                                  onTap: () async {
+                                    debugPrint(
+                                        "hideCount:${snapshot.data?.data?.postHideCount}");
+                                    if (snapshot.data?.data?.postHideCount !=
+                                        0) {
+                                      bool? result = await Get.to(() =>
+                                          const HidePostPage(
+                                              title: "Hide Post",
+                                              apiurl:
+                                                  "http://mnuapi.graspsoftwaresolutions.com/api_post_hide_list"));
+                                      debugPrint("result:$result");
+                                      if (result == null) {
+                                        setState(() {
+                                          member = loadMember();
+                                        });
+                                      } else if (result == true) {
+                                        setState(() {
+                                          member = loadMember();
+                                        });
+                                      }
+                                    }
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

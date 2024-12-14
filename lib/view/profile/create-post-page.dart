@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:badges/badges.dart' as badges;
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mnu_app/view/widgets/custom_progress_indicator.dart';
@@ -132,32 +133,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
 
   late VideoPlayerController _controller;
 
-  // loadEdit() async {
-  //   if (widget.isEdit && widget.urls != null) {
-  //     List<String?> data = [];
-  //
-  //     print(data);
-  //
-  //     for (var dynamic in widget.urls!) {
-  //       data.add(dynamic.toString());
-  //     }
-  //
-  //     print("mydata ${data}");
-  //
-  //     await Get.find<PostController>().LoadNetworkImage(data);
-  //   }
-  //   if (widget.isEdit && widget.video != null) {
-  //     List<String?> data = [];
-  //     print(data);
-  //     for (var dynamic in widget.video!) {
-  //       data.add(dynamic.toString());
-  //     }
-  //     print("vidata ${data}");
-  //     print("vidataNav ${widget.video}");
-  //     await Get.find<PostController>().LoadNetworkVideo(data);
-  //   }
-  //   setState(() {});
-  // }
   bool isLoading = true;
 
   Future<void> loadEdit() async {
@@ -223,7 +198,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                             Navigator.pop(context, true);
                             Navigator.pop(context, true);
                           } else {
-                            Navigator.pop(context);
+                            Navigator.pop(context, true);
                           }
                         },
                         icon: const Icon(Icons.arrow_back)),
@@ -604,8 +579,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
-                                      Navigator.pop(context);
-                                      //Get.off(() => const LandingPage());
+                                      // Navigator.pop(context);
+                                      Get.off(() => const LandingPage());
                                     }
                                     if (data["data"]["status"] == false) {
                                       ScaffoldMessenger.of(context)
@@ -639,13 +614,14 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                     return base64Encode(imageData);
                                   }).toList();
 
-                                  print(
-                                      "memoryVideo len : ${postcontroller.memoryVideo.length}");
-                                  print("video len : ${videos.length}");
-
-                                  print("base64ImageList : ${base64ImageList}");
-                                  print(
-                                      "base64ImageList length : ${base64ImageList.length}");
+                                  if (kDebugMode) {
+                                    print(
+                                        "memoryVideo len : ${postcontroller.memoryVideo.length}");
+                                    print("video len : ${videos.length}");
+                                    print("base64ImageList : $base64ImageList");
+                                    print(
+                                        "base64ImageList length : ${base64ImageList.length}");
+                                  }
                                   try {
                                     final data = await editPost(
                                       Content: content.text,
@@ -654,11 +630,13 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       Title: title.text,
                                       videos: videos,
                                     );
-                                    print(
-                                        "my_status : ${data["data"]["status"] == true}");
+                                    if (kDebugMode) {
+                                      print(
+                                          "my_status : ${data["data"]["status"] == true}");
+                                    }
                                     if (data["data"]["status"] == true) {
-                                      Get.snackbar("Post Updated Successfully",
-                                           "",
+                                      Get.snackbar(
+                                          "Post Updated Successfully", "",
                                           snackPosition: SnackPosition.BOTTOM);
                                       Navigator.pop(context);
                                       Navigator.pop(context);
@@ -685,7 +663,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 30.0,
                               ),
-                              child: Text(widget.isEdit ? 'Update Post' : 'Post'),
+                              child:
+                                  Text(widget.isEdit ? 'Update Post' : 'Post'),
                             )),
                         const SizedBox(
                           height: 50,
