@@ -587,6 +587,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
+                                      debugPrint('yes');
                                       Navigator.pop(context);
                                       //Get.off(() => const LandingPage());
                                     }
@@ -594,6 +595,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
+
                                       Navigator.pop(context);
                                       //Get.off(() => const LandingPage());
                                     } else {

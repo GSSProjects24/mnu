@@ -330,13 +330,14 @@ class _HQListPostPageState extends State<HQListPostPage> {
       body: GetX<ListOfPostController>(
           init: ListOfPostController(),
           initState: (value) async {
-            value.controller?.post.value =
-            (await value.controller?.loadPost('', limit, widget.apiurl))!;
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              value.controller?.post.value =
+              (await value.controller?.loadPost('', limit, widget.apiurl))!; // Load data
+            });
           },
           builder: ((snapshot) {
             final posts = snapshot.post.value.data?.postDetails?.posts;
             if (snapshot.isLoading.value) {
-              // Show loading indicator while data is being fetched
               return const Center(
                 child: CustomProgressIndicator(),
               );

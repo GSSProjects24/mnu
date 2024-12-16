@@ -307,6 +307,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
               ),
             ),
           ),
+
           widget.isHq == true
               ? const Text("")
               : IconButton(
@@ -336,8 +337,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                 value.controller?.post.value =
               (await value.controller?.loadPost('', limit, widget.apiurl))!; // Load data
             });
-
-          },
+            },
           builder: ((snapshot) {
             final posts = snapshot.post.value.data?.postDetails?.posts;
             if (snapshot.isLoading.value) {

@@ -268,30 +268,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: _selectedindex == 0,
-      onPopInvokedWithResult: (didPop, result) {
-        debugPrint("Pop :$_selectedindex");
-        if (didPop) {
-          if (_selectedindex == 0) {
-            Navigator.pop(context);
-          }
-        } else {
-          debugPrint("Pop action was blocked.");
-          setState(() {
-            loadMember();
-          });
-          debugPrint("selectedIndexDashWillpop:$_selectedindex");
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => const HomePage(
-                      selectedTab: 0,
-                    )),
-            (Route<dynamic> route) => false,
-          );
-        }
-      },
-      child: Scaffold(
+    return Scaffold(
         body: bottombarwidgets[_selectedindex],
         bottomNavigationBar: NavigationBar(
           surfaceTintColor: clrschm.primary,
@@ -333,7 +310,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
