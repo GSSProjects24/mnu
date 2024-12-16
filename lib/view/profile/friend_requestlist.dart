@@ -203,12 +203,40 @@ class _FriendRequestsState extends State<FriendRequests> {
                                           // data["data"]["status"] =
                                           //     is_following;
                                           if (data["data"]["status"] == true) {
-                                            followBackDialogue(
-                                                context, snapshot, index);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content:
-                                                        Text(data['message'])));
+                                            debugPrint(
+                                                "isFollowing:${snapshot.data!.data!.followDetails!.followers![index]!.isFollowing}");
+                                            if (snapshot
+                                                    .data!
+                                                    .data!
+                                                    .followDetails!
+                                                    .followers![index]!
+                                                    .isFollowing !=
+                                                true) {
+                                              followBackDialogue(
+                                                  context, snapshot, index);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          data['message'])));
+                                            } else {
+                                              setState(() {
+                                                list = loadPendingList();
+                                              });
+                                              await followRequest(snapshot
+                                                      .data!
+                                                      .data!
+                                                      .followDetails!
+                                                      .followers![index]!
+                                                      .followerUserId
+                                                      .toString())
+                                                  .then((value) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            value['message'])));
+                                                Navigator.of(context).pop();
+                                              });
+                                            }
                                           }
                                           if (data["data"]["status"] == false) {
                                             ScaffoldMessenger.of(context)
