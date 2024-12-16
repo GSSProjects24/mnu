@@ -69,6 +69,7 @@ class _UsersProfileState extends State<UsersProfile> {
   }
 
   Future<Map<String, dynamic>> tokenLogout() async {
+    debugPrint("logout");
     var body = {
       "user_id":
           Get.find<SessionController>().session.value.data?.userId.toString()

@@ -234,6 +234,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                     onPressed: () async {
                                                       await postcontroller
                                                           .addFileFromCamera();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
                                                     icon: const Icon(
                                                       Icons.camera_alt,
@@ -252,6 +254,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                       await postcontroller
                                                           .addFiles();
                                                       setState(() {});
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
                                                     icon: const Icon(
                                                       Icons.photo,
@@ -269,6 +273,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                     onPressed: () async {
                                                       await postcontroller
                                                           .addVideoFromCamera();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
                                                     icon: const Icon(
                                                       Icons.video_call_rounded,
@@ -286,6 +292,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                     onPressed: () async {
                                                       await postcontroller
                                                           .addVideoFromGallery();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
                                                     icon: const Icon(
                                                       Icons.file_copy,
@@ -579,15 +587,15 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
-                                      // Navigator.pop(context);
-                                      Get.off(() => const LandingPage());
+                                      Navigator.pop(context);
+                                      //Get.off(() => const LandingPage());
                                     }
                                     if (data["data"]["status"] == false) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
-
-                                      Get.off(() => const LandingPage());
+                                      Navigator.pop(context);
+                                      //Get.off(() => const LandingPage());
                                     } else {
                                       Navigator.pop(context);
                                     }

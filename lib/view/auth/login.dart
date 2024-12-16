@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -30,7 +31,9 @@ class _LogInState extends State<LogIn> {
     final response = await http.post(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_login'),
         body: {"username": userName.text, "password": passWord.text});
-    print('**********+' + response.body);
+    if (kDebugMode) {
+      print('**********+${response.body}');
+    }
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -107,10 +110,9 @@ class _LogInState extends State<LogIn> {
                     final prefs = await SharedPreferences.getInstance();
                     print(prefs.getString('username') ?? 'NO DATA');
 
-                    Get.find<SessionController>().session.value.logOut();
+                    //  Get.find<SessionController>().session.value.logOut();
 
                     if (_formKey.currentState!.validate()) {
-                      // ignore: use_build_context_synchronously
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -121,9 +123,10 @@ class _LogInState extends State<LogIn> {
                       logIn().then((value) async {
                         print(value);
                         print('login success ${value["data"]["status"]}');
-                        if (value["data"]["status"]) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(value["message"])));
+                        print('login success ${value["message"]}');
+                        if (value["data"]["status"] == true) {
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(content: Text(value["message"])));
                           Get.off(() => const LandingPage());
 
                           Navigator.of(context).pop();
@@ -171,15 +174,15 @@ class _LogInState extends State<LogIn> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Already a Member?",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.to(() => NricCheck());
+                        Get.to(() => const NricCheck());
                       },
-                      child: Text('Register here')),
+                      child: const Text('Register here')),
                   SizedBox(
                     height: Get.height * 0.07,
                   )

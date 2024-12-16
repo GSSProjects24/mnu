@@ -365,13 +365,14 @@ class _FriendRequestsState extends State<FriendRequests> {
                 print(snapshot.data!.data!.followDetails!.followers![index]!
                     .followerUserId
                     .toString());
+                setState(() {
+                  list = loadPendingList();
+                });
+                Navigator.of(context).pop();
                 await followRequest(snapshot.data!.data!.followDetails!
                         .followers![index]!.followerUserId
                         .toString())
                     .then((value) {
-                  setState(() {
-                    list = loadPendingList();
-                  });
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text(value['message'])));
                   Navigator.of(context).pop();
