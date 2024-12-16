@@ -88,7 +88,7 @@ class _HomePostViewState extends State<HomePostView> {
                             .then((value) async {
                           Get.find<ListOfPostController>().post.value =
                               await Get.find<ListOfPostController>()
-                                  .loadPost('', widget.limit, widget.apiurl!)!
+                                  .loadPost('', widget.limit, widget.apiurl!,)!
                                   .whenComplete(() => Navigator.pop(context));
                           print(Get.find<SessionController>()
                               .session

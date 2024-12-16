@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
+import 'package:mnu_app/controllers/MesssagesController.dart';
+import 'package:mnu_app/controllers/MesssagesController.dart';
 import 'package:mnu_app/models/member-model.dart';
 import 'package:mnu_app/view/bottom-appbarwidgets/notifictions_page.dart';
 
@@ -54,6 +56,7 @@ class HomeListPostPage extends StatefulWidget {
 }
 
 class _HomeListPostPageState extends State<HomeListPostPage> {
+
   Future<void> _launchInBrowser(Uri url) async {
     if (!await launchUrl(
       url,
@@ -65,7 +68,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
 
   Session c = Session();
   bool isLoading = false;
-  //flag to check if all items loaded
+
   bool isAllLoaded = false;
   late int totalreports;
   int limit = 20;
@@ -114,10 +117,9 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
   }
 
   @override
-  void initState() {
+  void initState()  {
     // TODO: implement initState
-    debugPrint("isWidget:${widget.isHome}");
-    // postlist = loadPost();
+    debugPrint("isWidget:${widget.isHome}, ishq ${widget.isHq}");
     super.initState();
   }
 
@@ -254,7 +256,8 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text('');
-                } else if (snapshot.data!.data!.status == false) {
+                }
+                else if (snapshot.data!.data!.status == false) {
                   return badge.Badge(
                     showBadge: false,
                     badgeStyle: badge.BadgeStyle(
@@ -267,7 +270,8 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   );
-                } else {
+                }
+                else {
                   debugPrint(
                       'fffffffffffffffffffffff${snapshot.data!.data!.notifcationDetails!.totalReports!.noticationCount}');
                   return badge.Badge(
@@ -333,7 +337,12 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
           },
           builder: ((snapshot) {
             final posts = snapshot.post.value.data?.postDetails?.posts;
+            if (snapshot.isLoading.value) {
 
+              return const Center(
+                child: CustomProgressIndicator(),
+              );
+            }
             if (posts == null ||
                 posts.isEmpty ||
                 snapshot.post.value.data?.status == false) {

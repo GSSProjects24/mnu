@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mnu_app/view/bottom-appbarwidgets/hqListPage.dart';
 import 'package:mnu_app/view/widgets/thankyouDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -178,7 +179,7 @@ class _HomePageState extends State<HomePage> {
         isHome: true),
     // LazyListView(),
     const ChatList(),
-    const HomeListPostPage(
+    const HQListPostPage(
         title: 'HQ posts',
         apiurl: 'http://mnuapi.graspsoftwaresolutions.com/api_admin_post_list',
         isHq: true),
@@ -298,6 +299,7 @@ class _HomePageState extends State<HomePage> {
             setState(() {
               _selectedindex = index;
               debugPrint("selectedIndexDash:$_selectedindex");
+
               loadMember();
             });
           },

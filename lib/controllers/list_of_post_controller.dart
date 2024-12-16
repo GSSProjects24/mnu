@@ -15,6 +15,7 @@ class ListOfPostController extends GetxController {
 //final post = ListOfPostModel().obs;
   var data;
   var noPosts = false.obs;
+  var isLoading = true.obs;
   final Rx<ListOfPostModel> post = ListOfPostModel().obs;
   Future<Map<String, dynamic>> postComment(
       {required BuildContext context,
@@ -88,22 +89,29 @@ class ListOfPostController extends GetxController {
     }
   }
 
-  Future<ListOfPostModel> loadPost(
-      String? search, int limit, String url) async {
-    final response = await http.post(Uri.parse(url), body: {
-      "user_id":
-          Get.find<SessionController>().session.value.data!.userId.toString(),
-      "page": '1',
-      "limit": limit.toString()
-      // "search": search??''
-    });
+  Future<ListOfPostModel> loadPost(String? search, int limit, String url) async {
+    try {
+      isLoading.value = true; // Start loading
 
-    if (response.statusCode == 200) {
-      print(response.body);
-      return ListOfPostModel.fromJson(jsonDecode(response.body));
-    } else {
-      print(response.body);
-      throw Exception('Failed to load data');
+      final response = await http.post(Uri.parse(url), body: {
+        "user_id": Get.find<SessionController>().session.value.data!.userId.toString(),
+        "page": '1',
+        "limit": limit.toString(),
+        // "search": search ?? ''
+      });
+
+      if (response.statusCode == 200) {
+        final result = ListOfPostModel.fromJson(jsonDecode(response.body));
+        post.value = result; // Update observable post data
+        return result;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      debugPrint("Error loading posts: $e");
+      rethrow; // Propagate error if needed
+    } finally {
+      isLoading.value = false; // Stop loading
     }
   }
 
