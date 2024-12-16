@@ -331,7 +331,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                   ?.notications?[index]
                                                   .heading ==
                                               "New Post") {
-                                            Get.to(() => const HomePage(
+                                            Get.offAll(() => const HomePage(
                                                   selectedTab: 0,
                                                 ));
                                           }
