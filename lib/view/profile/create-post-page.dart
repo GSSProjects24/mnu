@@ -436,7 +436,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                         ),
                                 ),
                               ),
-                        postcontroller.memoryVideo.isEmpty
+                        postcontroller.memoryVideo1.isEmpty
                             ? Container()
                             : Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -449,11 +449,11 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       : Obx(() => ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: postcontroller
-                                                .memoryVideo.length,
+                                                .memoryVideo1.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              debugPrint(
-                                                  "memeoryVideo:${postcontroller.memoryVideo}");
+                                              print(
+                                                  "memeoryVideo:${postcontroller.memoryVideo1}");
                                               return Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
@@ -469,15 +469,17 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                                     2))),
                                                     badgeContent: IconButton(
                                                       onPressed: () {
+                                                        print(
+                                                            "postConMemory:${postcontroller.memoryVideo1[index].toString()}");
                                                         setState(() {
-                                                          debugPrint(
-                                                              'Before removal: memoryVideo: ${postcontroller.memoryVideo.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
+                                                          print(
+                                                              'Before removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
                                                           if (index <
                                                               postcontroller
-                                                                  .memoryVideo
+                                                                  .memoryVideo1
                                                                   .length) {
                                                             postcontroller
-                                                                .memoryVideo
+                                                                .memoryVideo1
                                                                 .removeAt(
                                                                     index);
                                                           }
@@ -499,8 +501,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                                 .removeAt(
                                                                     index);
                                                           }
-                                                          debugPrint(
-                                                              'After removal: memoryVideo: ${postcontroller.memoryVideo.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
+                                                          print(
+                                                              'After removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
                                                         });
                                                       },
                                                       icon: const Icon(
@@ -514,11 +516,17 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                         child: SizedBox(
                                                           height: 150,
                                                           width: 150,
-                                                          child: VideoAppUrl(
+                                                          child: VideoAppUrl1(
                                                             memoryVideo:
                                                                 postcontroller
-                                                                        .memoryVideo[
-                                                                    index],
+                                                                    .memoryVideo1[
+                                                                        index]
+                                                                    .name,
+                                                            id: postcontroller
+                                                                .memoryVideo1[
+                                                                    index]
+                                                                .id
+                                                                .toString(),
                                                           ),
                                                         ))),
                                               );
@@ -570,11 +578,16 @@ class _PostCreatePageState extends State<PostCreatePage> {
                         ElevatedButton(
                             onPressed: () async {
                               print("is calling");
+                              List<String> images = postcontroller.images;
+                              List<String> videos = postcontroller.videos;
+                              // memoryVideo
+                              print("videoList:$videos");
+                              print("image:$images");
                               if (_formkey.currentState!.validate()) {
                                 List<String> images = postcontroller.images;
                                 List<String> videos = postcontroller.videos;
                                 // memoryVideo
-
+                                print("videoList:${videos.toString()}");
                                 if (widget.isEdit != true) {
                                   showLoading(context);
                                   await createPost(
@@ -802,6 +815,7 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
   bool _isInitialized = false;
+  late final File tempFile;
   String? _currentMemoryVideoPath;
 
   @override
@@ -819,11 +833,12 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
 
       // Save the Uint8List data to a temporary file
       final tempDir = await getTemporaryDirectory();
-      final tempFile = File('${tempDir.path}/video.mp4');
+      tempFile = File('${tempDir.path}/video.mp4');
 
       // Explicitly cast Uint8List to List<int> before writing
-      await tempFile.writeAsBytes(videoData as List<int>); // Cast to List<int>
-
+      //await tempFile.writeAsBytes(videoData as List<int>); // Cast to List<int>
+      await tempFile.writeAsBytes(videoData);
+      print("tempFileInVideoAppUrl:$tempFile");
       // Initialize the VideoPlayerController with the temporary file
       _controller = VideoPlayerController.file(tempFile);
 
@@ -864,6 +879,132 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
 
   @override
   void didUpdateWidget(covariant VideoAppUrl oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // If the memory video data has changed, reload the video
+    if (widget.memoryVideo != oldWidget.memoryVideo) {
+      _initializeVideoPlayer(widget.memoryVideo);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    return Scaffold(
+      body: Stack(
+        children: [
+          Center(
+            child: _controller!.value.isInitialized
+                ? VideoPlayer(_controller!)
+                : Container(
+                    color: Colors.black,
+                  ),
+          ),
+          Center(
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  // '/data/user/0/com.app.mnu/cache/video.mp4'
+                  print("tempFileInIconButton:${tempFile}");
+                  _controller!.value.isPlaying
+                      ? _controller?.pause()
+                      : _controller?.play();
+                });
+              },
+              icon: Icon(
+                _controller!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class VideoAppUrl1 extends StatefulWidget {
+  final String memoryVideo;
+  final String id;
+
+  const VideoAppUrl1({Key? key, required this.memoryVideo, required this.id})
+      : super(key: key);
+
+  @override
+  _VideoAppUrl1State createState() => _VideoAppUrl1State();
+}
+
+class _VideoAppUrl1State extends State<VideoAppUrl1> {
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
+  bool _isInitialized = false;
+  late final File tempFile;
+  String? _currentMemoryVideoPath;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeVideoPlayer(widget.memoryVideo);
+  }
+
+  // Function to initialize the video player with a given memory video (Uint8List)
+  Future<void> _initializeVideoPlayer(String videoData) async {
+    try {
+      // Dispose of previous controllers before creating a new one
+      await _controller?.dispose();
+      _chewieController?.dispose();
+      if (widget.id == "0") {
+        tempFile = File(videoData);
+        print("tempFileInVideoAppUrl:$tempFile");
+        _controller = VideoPlayerController.file(tempFile);
+      } else {
+        debugPrint("videoData$videoData");
+        Uri videoUri = Uri.parse(videoData);
+        _controller = VideoPlayerController.contentUri(videoUri);
+      }
+
+      await _controller?.initialize();
+
+      // Set up the Chewie controller after the VideoPlayerController is initialized
+      final videoWidth = _controller?.value.size.width ?? 0;
+      final videoHeight = _controller?.value.size.height ?? 0;
+      double aspectRatio = videoWidth / videoHeight;
+
+      _chewieController = ChewieController(
+        videoPlayerController: _controller!,
+        aspectRatio: aspectRatio,
+        autoPlay: true,
+        looping: false,
+      );
+
+      setState(() {
+        //_currentMemoryVideoPath = tempFile.path;
+        _isInitialized = true;
+      });
+    } catch (e) {
+      // Handle any errors here (e.g., file read/write issues or video initialization failure)
+      print("Error initializing video player: $e");
+      setState(() {
+        _isInitialized = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant VideoAppUrl1 oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     // If the memory video data has changed, reload the video

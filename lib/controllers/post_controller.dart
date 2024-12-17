@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:mnu_app/models/videoModel.dart';
 
 class PostController extends GetxController {
   List<Uint8List> memoryImage = <Uint8List>[].obs;
@@ -13,7 +14,7 @@ class PostController extends GetxController {
   List<File> files = <File>[].obs;
   List<File> videoFiles = <File>[].obs;
   List<String?> urls = <String?>[].obs;
-
+  List<Videomodel> memoryVideo1 = <Videomodel>[].obs;
   Future<void> addFileFromCamera() async {
     PickedFile? result =
         (await ImagePicker.platform.pickImage(source: ImageSource.camera));
@@ -51,6 +52,8 @@ class PostController extends GetxController {
       await File(result.path)
           .readAsBytes()
           .then((value) => memoryVideo.add(value));
+      memoryVideo1.add(Videomodel(id: 0, name: result.path));
+      debugPrint("Camera Video Path: ${result.path}");
     }
   }
 
@@ -65,6 +68,8 @@ class PostController extends GetxController {
       await File(result.path)
           .readAsBytes()
           .then((value) => memoryVideo.add(value));
+      memoryVideo1.add(Videomodel(id: 0, name: result.path));
+      debugPrint("Gallery Video Path: ${result.path}");
     }
   }
 
@@ -137,6 +142,15 @@ class PostController extends GetxController {
     return Future.wait(futures);
   }
 
+  Future<List<String>> convertVideosToBase641() {
+    List<Future<String>> futures = [];
+    for (var file in videoFiles) {
+      futures.add(convertFiletoBase64(file));
+    }
+
+    return Future.wait(futures);
+  }
+
   Future<String> convertFiletoBase64(File file) {
     return file.readAsBytes().then((Uint8List uint8list) {
       return base64Encode(uint8list);
@@ -170,6 +184,7 @@ class PostController extends GetxController {
 
   Future<void> LoadNetworkVideo(List<String?> videosList) async {
     for (var url in videosList) {
+      print("urlinLoadVideo:$url");
       if (url != null) {
         try {
           var data = await networkImageToBase64(url);
@@ -177,9 +192,13 @@ class PostController extends GetxController {
 
           if (data != null && !videos.contains(data)) {
             videos.add(url);
+            // videoFiles.add(File(result.path));
+            // videos = await convertVideosToBase64().whenComplete(() => print(
+            //     '*****************************done**************************************'));
           }
-          if (data2 != null && !memoryVideo.contains(data2)) {
-            memoryVideo.add(data2);
+
+          if (data2 != null && !memoryVideo1.contains(data2)) {
+            memoryVideo1.add(Videomodel(id: 1, name: url));
           }
         } catch (e) {
           debugPrint('Error loading video: $e');
