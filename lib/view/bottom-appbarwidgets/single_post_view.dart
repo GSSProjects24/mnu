@@ -123,6 +123,7 @@ class _SinglePostViewState extends State<SinglePostView> {
         Get.find<SessionController>().session.value.data!.userId.toString();
     Get.put(ListOfPostController());
     super.initState();
+    debugPrint("welcome***************");
   }
 
   @override
@@ -195,9 +196,19 @@ class _SinglePostViewState extends State<SinglePostView> {
                           leading: CircleAvatar(
                             backgroundImage:
                                 const AssetImage('assets/profile.png'),
-                            foregroundImage: NetworkImage(snapshot.data?.data
-                                    .postDetails.userDetails?.profileImg ??
-                                ''),
+                            // foregroundImage: NetworkImage(snapshot.data?.data
+                            //         .postDetails.userDetails?.profileImg ??
+                            //     ''),
+                            foregroundImage: NetworkImage(
+                              snapshot.data?.data.postDetails.userDetails
+                                          ?.profileImg?.isNotEmpty ==
+                                      true
+                                  ? snapshot.data?.data.postDetails.userDetails
+                                          ?.profileImg
+                                          ?.toString() ??
+                                      ''
+                                  : 'http://upcwapi.graspsoftwaresolutions.com/public/images/user.png',
+                            ),
                           ),
                           title: Text(snapshot
                                   .data?.data.postDetails.userDetails?.name ??
@@ -593,68 +604,32 @@ class _SinglePostViewState extends State<SinglePostView> {
                               snapshot.data!.data.postDetails.comments!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ExpansionTile(
-                              children: snapshot.data!.data.postDetails
-                                  .comments![index]!.replyComment
-                                  .map((e) => Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: ListTile(
-                                            minLeadingWidth: 10,
-                                            leading: CircleAvatar(
-                                              radius: 10,
-                                              backgroundImage: const AssetImage(
-                                                  'assets/profile.png'),
-                                              foregroundImage: NetworkImage(
-                                                  e.profileImage ?? ''),
-                                            ),
-                                            subtitle: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(e.comment!),
-                                              ],
-                                            ),
-                                            // trailing: Text('${e.date!} / ${e.time}'),
-                                            title: Row(
-                                              children: [
-                                                Text(
-                                                  e.commentedUserName!,
-                                                  style: getText(context)
-                                                      .bodySmall
-                                                      ?.copyWith(fontSize: 10),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                SizedBox(width: 5),
-                                                Text(
-                                                  '${e.date!} ${DateFormat('h:mm a').format(DateFormat('HH:mm').parse(
-                                                    snapshot
-                                                            .data!
-                                                            .data
-                                                            .postDetails
-                                                            .comments![index]!
-                                                            .time ??
-                                                        '',
-                                                  ))}',
-                                                  style: getText(context)
-                                                      .bodySmall
-                                                      ?.copyWith(fontSize: 8),
-                                                ),
-                                              ],
-                                            )),
-                                      ))
-                                  .toList(),
                               leading: CircleAvatar(
                                 backgroundImage:
                                     const AssetImage('assets/profile.png'),
-                                foregroundImage: NetworkImage(snapshot
-                                        .data!
-                                        .data
-                                        .postDetails
-                                        .comments![index]!
-                                        .profileImage
-                                        .toString() ??
-                                    ''),
+                                // foregroundImage: NetworkImage(snapshot
+                                //         .data!
+                                //         .data
+                                //         .postDetails
+                                //         .comments![index]!
+                                //         .profileImage
+                                //         .toString() ??
+                                //     ''),
+                                foregroundImage: NetworkImage(
+                                  snapshot
+                                              .data
+                                              ?.data
+                                              .postDetails
+                                              .comments![index]!
+                                              .profileImage
+                                              ?.isNotEmpty ==
+                                          true
+                                      ? snapshot.data?.data.postDetails
+                                              .comments![index]!.profileImage
+                                              ?.toString() ??
+                                          ''
+                                      : 'http://upcwapi.graspsoftwaresolutions.com/public/images/user.png',
+                                ),
                               ),
                               title: Row(
                                 children: [
@@ -774,15 +749,37 @@ class _SinglePostViewState extends State<SinglePostView> {
                                                           backgroundImage:
                                                               const AssetImage(
                                                                   'assets/profile.png'),
+                                                          // foregroundImage:
+                                                          //     NetworkImage(snapshot
+                                                          //             .data
+                                                          //             ?.data
+                                                          //             .postDetails
+                                                          //             .comments?[
+                                                          //                 index]
+                                                          //             ?.profileImage! ??
+                                                          //         ''),
                                                           foregroundImage:
-                                                              NetworkImage(snapshot
-                                                                      .data
-                                                                      ?.data
-                                                                      .postDetails
-                                                                      .comments?[
-                                                                          index]
-                                                                      ?.profileImage! ??
-                                                                  ''),
+                                                              NetworkImage(
+                                                            snapshot
+                                                                        .data
+                                                                        ?.data
+                                                                        .postDetails
+                                                                        .comments?[
+                                                                            index]
+                                                                        ?.profileImage
+                                                                        ?.isNotEmpty ==
+                                                                    true
+                                                                ? snapshot
+                                                                        .data
+                                                                        ?.data
+                                                                        .postDetails
+                                                                        .comments![
+                                                                            index]!
+                                                                        .profileImage
+                                                                        ?.toString() ??
+                                                                    ''
+                                                                : 'http://upcwapi.graspsoftwaresolutions.com/public/images/user.png',
+                                                          ),
                                                         ),
                                                         enabled: true,
                                                         title: Text(
@@ -951,40 +948,67 @@ class _SinglePostViewState extends State<SinglePostView> {
                                       : Text(''),
                                 ],
                               ),
+                              children: snapshot.data!.data.postDetails
+                                  .comments![index]!.replyComment
+                                  .map((e) => Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: ListTile(
+                                            minLeadingWidth: 10,
+                                            leading: CircleAvatar(
+                                              radius: 10,
+                                              backgroundImage: const AssetImage(
+                                                  'assets/profile.png'),
+                                              // foregroundImage: NetworkImage(
+                                              //     e.profileImage ?? ''),
+                                              foregroundImage: NetworkImage(
+                                                e.profileImage?.isNotEmpty ==
+                                                        true
+                                                    ? e.profileImage
+                                                            ?.toString() ??
+                                                        ''
+                                                    : 'http://upcwapi.graspsoftwaresolutions.com/public/images/user.png',
+                                              ),
+                                            ),
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(e.comment!),
+                                              ],
+                                            ),
+                                            // trailing: Text('${e.date!} / ${e.time}'),
+                                            title: Row(
+                                              children: [
+                                                Text(
+                                                  e.commentedUserName!,
+                                                  style: getText(context)
+                                                      .bodySmall
+                                                      ?.copyWith(fontSize: 10),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Text(
+                                                  '${e.date!} ${DateFormat('h:mm a').format(DateFormat('HH:mm').parse(
+                                                    snapshot
+                                                            .data!
+                                                            .data
+                                                            .postDetails
+                                                            .comments![index]!
+                                                            .time ??
+                                                        '',
+                                                  ))}',
+                                                  style: getText(context)
+                                                      .bodySmall
+                                                      ?.copyWith(fontSize: 8),
+                                                ),
+                                              ],
+                                            )),
+                                      ))
+                                  .toList(),
                               // dense: true,
                             );
-
-                            //   messages[index].id==123? Row(
-                            //
-                            //   children: [
-                            //     Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: CircleAvatar(
-                            //         backgroundImage: NetworkImage('https://images.pexels.com/photos/1689731/pexels-photo-1689731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
-                            //       ),
-                            //     ),
-                            //
-                            //     Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: Card(child: Padding(
-                            //         padding: const EdgeInsets.all(8.0),
-                            //         child: Text('hi its a nice post'),
-                            //       ),),
-                            //     )
-                            //   ],
-                            // ):Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.end,
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-                            //     Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: Card(child: Padding(
-                            //         padding: const EdgeInsets.all(8.0),
-                            //         child: Text('hi its a nice post'),
-                            //       ),),
-                            //     )
-                            //   ],
-                            // ) ;
                           },
                         ),
                         SizedBox(
@@ -1079,14 +1103,14 @@ class _CustomFormFieldState extends State<CustomFormField> {
                 fontWeight: FontWeight.normal,
               ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color(0xFFF1F4F8),
               width: 2,
             ),
             borderRadius: BorderRadius.circular(8),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color(0xFFF1F4F8),
               width: 2,
             ),
@@ -1108,11 +1132,11 @@ class _CustomFormFieldState extends State<CustomFormField> {
           ),
           filled: true,
           fillColor: Colors.white,
-          contentPadding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 10),
+          contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 10),
         ),
         style: getText(context).bodyLarge?.copyWith(
               fontFamily: 'Outfit',
-              color: Color(0xFF101213),
+              color: const Color(0xFF101213),
               fontSize: 14,
               fontWeight: FontWeight.normal,
             ),
@@ -1134,8 +1158,15 @@ Future<void> showMyDialog(
               ? SizedBox(
                   width: Get.width,
                   height: Get.height,
-                  child: PhotoView(
-                    imageProvider: NetworkImage(url!),
+                  child:
+                      // PhotoView(
+                      //   imageProvider: NetworkImage(url!),
+                      // )
+                      PhotoView(
+                    imageProvider: (url!.isNotEmpty &&
+                            Uri.tryParse(url)?.hasAbsolutePath == true)
+                        ? NetworkImage(url) as ImageProvider<Object>
+                        : const AssetImage('assets/profile.png'),
                   ))
               : Container(
                   child: PhotoViewGallery.builder(
@@ -1187,7 +1218,7 @@ class VideoApp extends StatefulWidget {
 
 class _VideoAppState extends State<VideoApp> {
   late VideoPlayerController _videoPlayerController;
-  late ChewieController _chewieController;
+  late ChewieController? _chewieController;
   double _aspectRatio = 16 / 9;
   bool _isInitialized = false;
 
@@ -1218,7 +1249,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void dispose() {
     _videoPlayerController.dispose();
-    _chewieController.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -1230,9 +1261,9 @@ class _VideoAppState extends State<VideoApp> {
         child: Container(
           child: _isInitialized
               ? Chewie(
-                  controller: _chewieController,
+                  controller: _chewieController!,
                 )
-              : Center(
+              : const Center(
                   child: CircularProgressIndicator(),
                 ),
         ),

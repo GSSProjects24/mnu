@@ -588,36 +588,37 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
                                       debugPrint('yes');
-                                      Navigator.pop(context);
+                                      // Navigator.pop(context);
                                       //Get.off(() => const LandingPage());
+                                      Get.offAll(() => const LandingPage());
                                     }
                                     if (data["data"]["status"] == false) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
 
-                                      Navigator.pop(context);
+                                      // Navigator.pop(context);
                                       //Get.off(() => const LandingPage());
+                                      Get.offAll(() => const LandingPage());
                                     } else {
                                       Navigator.pop(context);
+                                      Get.offAll(() => const LandingPage());
                                     }
                                   });
                                 }
                                 if (widget.isEdit) {
-                                  print("is calling");
                                   showLoading(context);
-                                  print("img list");
-                                  print(images.toList());
-                                  print("debug img list");
-                                  debugPrint(images.toList().toString());
-                                  print(
-                                      "postcontroller : ${postcontroller.images}");
-                                  print(
-                                      "memoryImage length : ${postcontroller.memoryImage.length}");
-                                  print(
-                                      "img length : ${postcontroller.images.length}");
-                                  print("length : ${images.length}");
-                                  print(postcontroller.images.toList());
+                                  if (kDebugMode) {
+                                    print(images.toList());
+                                    print(
+                                        "postcontroller : ${postcontroller.images}");
+                                    print(
+                                        "memoryImage length : ${postcontroller.memoryImage.length}");
+                                    print(
+                                        "img length : ${postcontroller.images.length}");
+                                    print("length : ${images.length}");
+                                    print(postcontroller.images.toList());
+                                  }
                                   List<String> base64ImageList = postcontroller
                                       .memoryImage
                                       .map((imageData) {
@@ -723,70 +724,70 @@ Future<void> showMyDialog2(
   );
 }
 
-class VideoApp extends StatefulWidget {
-  const VideoApp({Key? key, required this.closedbodySmallFile})
-      : super(key: key);
-
-  final File closedbodySmallFile;
-
-  @override
-  _VideoAppState createState() => _VideoAppState();
-}
-
-class _VideoAppState extends State<VideoApp> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.file(widget.closedbodySmallFile,
-        videoPlayerOptions: VideoPlayerOptions(
-            // allowBackgroundPlayback: true,
-            // mixWithOthers: true
-            ))
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: _controller.value.isInitialized
-                ? VideoPlayer(_controller)
-                : Container(
-                    color: Colors.black,
-                  ),
-          ),
-          Center(
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  _controller.value.isPlaying
-                      ? _controller.pause()
-                      : _controller.play();
-                });
-              },
-              icon: Icon(
-                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-}
+// class VideoApp extends StatefulWidget {
+//   const VideoApp({Key? key, required this.closedbodySmallFile})
+//       : super(key: key);
+//
+//   final File closedbodySmallFile;
+//
+//   @override
+//   _VideoAppState createState() => _VideoAppState();
+// }
+//
+// class _VideoAppState extends State<VideoApp> {
+//   late VideoPlayerController _controller;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller = VideoPlayerController.file(widget.closedbodySmallFile,
+//         videoPlayerOptions: VideoPlayerOptions(
+//             // allowBackgroundPlayback: true,
+//             // mixWithOthers: true
+//             ))
+//       ..initialize().then((_) {
+//         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+//         setState(() {});
+//       });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Stack(
+//         children: [
+//           Center(
+//             child: _controller.value.isInitialized
+//                 ? VideoPlayer(_controller)
+//                 : Container(
+//                     color: Colors.black,
+//                   ),
+//           ),
+//           Center(
+//             child: IconButton(
+//               onPressed: () {
+//                 setState(() {
+//                   _controller.value.isPlaying
+//                       ? _controller.pause()
+//                       : _controller.play();
+//                 });
+//               },
+//               icon: Icon(
+//                 _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+//               ),
+//             ),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+//
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     _controller.dispose();
+//   }
+// }
 
 class VideoAppUrl extends StatefulWidget {
   final Uint8List memoryVideo;
@@ -874,7 +875,7 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
   @override
   Widget build(BuildContext context) {
     if (!_isInitialized) {
-      return Scaffold(
+      return const Scaffold(
         backgroundColor: Colors.black,
         body: Center(
           child: CircularProgressIndicator(),

@@ -569,7 +569,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
                                 color: clrschm.primary,
                               ),
                               title: Text(
-                                'Hosptial Name',
+                                'Hospital Name',
                                 style: getText(context)
                                     .titleSmall
                                     ?.copyWith(color: Colors.grey),

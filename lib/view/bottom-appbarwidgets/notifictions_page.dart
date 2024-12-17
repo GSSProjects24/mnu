@@ -298,19 +298,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 ));
                                           }
                                           if (snapshot
-                                                      .data
-                                                      ?.data
-                                                      ?.notifcationDetails
-                                                      ?.notications?[index]
-                                                      .heading !=
-                                                  "Following Request" &&
-                                              snapshot
-                                                      .data
-                                                      ?.data
-                                                      ?.notifcationDetails
-                                                      ?.notications?[index]
-                                                      .heading !=
-                                                  "follow decline.") {
+                                                  .data
+                                                  ?.data
+                                                  ?.notifcationDetails
+                                                  ?.notications?[index]
+                                                  .heading ==
+                                              "follow accept.") {
                                             Get.to(() => FriendsProfile(
                                                   memberNo: snapshot
                                                           .data
@@ -322,17 +315,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                           .toString() ??
                                                       '',
                                                   name: '',
-                                                ));
-                                          }
-                                          if (snapshot
-                                                  .data
-                                                  ?.data
-                                                  ?.notifcationDetails
-                                                  ?.notications?[index]
-                                                  .heading ==
-                                              "New Post") {
-                                            Get.offAll(() => const HomePage(
-                                                  selectedTab: 0,
                                                 ));
                                           }
                                         },
@@ -480,19 +462,88 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                               child: SizedBox(
                                                 height: 80,
                                                 width: 150,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  child: Image.network(
-                                                    snapshot
-                                                        .data!
-                                                        .data!
-                                                        .notifcationDetails!
-                                                        .notications![index]
-                                                        .postDetails!
-                                                        .image[0]
-                                                        .toString(),
-                                                    fit: BoxFit.fitWidth,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    if (snapshot
+                                                                .data
+                                                                ?.data
+                                                                ?.notifcationDetails
+                                                                ?.notications?[
+                                                                    index]
+                                                                .category
+                                                                .toString() ==
+                                                            'post' ||
+                                                        snapshot
+                                                                .data
+                                                                ?.data
+                                                                ?.notifcationDetails
+                                                                ?.notications?[
+                                                                    index]
+                                                                .category
+                                                                .toString() ==
+                                                            'comment' ||
+                                                        snapshot
+                                                                .data
+                                                                ?.data
+                                                                ?.notifcationDetails
+                                                                ?.notications?[
+                                                                    index]
+                                                                .category
+                                                                .toString() ==
+                                                            'like') {
+                                                      Get.to(
+                                                          () => SinglePostView(
+                                                                postId: snapshot
+                                                                        .data
+                                                                        ?.data
+                                                                        ?.notifcationDetails
+                                                                        ?.notications?[
+                                                                            index]
+                                                                        .postDetails
+                                                                        ?.postId
+                                                                        .toString() ??
+                                                                    '',
+                                                              ));
+                                                    }
+                                                    if (snapshot
+                                                            .data
+                                                            ?.data
+                                                            ?.notifcationDetails
+                                                            ?.notications?[
+                                                                index]
+                                                            .heading ==
+                                                        "follow accept.") {
+                                                      Get.to(
+                                                          () => FriendsProfile(
+                                                                memberNo: snapshot
+                                                                        .data
+                                                                        ?.data
+                                                                        ?.notifcationDetails
+                                                                        ?.notications?[
+                                                                            index]
+                                                                        .userDetails
+                                                                        ?.userId
+                                                                        .toString() ??
+                                                                    '',
+                                                                name: '',
+                                                              ));
+                                                    }
+                                                  },
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: Image.network(
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .notifcationDetails!
+                                                          .notications![index]
+                                                          .postDetails!
+                                                          .image[0]
+                                                          .toString(),
+                                                      fit: BoxFit.fitWidth,
+                                                    ),
                                                   ),
                                                 ),
                                               ),

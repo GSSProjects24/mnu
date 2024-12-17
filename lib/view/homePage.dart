@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mnu_app/view/auth/landing-page.dart';
 import 'package:mnu_app/view/bottom-appbarwidgets/hqListPage.dart';
 import 'package:mnu_app/view/widgets/thankyouDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -268,7 +269,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+      canPop: _selectedindex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          if (_selectedindex == 0) {
+            Navigator.pop(context);
+          }
+        } else {
+          debugPrint("Pop action was blocked.");
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (Route<dynamic> route) => false,
+          );
+        }
+      },
+      child: Scaffold(
         body: bottombarwidgets[_selectedindex],
         bottomNavigationBar: NavigationBar(
           surfaceTintColor: clrschm.primary,
@@ -310,6 +326,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      );
+      ),
+    );
   }
 }

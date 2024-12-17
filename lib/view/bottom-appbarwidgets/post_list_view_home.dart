@@ -56,7 +56,6 @@ class HomeListPostPage extends StatefulWidget {
 }
 
 class _HomeListPostPageState extends State<HomeListPostPage> {
-
   Future<void> _launchInBrowser(Uri url) async {
     if (!await launchUrl(
       url,
@@ -117,7 +116,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
   }
 
   @override
-  void initState()  {
+  void initState() {
     // TODO: implement initState
     debugPrint("isWidget:${widget.isHome}, ishq ${widget.isHq}");
     super.initState();
@@ -256,8 +255,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text('');
-                }
-                else if (snapshot.data!.data!.status == false) {
+                } else if (snapshot.data!.data!.status == false) {
                   return badge.Badge(
                     showBadge: false,
                     badgeStyle: badge.BadgeStyle(
@@ -270,8 +268,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   );
-                }
-                else {
+                } else {
                   debugPrint(
                       'fffffffffffffffffffffff${snapshot.data!.data!.notifcationDetails!.totalReports!.noticationCount}');
                   return badge.Badge(
@@ -307,7 +304,6 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
               ),
             ),
           ),
-
           widget.isHq == true
               ? const Text("")
               : IconButton(
@@ -334,14 +330,13 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
           init: ListOfPostController(),
           initState: (value) async {
             WidgetsBinding.instance.addPostFrameCallback((_) async {
-                value.controller?.post.value =
-              (await value.controller?.loadPost('', limit, widget.apiurl))!; // Load data
+              value.controller?.post.value = (await value.controller
+                  ?.loadPost('', limit, widget.apiurl))!; // Load data
             });
-            },
+          },
           builder: ((snapshot) {
             final posts = snapshot.post.value.data?.postDetails?.posts;
             if (snapshot.isLoading.value) {
-
               return const Center(
                 child: CustomProgressIndicator(),
               );
@@ -514,10 +509,14 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                                           itemBuilder: (context) {
                                             return [
                                               PopupMenuItem(
-                                                  child: TextButton(
-                                                onPressed: () {
-                                                  var result = Get.to(
-                                                      () => PostCreatePage(
+                                                  child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Get.to(() =>
+                                                          PostCreatePage(
                                                             isEdit: true,
                                                             urls: snapshot
                                                                 .post
@@ -556,8 +555,19 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                                                                 ?.postId
                                                                 .toString(),
                                                           ));
-                                                },
-                                                child: const Text('Edit'),
+                                                    },
+                                                    child: Container(
+                                                      width: 60,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: const Text(
+                                                        'Edit',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               )),
                                               PopupMenuItem(
                                                   child: TextButton(
@@ -666,7 +676,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                                                                         Navigator.pop(
                                                                             context);
                                                                       },
-                                                                      child: Text(
+                                                                      child: const Text(
                                                                           'Cancel')),
                                                                   TextButton(
                                                                       onPressed:
@@ -1416,49 +1426,62 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                               PopupMenuButton(
                                   itemBuilder: (itemBuilder) => [
                                         PopupMenuItem(
-                                            child: TextButton(
-                                          onPressed: () {
-                                            Get.to(() => PostCreatePage(
-                                                  isEdit: true,
-                                                  urls: snapshot
-                                                      .post
-                                                      .value
-                                                      .data
-                                                      ?.postDetails
-                                                      ?.posts![index]
-                                                      ?.image,
-                                                  video: snapshot
-                                                      .post
-                                                      .value
-                                                      .data
-                                                      ?.postDetails
-                                                      ?.posts![index]
-                                                      ?.video,
-                                                  content: snapshot
-                                                      .post
-                                                      .value
-                                                      .data
-                                                      ?.postDetails
-                                                      ?.posts![index]
-                                                      ?.content,
-                                                  title: snapshot
-                                                      .post
-                                                      .value
-                                                      .data
-                                                      ?.postDetails
-                                                      ?.posts![index]
-                                                      ?.title,
-                                                  postId: snapshot
-                                                      .post
-                                                      .value
-                                                      .data
-                                                      ?.postDetails
-                                                      ?.posts![index]
-                                                      ?.postId
-                                                      .toString(),
-                                                ));
-                                          },
-                                          child: const Text('Edit'),
+                                            child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Get.to(() => PostCreatePage(
+                                                      isEdit: true,
+                                                      urls: snapshot
+                                                          .post
+                                                          .value
+                                                          .data
+                                                          ?.postDetails
+                                                          ?.posts![index]
+                                                          ?.image,
+                                                      video: snapshot
+                                                          .post
+                                                          .value
+                                                          .data
+                                                          ?.postDetails
+                                                          ?.posts![index]
+                                                          ?.video,
+                                                      content: snapshot
+                                                          .post
+                                                          .value
+                                                          .data
+                                                          ?.postDetails
+                                                          ?.posts![index]
+                                                          ?.content,
+                                                      title: snapshot
+                                                          .post
+                                                          .value
+                                                          .data
+                                                          ?.postDetails
+                                                          ?.posts![index]
+                                                          ?.title,
+                                                      postId: snapshot
+                                                          .post
+                                                          .value
+                                                          .data
+                                                          ?.postDetails
+                                                          ?.posts![index]
+                                                          ?.postId
+                                                          .toString(),
+                                                    ));
+                                              },
+                                              child: Container(
+                                                width: 60,
+                                                alignment: Alignment.centerLeft,
+                                                child: const Text(
+                                                  'Edit',
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         )),
                                         PopupMenuItem(
                                             child: TextButton(

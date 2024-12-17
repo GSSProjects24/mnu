@@ -212,12 +212,10 @@ class _FriendRequestsState extends State<FriendRequests> {
                                                     .followers![index]!
                                                     .isFollowing !=
                                                 true) {
-                                              followBackDialogue(
-                                                  context, snapshot, index);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          data['message'])));
+                                              setState(() {
+                                                followBackDialogue(
+                                                    context, snapshot, index);
+                                              });
                                             } else {
                                               setState(() {
                                                 list = loadPendingList();
@@ -253,7 +251,7 @@ class _FriendRequestsState extends State<FriendRequests> {
                                           ),
                                           backgroundColor: Colors.greenAccent,
                                           elevation: 4.0,
-                                          minimumSize: const Size(30.0, 30.0),
+                                          minimumSize: const Size(30.0, 35.0),
                                         ),
                                         child: Text(
                                           'Accept',
@@ -320,7 +318,7 @@ class _FriendRequestsState extends State<FriendRequests> {
                                           ),
                                           backgroundColor: Colors.redAccent,
                                           elevation: 4.0,
-                                          minimumSize: const Size(30.0, 30.0),
+                                          minimumSize: const Size(30.0, 35.0),
                                         ),
                                         child: Text(
                                           'Decline',

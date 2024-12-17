@@ -138,7 +138,7 @@ class _LogInState extends State<LogIn> {
                               .login(value);
                           // await Get.find<SessionController>().session.value.loadSession();
                           // ignore: use_build_context_synchronously
-                        } else {
+                        } else if (value["data"]["status"] == false) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(value["message"])));
                           Navigator.pop(context);

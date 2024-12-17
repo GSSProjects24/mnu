@@ -163,10 +163,12 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
                                             color: Colors.white,
                                           ),
                                     ),
-                                    Text(
-                                      snapshot.data?.data?.position ?? '',
-                                      style: getText(context).titleLarge,
-                                    ),
+                                    Text(snapshot.data?.data?.position ?? '',
+                                        style: getText(context)
+                                            .titleLarge
+                                            ?.copyWith(
+                                              color: Colors.white,
+                                            )),
                                     SizedBox(
                                       width: Get.width,
                                     )

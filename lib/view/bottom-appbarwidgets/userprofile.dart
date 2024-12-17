@@ -152,7 +152,9 @@ class _UsersProfileState extends State<UsersProfile> {
                                                     ?.userId
                                                     .toString() ??
                                                 '');
-                                    tokenLogout();
+                                    setState(() {
+                                      tokenLogout();
+                                    });
                                     Get.find<SessionController>()
                                         .session
                                         .value
@@ -162,9 +164,6 @@ class _UsersProfileState extends State<UsersProfile> {
                                         .value = Session();
                                     Navigator.of(context).pop();
                                     Get.offAll(() => const LandingPage());
-                                    // setState(() {
-                                    //   tokenLogout();
-                                    // });
                                   },
                                   child: const Text('Yes')),
                               TextButton(
@@ -725,10 +724,9 @@ class _UsersProfileState extends State<UsersProfile> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  print(snapshot.error);
-                  return Center(child: Icon(Icons.error_outline));
+                  return const Center(child: Icon(Icons.error_outline));
                 } else {
-                  return CustomProgressIndicator();
+                  return const CustomProgressIndicator();
                 }
               })),
     );
