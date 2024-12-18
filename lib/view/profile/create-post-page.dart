@@ -5,6 +5,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mnu_app/view/homePage.dart';
 import 'package:mnu_app/view/widgets/custom_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -42,7 +43,7 @@ class PostCreatePage extends StatefulWidget {
 class _PostCreatePageState extends State<PostCreatePage> {
   TextEditingController content = TextEditingController();
   TextEditingController title = TextEditingController();
-
+  final _formkey = GlobalKey<FormState>();
   Future<Map<String, dynamic>> createPost(
       {required List<String?> images,
       required List<String?> videos,
@@ -105,9 +106,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
     }
   }
 
-  // PostController postcotroller = PostController();
-  final _formkey = GlobalKey<FormState>();
-
   @override
   void initState() {
     title.text = widget.title ?? '';
@@ -133,11 +131,9 @@ class _PostCreatePageState extends State<PostCreatePage> {
 
   late VideoPlayerController _controller;
 
-  bool isLoading = true;
-
   Future<void> loadEdit() async {
     setState(() {
-      isLoading = true; // Show loader
+      Get.find<PostController>().isLoading.value = true; // Show loader
     });
     if (widget.isEdit && widget.urls != null) {
       List<String?> data = widget.urls!.map((e) {
@@ -146,6 +142,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
         }
       }).toList();
       Get.find<PostController>().memoryImage.clear();
+
       debugPrint("Image URLs: $data");
       await Get.find<PostController>().LoadNetworkImage(data);
     }
@@ -157,11 +154,12 @@ class _PostCreatePageState extends State<PostCreatePage> {
         }
       }).toList();
       Get.find<PostController>().memoryVideo.clear();
+      Get.find<PostController>().memoryVideo1.clear();
       debugPrint("Video URLs: $videoData");
       await Get.find<PostController>().LoadNetworkVideo(videoData);
     }
     setState(() {
-      isLoading = false; // Hide loader
+      Get.find<PostController>().isLoading.value = false;
     });
   }
 
@@ -170,12 +168,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
     return GetX<PostController>(
         init: PostController(),
         initState: (value) async {
-          // Get.find<PostController>().images=[];
-          // Get.find<PostController>().memoryImage=[];
-          // Get.find<PostController>().videos=[];
-          // Get.find<PostController>().videoFiles=[];
-          // Get.find<PostController>().files=[];
-          // Get.find<PostController>().memoryVideo=[];
           widget.isEdit ? null : value.controller = PostController();
         },
         builder: (postcontroller) => Form(
@@ -203,14 +195,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
                         },
                         icon: const Icon(Icons.arrow_back)),
                     actions: [
-                      // widget.isEdit
-                      //     ? IconButton(
-                      //         onPressed: () {},
-                      //         icon: Icon(
-                      //           Icons.delete,
-                      //           color: Colors.red,
-                      //         ))
-                      //     : SizedBox(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
@@ -356,184 +340,178 @@ class _PostCreatePageState extends State<PostCreatePage> {
                             maxlines: 4,
                           ),
                         ),
-                        postcontroller.memoryImage.isEmpty
-                            ? Container()
-                            : Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 170,
-                                  child: isLoading && widget.isEdit
-                                      ? const Center(
-                                          child: CustomProgressIndicator(),
-                                        )
-                                      : ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              postcontroller.memoryImage.length,
-                                          itemBuilder: (context, index) {
-                                            final memoryImage = postcontroller
-                                                .memoryImage[index];
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: badges.Badge(
-                                                position: badges.BadgePosition
-                                                    .bottomEnd(),
-                                                badgeStyle: badges.BadgeStyle(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4)),
-                                                badgeContent: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      debugPrint(
-                                                          'Before removal: memoryImage: ${postcontroller.memoryImage.length}, images: ${postcontroller.images.length}, files: ${postcontroller.files.length}');
-                                                      if (index <
-                                                          postcontroller
-                                                              .memoryImage
-                                                              .length) {
+
+                        Column(
+                          children: [
+                            Obx(() => postcontroller.isLoading.value &&
+                                    widget.isEdit
+                                ? const Center(child: CustomProgressIndicator())
+                                : Container()),
+                            postcontroller.memoryImage.isEmpty
+                                ? Container()
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 170,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            postcontroller.memoryImage.length,
+                                        itemBuilder: (context, index) {
+                                          final memoryImage =
+                                              postcontroller.memoryImage[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: badges.Badge(
+                                              position: badges.BadgePosition
+                                                  .bottomEnd(),
+                                              badgeStyle: badges.BadgeStyle(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4)),
+                                              badgeContent: IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    debugPrint(
+                                                        'Before removal: memoryImage: ${postcontroller.memoryImage.length}, images: ${postcontroller.images.length}, files: ${postcontroller.files.length}');
+                                                    if (index <
                                                         postcontroller
                                                             .memoryImage
-                                                            .removeAt(index);
-                                                      }
-                                                      if (index <
-                                                          postcontroller
-                                                              .images.length) {
-                                                        postcontroller.images
-                                                            .removeAt(index);
-                                                      }
-                                                      if (index <
-                                                          postcontroller
-                                                              .files.length) {
-                                                        postcontroller.files
-                                                            .removeAt(index);
-                                                      }
-                                                      debugPrint(
-                                                          'After removal: memoryImage: ${postcontroller.memoryImage.length}, images: ${postcontroller.images.length}, files: ${postcontroller.files.length}');
-                                                    });
-                                                  },
-                                                  icon:
-                                                      const Icon(Icons.delete),
-                                                ),
-                                                child: SizedBox(
-                                                  height: 170,
-                                                  width: 150,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    child: memoryImage != null
-                                                        ? Image.memory(
-                                                            memoryImage,
-                                                            fit: BoxFit.fill,
-                                                          )
-                                                        : const SizedBox(),
+                                                            .length) {
+                                                      postcontroller.memoryImage
+                                                          .removeAt(index);
+                                                    }
+                                                    if (index <
+                                                        postcontroller
+                                                            .images.length) {
+                                                      postcontroller.images
+                                                          .removeAt(index);
+                                                    }
+                                                    if (index <
+                                                        postcontroller
+                                                            .files.length) {
+                                                      postcontroller.files
+                                                          .removeAt(index);
+                                                    }
+                                                    debugPrint(
+                                                        'After removal: memoryImage: ${postcontroller.memoryImage.length}, images: ${postcontroller.images.length}, files: ${postcontroller.files.length}');
+                                                  });
+                                                },
+                                                icon: const Icon(Icons.delete),
+                                              ),
+                                              child: SizedBox(
+                                                height: 170,
+                                                width: 150,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  child: Image.memory(
+                                                    memoryImage,
+                                                    fit: BoxFit.fill,
                                                   ),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
-                                ),
-                              ),
-                        postcontroller.memoryVideo1.isEmpty
-                            ? Container()
-                            : Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 170,
-                                  child: isLoading && widget.isEdit
-                                      ? const Center(
-                                          child: CustomProgressIndicator(),
-                                        )
-                                      : Obx(() => ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: postcontroller
-                                                .memoryVideo1.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              print(
-                                                  "memeoryVideo:${postcontroller.memoryVideo1}");
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: badges.Badge(
-                                                    position:
-                                                        badges.BadgePosition
-                                                            .bottomEnd(),
-                                                    badgeStyle: const badges
-                                                        .BadgeStyle(
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                            postcontroller.memoryVideo1.isEmpty
+                                ? Container()
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 170,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            postcontroller.memoryVideo1.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          print(
+                                              "memeoryVideo:${postcontroller.memoryVideo1}");
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: badges.Badge(
+                                                position: badges.BadgePosition
+                                                    .bottomEnd(),
+                                                badgeStyle:
+                                                    const badges.BadgeStyle(
                                                         borderRadius:
                                                             BorderRadius.all(
                                                                 Radius.circular(
                                                                     2))),
-                                                    badgeContent: IconButton(
-                                                      onPressed: () {
-                                                        print(
-                                                            "postConMemory:${postcontroller.memoryVideo1[index].toString()}");
-                                                        setState(() {
-                                                          print(
-                                                              'Before removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
-                                                          if (index <
-                                                              postcontroller
-                                                                  .memoryVideo1
-                                                                  .length) {
+                                                badgeContent: IconButton(
+                                                  onPressed: () {
+                                                    print(
+                                                        "postConMemory:${postcontroller.memoryVideo1[index].toString()}");
+                                                    setState(() {
+                                                      print(
+                                                          'Before removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
+                                                      if (index <
+                                                          postcontroller
+                                                              .memoryVideo1
+                                                              .length) {
+                                                        postcontroller
+                                                            .memoryVideo1
+                                                            .removeAt(index);
+                                                      }
+                                                      if (index <
+                                                          postcontroller
+                                                              .memoryVideo
+                                                              .length) {
+                                                        postcontroller
+                                                            .memoryVideo
+                                                            .removeAt(index);
+                                                      }
+                                                      if (index <
+                                                          postcontroller
+                                                              .videos.length) {
+                                                        postcontroller.videos
+                                                            .removeAt(index);
+                                                      }
+                                                      if (index <
+                                                          postcontroller
+                                                              .videoFiles
+                                                              .length) {
+                                                        postcontroller
+                                                            .videoFiles
+                                                            .removeAt(index);
+                                                      }
+                                                      print(
+                                                          'After removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                  ),
+                                                ),
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    child: SizedBox(
+                                                      height: 150,
+                                                      width: 150,
+                                                      child: VideoAppUrl1(
+                                                        memoryVideo:
                                                             postcontroller
-                                                                .memoryVideo1
-                                                                .removeAt(
-                                                                    index);
-                                                          }
-                                                          if (index <
-                                                              postcontroller
-                                                                  .videos
-                                                                  .length) {
-                                                            postcontroller
-                                                                .videos
-                                                                .removeAt(
-                                                                    index);
-                                                          }
-                                                          if (index <
-                                                              postcontroller
-                                                                  .videoFiles
-                                                                  .length) {
-                                                            postcontroller
-                                                                .videoFiles
-                                                                .removeAt(
-                                                                    index);
-                                                          }
-                                                          print(
-                                                              'After removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
-                                                        });
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.delete,
-                                                      ),
-                                                    ),
-                                                    child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        child: SizedBox(
-                                                          height: 150,
-                                                          width: 150,
-                                                          child: VideoAppUrl1(
-                                                            memoryVideo:
-                                                                postcontroller
-                                                                    .memoryVideo1[
-                                                                        index]
-                                                                    .name,
-                                                            id: postcontroller
                                                                 .memoryVideo1[
                                                                     index]
-                                                                .id
-                                                                .toString(),
-                                                          ),
-                                                        ))),
-                                              );
-                                            },
-                                          )),
-                                ),
-                              ),
+                                                                .name,
+                                                        id: postcontroller
+                                                            .memoryVideo1[index]
+                                                            .id
+                                                            .toString(),
+                                                      ),
+                                                    ))),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
                         Text(
                           'Please upload the video  with less than 15 mb',
                           style: getText(context)
@@ -601,21 +579,16 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
                                       debugPrint('yes');
-                                      // Navigator.pop(context);
-                                      //Get.off(() => const LandingPage());
-                                      Get.offAll(() => const LandingPage());
+                                      Get.offAll(() => const HomePage());
                                     }
                                     if (data["data"]["status"] == false) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(data["message"])));
 
-                                      // Navigator.pop(context);
-                                      //Get.off(() => const LandingPage());
-                                      Get.offAll(() => const LandingPage());
+                                      Get.offAll(() => const HomePage());
                                     } else {
-                                      Navigator.pop(context);
-                                      Get.offAll(() => const LandingPage());
+                                      Get.offAll(() => const HomePage());
                                     }
                                   });
                                 }
@@ -637,12 +610,18 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       .map((imageData) {
                                     return base64Encode(imageData);
                                   }).toList();
+                                  List<String> base64VideoList = postcontroller
+                                      .memoryVideo
+                                      .map((imageData) {
+                                    return base64Encode(imageData);
+                                  }).toList();
 
                                   if (kDebugMode) {
                                     print(
                                         "memoryVideo len : ${postcontroller.memoryVideo.length}");
                                     print("video len : ${videos.length}");
                                     print("base64ImageList : $base64ImageList");
+                                    print("base64VideoList : $base64VideoList");
                                     print(
                                         "base64ImageList length : ${base64ImageList.length}");
                                   }
@@ -652,7 +631,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       postId: widget.postId,
                                       images: base64ImageList,
                                       Title: title.text,
-                                      videos: videos,
+                                      videos: base64VideoList,
                                     );
                                     if (kDebugMode) {
                                       print(

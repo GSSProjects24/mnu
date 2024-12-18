@@ -72,23 +72,18 @@ class FormRegistrationController extends GetxController {
       "marital_status": marital_status.text,
       "signature_img": [signature_img],
       "upload_doc": upload_doc,
-      
     };
 
-  
+    debugPrint("data:$body");
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_new_member_register'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
-  
+
     if (response.statusCode == 200) {
-    
       return jsonDecode(response.body);
     } else {
-    
-      
-
       throw Exception('Failed to load data');
     }
   }

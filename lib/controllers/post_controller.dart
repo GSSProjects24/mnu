@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mnu_app/models/videoModel.dart';
 
 class PostController extends GetxController {
+  RxBool isLoading = false.obs;
   List<Uint8List> memoryImage = <Uint8List>[].obs;
   List<Uint8List> memoryVideo = <Uint8List>[].obs;
   List<String> images = <String>[].obs;
@@ -14,7 +15,7 @@ class PostController extends GetxController {
   List<File> files = <File>[].obs;
   List<File> videoFiles = <File>[].obs;
   List<String?> urls = <String?>[].obs;
-  List<Videomodel> memoryVideo1 = <Videomodel>[].obs;
+  List<VideoModel> memoryVideo1 = <VideoModel>[].obs;
   Future<void> addFileFromCamera() async {
     PickedFile? result =
         (await ImagePicker.platform.pickImage(source: ImageSource.camera));
@@ -52,7 +53,7 @@ class PostController extends GetxController {
       await File(result.path)
           .readAsBytes()
           .then((value) => memoryVideo.add(value));
-      memoryVideo1.add(Videomodel(id: 0, name: result.path));
+      memoryVideo1.add(VideoModel(id: 0, name: result.path));
       debugPrint("Camera Video Path: ${result.path}");
     }
   }
@@ -68,7 +69,7 @@ class PostController extends GetxController {
       await File(result.path)
           .readAsBytes()
           .then((value) => memoryVideo.add(value));
-      memoryVideo1.add(Videomodel(id: 0, name: result.path));
+      memoryVideo1.add(VideoModel(id: 0, name: result.path));
       debugPrint("Gallery Video Path: ${result.path}");
     }
   }
@@ -198,7 +199,8 @@ class PostController extends GetxController {
           }
 
           if (data2 != null && !memoryVideo1.contains(data2)) {
-            memoryVideo1.add(Videomodel(id: 1, name: url));
+            memoryVideo.add(data2);
+            memoryVideo1.add(VideoModel(id: 1, name: url));
           }
         } catch (e) {
           debugPrint('Error loading video: $e');

@@ -364,6 +364,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                 0;
 
             return ListView.builder(
+              shrinkWrap: true,
               controller: scrollcontroller
                 ..addListener(() {
                   if (scrollcontroller.position.pixels ==
@@ -395,6 +396,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                     });
                   }
                 }),
+              primary: false,
               itemCount:
                   snapshot.post.value.data?.postDetails?.posts?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {

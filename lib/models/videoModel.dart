@@ -1,6 +1,6 @@
-class Videomodel {
+class VideoModel {
   int id;
   String name;
 
-  Videomodel({required this.id, required this.name});
+  VideoModel({required this.id, required this.name});
 }

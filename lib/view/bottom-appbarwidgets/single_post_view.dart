@@ -1249,7 +1249,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void dispose() {
     _videoPlayerController.dispose();
-    _chewieController?.dispose();
+    // _chewieController?.dispose();
     super.dispose();
   }
 

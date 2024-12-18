@@ -31,10 +31,6 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
   bool? follow;
 
   Future<SuggestionMemberModel> loadMember() async {
-    // var body = {
-    //   "mem_prof_id":
-    //       Get.find<SessionController>().session.value.data?.userId.toString()
-    // };
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_edit_member_profile'),

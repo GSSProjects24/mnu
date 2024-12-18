@@ -78,6 +78,11 @@ class _UsersProfileState extends State<UsersProfile> {
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_logout'),
         body: body);
     if (response.statusCode == 200) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(child: CustomProgressIndicator());
+          });
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return (jsonDecode(response.body));
@@ -143,6 +148,10 @@ class _UsersProfileState extends State<UsersProfile> {
                             actions: [
                               TextButton(
                                   onPressed: () async {
+                                    setState(() {
+                                      tokenLogout();
+                                      Navigator.of(context).pop();
+                                    });
                                     await FirebaseMessaging.instance
                                         .unsubscribeFromTopic(
                                             Get.find<SessionController>()
@@ -152,9 +161,7 @@ class _UsersProfileState extends State<UsersProfile> {
                                                     ?.userId
                                                     .toString() ??
                                                 '');
-                                    setState(() {
-                                      tokenLogout();
-                                    });
+
                                     Get.find<SessionController>()
                                         .session
                                         .value
@@ -162,7 +169,7 @@ class _UsersProfileState extends State<UsersProfile> {
                                     Get.find<SessionController>()
                                         .session
                                         .value = Session();
-                                    Navigator.of(context).pop();
+
                                     Get.offAll(() => const LandingPage());
                                   },
                                   child: const Text('Yes')),

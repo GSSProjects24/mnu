@@ -144,7 +144,6 @@ class _FormRegistrationState extends State<FormRegistration> {
       // debugPrint("onPressed " + encoded);
       // sign.clear();
     } else {
-      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Enter valid  signature')));
     }
@@ -843,6 +842,7 @@ class _FormRegistrationState extends State<FormRegistration> {
                                                             }
                                                           });
                                                         });
+                                                        Navigator.pop(context);
                                                         setState(() {});
                                                       },
                                                       icon: const Icon(
@@ -875,6 +875,7 @@ class _FormRegistrationState extends State<FormRegistration> {
                                                             }
                                                           });
                                                         });
+                                                        Navigator.pop(context);
                                                         setState(() {});
                                                       },
                                                       icon: const Icon(
@@ -950,31 +951,20 @@ class _FormRegistrationState extends State<FormRegistration> {
                           color: Colors.purple),
                       child: ElevatedButton(
                           onPressed: () async {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const Center(
-                                    child: CustomProgressIndicator(),
-                                  );
-                                });
-
-                            await _handleSaveButtonPressed();
-
-                            if (controller.upload_doc.isEmpty) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Please Upload Images"),
-                                ),
-                              );
-                            }
-
                             if (_key.currentState!.validate() &&
                                 signatureGlobalKey.currentState!.hasPoints ==
                                     true &&
                                 controller.upload_doc.isNotEmpty) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                      child: CustomProgressIndicator(),
+                                    );
+                                  });
                               controller.newregister(context).then(
                                 (value) {
+                                  print("*****${value.toString()}");
                                   if (value["data"]["status"] == true) {
                                     final sign =
                                         signatureGlobalKey.currentState;
@@ -1001,19 +991,33 @@ class _FormRegistrationState extends State<FormRegistration> {
                                   }
                                 },
                               );
+                            } else if (!_key.currentState!.validate()) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Please Fill all the fields"),
+                                ),
+                              );
+                            } else if (controller.upload_doc.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Please Upload Images"),
+                                ),
+                              );
+                            } else {
+                              await _handleSaveButtonPressed();
                             }
                           },
                           style: ButtonStyle(
-                              maximumSize: WidgetStateProperty.all(
+                              maximumSize: MaterialStateProperty.all(
                                   Size(Get.width * 0.60, Get.height * 0.06)),
-                              minimumSize: WidgetStateProperty.all(
+                              minimumSize: MaterialStateProperty.all(
                                   Size(Get.width * 0.60, Get.height * 0.06)),
-                              shape: WidgetStateProperty.all(
+                              shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)),
                               ),
-                              backgroundColor:
-                                  WidgetStateProperty.all(Colors.transparent)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
                           child: Text(
                             "Submit",
                             style: getText(context)

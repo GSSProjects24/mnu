@@ -130,10 +130,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => const HomePage(
-                  selectedTab: 0,
-                )));
+        Get.offAll(() => const HomePage());
         return false;
       },
       child: Scaffold(

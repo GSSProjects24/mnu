@@ -3,9 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:mnu_app/view/bottom-appbarwidgets/notifictions_page.dart';
 
 import '../../controllers/sessioncontroller.dart';
 import '../../models/pendngrequestmodel.dart';
@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 
 import '../widgets/custom_progress_indicator.dart';
 
-// bool is_following = false;
 late String follower_user_id;
 bool accept_status = true;
 
@@ -27,6 +26,8 @@ class FriendRequests extends StatefulWidget {
 }
 
 class _FriendRequestsState extends State<FriendRequests> {
+  bool acceptLoad = false;
+  dynamic acceptId;
   Future<PendingRequestModel> loadPendingList() async {
     var body = {
       "user_id":
@@ -75,9 +76,8 @@ class _FriendRequestsState extends State<FriendRequests> {
 
   @override
   void initState() {
-    // TODO: implement initState
     list = loadPendingList();
-    // is_following = false;
+    debugPrint("acceptLoad:$acceptLoad");
     super.initState();
   }
 
@@ -179,7 +179,6 @@ class _FriendRequestsState extends State<FriendRequests> {
                                           setState(() {
                                             accept_status = false;
                                           });
-
                                           print(
                                               "###############################${snapshot.data!.data!.followDetails!.followers![index]!.id.toString()}");
                                           var data = await acceptDecline(
@@ -202,9 +201,11 @@ class _FriendRequestsState extends State<FriendRequests> {
 
                                           // data["data"]["status"] =
                                           //     is_following;
+
                                           if (data["data"]["status"] == true) {
                                             debugPrint(
                                                 "isFollowing:${snapshot.data!.data!.followDetails!.followers![index]!.isFollowing}");
+
                                             if (snapshot
                                                     .data!
                                                     .data!
@@ -415,6 +416,8 @@ class _FriendRequestsState extends State<FriendRequests> {
               onPressed: () {
                 setState(() {
                   list = loadPendingList();
+                  acceptLoad = false;
+                  debugPrint("loaderCancel:$acceptLoad");
                 });
                 Navigator.of(context).pop();
               },
