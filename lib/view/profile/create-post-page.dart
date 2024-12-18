@@ -340,7 +340,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
                             maxlines: 4,
                           ),
                         ),
-
                         Column(
                           children: [
                             Obx(() => postcontroller.isLoading.value &&
@@ -518,38 +517,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
                               .bodySmall
                               ?.copyWith(color: Colors.grey.withOpacity(0.5)),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: CustomFormField(
-                        //     validator: (value) {
-                        //       if (value == null || value.isEmpty) {
-                        //         return 'Please enter some text';
-                        //       }
-
-                        //       return null;
-                        //     },
-                        //     controller: title,
-                        //     labelText: 'Title',
-                        //     obscureText: false,
-                        //     maxlines: 1,
-                        //   ),
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: CustomFormField(
-                        //     validator: (value) {
-                        //       if (value == null || value.isEmpty) {
-                        //         return 'Please enter some text';
-                        //       }
-
-                        //       return null;
-                        //     },
-                        //     controller: content,
-                        //     labelText: 'Type your thoughts here',
-                        //     obscureText: false,
-                        //     maxlines: 4,
-                        //   ),
-                        // ),
                         const SizedBox(
                           height: 40,
                         ),
