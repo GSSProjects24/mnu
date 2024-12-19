@@ -113,37 +113,40 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: Get.height * 0.06,
                 child: CustomElevatedButton(
                   onPressed: () {
-                    changePassword().then((value) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const Center(
-                              child: LoadingIndicator(
-                                  indicatorType: Indicator.ballClipRotatePulse,
-                                  colors: [
-                                    Colors.black,
-                                    Colors.red,
-                                  ],
-                                  strokeWidth: 2,
-                                  backgroundColor: Colors.transparent,
-                                  pathBackgroundColor: Colors.black),
-                            );
-                          });
-                      debugPrint(value["data"]["status"]);
+                    if (_formKey.currentState!.validate()) {
+                      changePassword().then((value) {
+                        debugPrint(value["data"]["status"]);
 
-                      if (value["data"]["status"]) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(value["message"])));
-                        Navigator.of(context).pop();
-                        Get.to(() => const LandingPage());
-                      }
-                      if (value["data"]["status"] == false) {
-                        Navigator.of(context).pop();
+                        if (value["data"]["status"] == true) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Center(
+                                  child: LoadingIndicator(
+                                      indicatorType:
+                                          Indicator.ballClipRotatePulse,
+                                      colors: [
+                                        Colors.black,
+                                        Colors.red,
+                                      ],
+                                      strokeWidth: 2,
+                                      backgroundColor: Colors.transparent,
+                                      pathBackgroundColor: Colors.black),
+                                );
+                              });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(value["message"])));
+                          Navigator.of(context).pop();
+                          Get.to(() => const LandingPage());
+                        }
+                        if (value["data"]["status"] == false) {
+                          Navigator.of(context).pop();
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(value["message"])));
-                      }
-                    });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(value["message"])));
+                        }
+                      });
+                    }
                   },
                   title: 'Change Password',
                 ),

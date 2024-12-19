@@ -166,6 +166,15 @@ class _HomePageState extends State<HomePage> {
   int _selectedindex = 0;
   late Future<String?> token;
   callApis() async {
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
     if (widget.selectedTab == 0) {
       setState(() {
         _selectedindex = 0;
@@ -198,6 +207,7 @@ class _HomePageState extends State<HomePage> {
     debugPrint("firstTimeInit:$_selectedindex");
     callApis();
     onBoardeds = getOnboards();
+
     SharedPreferences.getInstance().then((prefs) {
       final bool isOnboarded = prefs.getBool('isOnboardeds') ?? false;
 

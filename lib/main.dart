@@ -47,15 +47,15 @@ void main() async {
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -101,7 +101,6 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.subscribeToTopic('admin');
 
-  debugPrint('User granted permission: ${settings.authorizationStatus}');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -149,7 +148,6 @@ class _MyAppState extends State<MyApp> {
             iconTheme: const IconThemeData(color: Colors.white),
             color: clrschm.primary,
             actionsIconTheme: IconThemeData(color: clrschm.onPrimary),
-            // titleTextStyle: TextStyle(color: clrschm.onPrimary),
           ),
           hintColor: const Color(0xFF4841a7),
           navigationBarTheme: NavigationBarThemeData(

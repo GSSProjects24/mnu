@@ -77,41 +77,43 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               const SizedBox(height: 20),
               CustomElevatedButton(
                 onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const Center(
-                          child: LoadingIndicator(
-                              indicatorType: Indicator.ballClipRotatePulse,
-                              colors: [
-                                Colors.black,
-                                Colors.red,
-                              ],
-                              strokeWidth: 2,
-                              backgroundColor: Colors.transparent,
-                              pathBackgroundColor: Colors.black),
-                        );
-                      });
+                  if (_formKey.currentState!.validate()) {
+                    sendOtp(Nric.text).then((value) {
+                      debugPrint('ok');
+                      debugPrint('%%%%%%%%%%%%%${value["data"]["status"]}');
 
-                  sendOtp(Nric.text).then((value) {
-                    debugPrint('ok');
-                    debugPrint('%%%%%%%%%%%%%${value["data"]["status"]}');
+                      if (value["data"]["status"] == true) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: LoadingIndicator(
+                                    indicatorType:
+                                        Indicator.ballClipRotatePulse,
+                                    colors: [
+                                      Colors.black,
+                                      Colors.red,
+                                    ],
+                                    strokeWidth: 2,
+                                    backgroundColor: Colors.transparent,
+                                    pathBackgroundColor: Colors.black),
+                              );
+                            });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(value["message"])));
+                        Navigator.of(context).pop();
+                        Get.to(() => ChangePassword(
+                              userId: value["data"]["user_id"].toString(),
+                            ));
+                      }
+                      if (value["data"]["status"] == false) {
+                        Navigator.of(context).pop();
 
-                    if (value["data"]["status"]) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(value["message"])));
-                      Navigator.of(context).pop();
-                      Get.to(() => ChangePassword(
-                            userId: value["data"]["user_id"].toString(),
-                          ));
-                    }
-                    if (value["data"]["status"] == false) {
-                      Navigator.of(context).pop();
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(value["message"])));
-                    }
-                  });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(value["message"])));
+                      }
+                    });
+                  }
                 },
                 title: 'Send OTP',
               ),

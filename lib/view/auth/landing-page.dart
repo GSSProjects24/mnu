@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mnu_app/view/widgets/thankyouDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../controllers/sessioncontroller.dart';
 import '../../models/sessionModel.dart';
 import '../../terms_conditions.dart';
@@ -46,7 +44,7 @@ class _LandingPageState extends State<LandingPage> {
     return FutureBuilder(
       future: onBoarded,
       builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
-       if (snapshot.data == true || false) {
+        if (snapshot.data == true || false) {
           return Scaffold(
             body: GetX<SessionController>(
                 init: SessionController(),
@@ -86,7 +84,7 @@ class _LandingPageState extends State<LandingPage> {
                 })),
           );
         }
-      return const TermsAndCondtion();
+        return const TermsAndCondtion();
       },
     );
   }

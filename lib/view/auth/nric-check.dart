@@ -104,7 +104,7 @@ class _NricCheckState extends State<NricCheck> {
                       inputType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Please enter Nric Number';
                         }
                         return null;
                       },
@@ -114,12 +114,16 @@ class _NricCheckState extends State<NricCheck> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
-                      child:  isLoading
-                          ? Center(child: CircularProgressIndicator())
+                      child: isLoading
+                          ? const Center(child: CircularProgressIndicator())
                           : CustomElevatedButton(
-                        onPressed: checkNricAndNavigate,
-                        title: 'Check NRIC',
-                      ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  checkNricAndNavigate();
+                                }
+                              },
+                              title: 'Check NRIC',
+                            ),
                     ),
                   ],
                 ),
@@ -130,6 +134,7 @@ class _NricCheckState extends State<NricCheck> {
       ),
     );
   }
+
   bool isLoading = false;
   void checkNricAndNavigate() {
     setState(() {
@@ -156,9 +161,9 @@ class _NricCheckState extends State<NricCheck> {
         Navigator.of(context).pop();
 
         Get.to(() => RegisterPage(
-          nric: value["data"]["icno"],
-          name: value["data"]["name"],
-        ));
+              nric: value["data"]["icno"],
+              name: value["data"]["name"],
+            ));
       } else {
         // Handle the case where NRIC is already registered
         if (message == "This nric member already registered.") {
@@ -186,5 +191,4 @@ class _NricCheckState extends State<NricCheck> {
       ));
     });
   }
-
 }
