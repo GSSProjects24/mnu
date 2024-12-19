@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,11 +16,10 @@ import '../widgets/custom_progress_indicator.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen(
-      {Key? key,
+      {super.key,
       required this.receiverId,
       required this.receiverImageUrl,
-      required this.Name})
-      : super(key: key);
+      required this.Name});
 
   final String receiverId;
   final String receiverImageUrl;
@@ -77,14 +75,12 @@ class _ChatScreenState extends State<ChatScreen> {
         body: body);
 
     if (response.statusCode == 200) {
-      //
       try {
         final decodedResponse = jsonDecode(response.body);
-        print('API Response: $decodedResponse');
+        debugPrint('API Response: $decodedResponse');
         return decodedResponse;
       } catch (e) {
-        // Handle plain text or non-JSON response
-        print('API Response (Non-JSON): ${response.body}');
+        debugPrint('API Response (Non-JSON): ${response.body}');
         return response.body;
       }
     } else {
@@ -105,14 +101,10 @@ class _ChatScreenState extends State<ChatScreen> {
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_user_chat_overall_delete'),
         body: body);
-    // print('${chatId}dddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
 
     if (response.statusCode == 200) {
-      // print('${chatId}dddddddddddddddddddddddddddddddddddddddddddddddddddddddd${response.body}');
       return jsonDecode(response.body);
     } else {
-      // print(
-      //     '${response.body}ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp');
       throw Exception('Failed to load data');
     }
   }
@@ -213,7 +205,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                                 isReceiverSelected == false
                                             ? TextButton(
                                                 onPressed: () {
-                                                  // print(chatindex);
                                                   Navigator.pop(context);
                                                   showLoading(context);
                                                   delete.forEach((e) async {
@@ -959,7 +950,7 @@ class _ChatScreenState extends State<ChatScreen> {
           } else if (snapshot.hasError &&
               snapshot.error.toString() !=
                   "'Null' is not a subtype of type 'Map<String, dynamic>") {
-            print(snapshot.error.toString());
+            debugPrint(snapshot.error.toString());
 
             return Scaffold(
               appBar: AppBar(
@@ -1037,10 +1028,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                     flex: 1,
                                     child: IconButton(
                                         onPressed: () async {
-                                          print('${widget.receiverId} ddsds d');
+                                          debugPrint(
+                                              '${widget.receiverId} ddsds d');
                                           if (message.text.isEmpty == false) {
-                                            // snapshot.data!.message !=
-                                            //     message.text;
                                             Get.find<MessagesController>()
                                                 .futuresend(widget.receiverId,
                                                     message.text)

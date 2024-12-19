@@ -6,7 +6,7 @@ import '../../theme/myfonts.dart';
 
 class CustomFormField extends StatefulWidget {
   const CustomFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.labelText,
     required this.obscureText,
@@ -18,7 +18,7 @@ class CustomFormField extends StatefulWidget {
     this.maxlines,
     this.formatters,
     // this.onChanged
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final String labelText;

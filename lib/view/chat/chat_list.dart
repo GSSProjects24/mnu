@@ -39,10 +39,10 @@ class _ChatListState extends State<ChatList> {
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return ChatMemberListModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -58,10 +58,10 @@ class _ChatListState extends State<ChatList> {
             'http://mnuapi.graspsoftwaresolutions.com/api_user_chat_delete'),
         body: body);
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -121,7 +121,6 @@ class _ChatListState extends State<ChatList> {
                                                 isSelected = false;
                                               });
                                             }));
-                                    print('2222222');
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -259,39 +258,6 @@ class _ChatListState extends State<ChatList> {
                                       ),
                                     ],
                                   ),
-                            // trailing:TextButton(  child:Text('Delete Chat'),onPressed:(){
-                            //
-                            //   showDialog(
-                            //     context: context,
-                            //     builder: (BuildContext context) {
-                            //       return AlertDialog(
-                            //
-                            //         content: Text('Are you sure delete?'),
-                            //         actions: [
-                            //           TextButton(
-                            //             child: Text('Yes'),
-                            //             onPressed: () {
-                            //
-                            //               chatdelete(reciverId: snapshot.data!.data!.memberDetails![index]!.userId.toString() ?? '' ).then((value) =>  setState(() {
-                            //                 list = loadRecentMembers();
-                            //
-                            //               }));
-                            //               print('2222222');
-                            //               Navigator.of(context).pop();
-                            //             },
-                            //           ),
-                            //           TextButton(
-                            //             child: Text('Close'),
-                            //             onPressed: () {
-                            //               Navigator.of(context).pop();
-                            //             },
-                            //           ),
-                            //         ],
-                            //       );
-                            //     },
-                            //   );
-                            // }
-                            // ),
                           ),
                         ),
                       );

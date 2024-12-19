@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -45,16 +46,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return PendingRequestModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
 
   Future<Map<String, dynamic>> notify() async {
-    print('eeeeeeeee11111111111111111111111111111');
+    debugPrint('eeeeeeeee11111111111111111111111111111');
     var body = {
       "user_id":
           Get.find<SessionController>().session.value.data?.userId.toString() ??
@@ -92,28 +93,30 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return NotificationsModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
 
   Future<Map<String, dynamic>> clearAllNotification(String? userId) async {
     var body = {"user_id": userId};
-    print(Get.find<SessionController>().session.value.data?.userId);
+    debugPrint(Get.find<SessionController>().session.value.data?.userId.toString());
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_push_notification_clearall'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
-    print(body);
+    if (kDebugMode) {
+      print(body);
+    }
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }

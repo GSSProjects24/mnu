@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../theme/myfonts.dart';
 
 class StatementPage extends StatefulWidget {
-  const StatementPage({Key? key}) : super(key: key);
+  const StatementPage({super.key});
 
   @override
   State<StatementPage> createState() => _StatementPageState();
@@ -17,7 +17,6 @@ class _StatementPageState extends State<StatementPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Generated code for this Column Widget...
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

@@ -5,11 +5,11 @@ import '../../theme/myfonts.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
-    Key? key,
+    super.key,
     required this.title,
     this.onPressed,
     this.style,
-  }) : super(key: key);
+  });
 
   final String title;
   final void Function()? onPressed;

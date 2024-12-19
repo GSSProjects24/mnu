@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
@@ -22,7 +23,7 @@ import 'member-post-view.dart';
 import 'package:http/http.dart' as http;
 
 class MemberPostListPage extends StatefulWidget {
-  const MemberPostListPage({Key? key, required this.title}) : super(key: key);
+  const MemberPostListPage({super.key, required this.title});
   final String title;
 
   @override
@@ -33,11 +34,8 @@ class _MemberPostListPageState extends State<MemberPostListPage> {
   late Future<MemberPostModel> postlist;
 
   int Myindex = 1;
-  // ScrollController scrollController= ScrollController();
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
@@ -48,16 +46,16 @@ class _MemberPostListPageState extends State<MemberPostListPage> {
       "post_id": id,
       "comment": ''
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.put(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_delete'),
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }

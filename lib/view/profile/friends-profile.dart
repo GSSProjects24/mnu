@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mnu_app/models/campany_model.dart';
@@ -44,7 +45,9 @@ class _FriendsProfileState extends State<FriendsProfile> {
       "user_id":
           Get.find<SessionController>().session.value.data?.userId.toString(),
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
         body: {
@@ -58,10 +61,10 @@ class _FriendsProfileState extends State<FriendsProfile> {
         });
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return MemberModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -72,18 +75,19 @@ class _FriendsProfileState extends State<FriendsProfile> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "follower_id": followersId
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_unfollow_request'),
         body: body);
-    print('${body}bbbbbbbbbbbbbbbbb');
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -103,7 +107,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to load data');
@@ -132,17 +136,19 @@ class _FriendsProfileState extends State<FriendsProfile> {
       "page": '1',
       "limit": '10000'
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_followers_list'),
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return FollowersModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -191,7 +197,6 @@ class _FriendsProfileState extends State<FriendsProfile> {
               builder:
                   (BuildContext context, AsyncSnapshot<MemberModel> snapshot) {
                 if (snapshot.hasData) {
-                  print(" ADSASDASDADASDSA${snapshot.data?.data?.companyName}");
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -618,7 +623,9 @@ class _FriendsProfileState extends State<FriendsProfile> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  print(snapshot.error);
+                  if (kDebugMode) {
+                    print(snapshot.error);
+                  }
                   return const Center(child: Icon(Icons.error_outline));
                 } else {
                   return const CustomProgressIndicator();

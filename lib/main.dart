@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mnu_app/firebase_options.dart';
@@ -9,8 +10,10 @@ import 'package:mnu_app/theme/color_schemes.g.dart';
 import 'package:mnu_app/theme/myfonts.dart';
 import 'package:mnu_app/view/auth/landing-page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:upgrader/upgrader.dart';
 import 'controllers/sessioncontroller.dart';
 import 'view/chat/chat_screen.dart';
+
 ValueNotifier isNotified = ValueNotifier(false);
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -18,7 +21,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print("Handling a background message: ${message.messageId}");
+  if (kDebugMode) {
+    print("Handling a background message: ${message.messageId}");
+  }
 }
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -54,17 +59,18 @@ void main() async {
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.data}');
 
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      debugPrint(
+          'Message also contained a notification: ${message.notification}');
       await flutterLocalNotificationsPlugin.initialize(initializationSettings,
           onDidReceiveNotificationResponse: (payload) {
 //       if(message.data['receiverid']!=null){
 //         Get.to(ChatScreen(receiverId: message.data['receiverid'], receiverImageUrl:message.data['imageurl'], Name: message.data['username']));
 //       }
-    });
+      });
       flutterLocalNotificationsPlugin.show(
           message.notification.hashCode,
           message.notification!.title,
@@ -95,7 +101,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.subscribeToTopic('admin');
 
-  print('User granted permission: ${settings.authorizationStatus}');
+  debugPrint('User granted permission: ${settings.authorizationStatus}');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -125,6 +131,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     //getDeviceToken();
   }
+
   // void getDeviceToken() async {
   //   FirebaseMessaging messaging = FirebaseMessaging.instance;
   //   String? token = await messaging.getToken();
@@ -158,12 +165,18 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
           useMaterial3: true, colorScheme: darkColorScheme, textTheme: myfonts),
       // home: const LandingPage());
-      home: AnimatedSplashScreen(
-        animationDuration: const Duration(seconds: 1),
-        splashIconSize: 250,
-        splash: 'assets/MNU-Logo.png',
-        nextScreen: const LandingPage(),
-        splashTransition: SplashTransition.fadeTransition,
+      home: UpgradeAlert(
+        upgrader: Upgrader(
+          durationUntilAlertAgain: const Duration(milliseconds: 10),
+          debugLogging: true,
+        ),
+        child: AnimatedSplashScreen(
+          animationDuration: const Duration(seconds: 1),
+          splashIconSize: 250,
+          splash: 'assets/MNU-Logo.png',
+          nextScreen: const LandingPage(),
+          splashTransition: SplashTransition.fadeTransition,
+        ),
       ),
       // debugShowCheckedModeBanner: false,
     );

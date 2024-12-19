@@ -2,15 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:open_file/open_file.dart' as open_file;
 import 'package:path_provider/path_provider.dart' as path_provider;
-// ignore: depend_on_referenced_packages
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pdf/pdf.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../controllers/sessioncontroller.dart';
 import '../../models/edit_profile.dart';
@@ -19,9 +18,8 @@ import '../../theme/myfonts.dart';
 import '../widgets/custom_progress_indicator.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-// import 'dart:html' as html;
 class Membercard extends StatefulWidget {
-  Membercard({Key? key}) : super(key: key);
+  const Membercard({super.key});
 
   @override
   State<Membercard> createState() => _MembercardState();
@@ -30,11 +28,6 @@ class Membercard extends StatefulWidget {
 class _MembercardState extends State<Membercard> {
   ScreenshotController screenshotController = ScreenshotController();
   Future<MemberModel> loadMember() async {
-    var body = {
-      "mem_prof_id":
-          Get.find<SessionController>().session.value.data?.userId.toString()
-    };
-    print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
       Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
       body: {
@@ -46,10 +39,8 @@ class _MembercardState extends State<Membercard> {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
       return MemberModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -60,17 +51,14 @@ class _MembercardState extends State<Membercard> {
       "user_id":
           Get.find<SessionController>().session.value.data?.userId.toString()
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_edit_member_profile'),
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
       return EditProfileModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -91,13 +79,6 @@ class _MembercardState extends State<Membercard> {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
-              // leading: IconButton(
-              //   icon: Icon(Icons.arrow_back),
-              //   onPressed: () {
-              //     // Functionality when the menu button is pressed
-              //     print('Menu button pressed.');
-              //   },
-              // ),
               title: const FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
@@ -349,7 +330,9 @@ class _MembercardState extends State<Membercard> {
             }),
           );
         } else if (snapshot.hasError) {
-          print(snapshot.error);
+          if (kDebugMode) {
+            print(snapshot.error);
+          }
           return const Scaffold(body: Center(child: Icon(Icons.error_outline)));
         } else {
           return const Scaffold(body: CustomProgressIndicator());
@@ -393,8 +376,6 @@ class _MembercardState extends State<Membercard> {
   }
 
   Future<Uint8List> generatePdf(Uint8List image) async {
-    print("object");
-
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(

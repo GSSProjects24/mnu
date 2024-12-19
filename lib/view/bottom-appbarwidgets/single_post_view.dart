@@ -1,6 +1,6 @@
-// import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -25,22 +25,6 @@ import 'dart:convert';
 
 import 'package:url_launcher/url_launcher.dart';
 
-// Future<void>? _launched;
-// Future<String> getDownloadDirectoryPath() async {
-//   Directory? directory;
-//   try {
-//     if (Platform.isIOS) {
-//       directory = await getApplicationDocumentsDirectory();
-//     } else {
-//       directory = Directory('/storage/emulates/0/Download');
-//       if (!await directory.exists())
-//         directory = await getApplicationDocumentsDirectory();
-//     }
-//   } catch (err, stack) {
-//     print(err);
-//   }
-//   return directory!.path;
-// }
 Future<void> _launchInWebViewOrVC(Uri url) async {
   if (!await launchUrl(
     url,
@@ -105,12 +89,12 @@ class _SinglePostViewState extends State<SinglePostView> {
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_single_post_view'),
         body: body);
-    print('**********+' + response.body);
+    debugPrint('**********+${response.body}');
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return SinglePostViewModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -840,13 +824,15 @@ class _SinglePostViewState extends State<SinglePostView> {
                                                                         context)
                                                                     .pop();
                                                               });
-                                                              print(Get.find<
+                                                              if (kDebugMode) {
+                                                                print(Get.find<
                                                                       SessionController>()
                                                                   .session
                                                                   .value
                                                                   .data!
                                                                   .userId
                                                                   .toString());
+                                                              }
                                                               setState(() {
                                                                 Replycomment
                                                                     .clear();
@@ -1019,11 +1005,13 @@ class _SinglePostViewState extends State<SinglePostView> {
                   )),
             );
           } else if (snapshot.hasError) {
-            print(snapshot.error);
+            if (kDebugMode) {
+              print(snapshot.error);
+            }
             return Container(
                 color: Colors.white, child: Icon(Icons.error_outline));
           } else {
-            return Scaffold(body: Center(child: CircularProgressIndicator()));
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
           }
         });
   }
@@ -1225,7 +1213,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void initState() {
     super.initState();
-    print(widget.url);
+    debugPrint(widget.url);
 
     _videoPlayerController = VideoPlayerController.network(widget.url);
 

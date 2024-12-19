@@ -2,10 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mnu_app/view/widgets/custom-textformfield.dart';
-import 'package:mnu_app/view/widgets/custom_progress_indicator.dart';
-
 import '../../theme/myfonts.dart';
 import '../widgets/custoemFormField2.dart';
 import '../widgets/custom-button.dart';
@@ -14,8 +11,7 @@ import 'package:http/http.dart' as http;
 import 'landing-page.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key, required this.nric, required this.name})
-      : super(key: key);
+  const RegisterPage({super.key, required this.nric, required this.name});
 
   final String nric;
   final String name;
@@ -52,34 +48,6 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  // Future<Map<String, dynamic>> register(BuildContext context) async {
-  //   print('register start');
-  //   var body = {
-  //     "username": username.text,
-  //     "email": email.text,
-  //     "password": password.text,
-  //     "nric_no": Nric.text
-  //   };
-  //   print('username ${username.text}, email ${email.text},password ${password.text},nricno ${Nric.text}');
-  //   print('http://mnuapi.graspsoftwaresolutions.com/api_member_register');
-  //   final response = await http.put(
-  //       Uri.parse(
-  //           'http://mnuapi.graspsoftwaresolutions.com/api_member_register'),
-  //       body: body);
-  //   print('**********+' + response.body);
-  //
-  //   if (response.statusCode == 200) {
-  //     print('**********+' + response.body);
-  //     return jsonDecode(response.body);
-  //   } else {
-  //     print(response.body);
-  //     print(response.statusCode);
-  //     // print(body);
-  //     // Navigator.of(context).pop();
-  //
-  //     throw Exception('Failed to load data');
-  //   }
-  // }
   bool isLoading = false;
   void handleRegister() async {
     if (_formKey.currentState!.validate()) {
@@ -87,15 +55,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
       try {
         final value = await register();
-
-        // Check status and handle response
-        if (value["data"]["status"] == true || value["data"]["user_id"].isNotEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(value["message"])));
+        if (value["data"]["status"] == true ||
+            value["data"]["user_id"].isNotEmpty) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(value["message"])));
           Get.offAll(() => LandingPage());
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(value["message"])));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(value["message"])));
         }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -105,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -226,12 +194,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child:   isLoading
+                child: isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : CustomElevatedButton(
-                  onPressed: handleRegister,
-                  title: 'Register',
-                ),
+                        onPressed: handleRegister,
+                        title: 'Register',
+                      ),
                 // child: CustomElevatedButton(
                 //   onPressed: () async {
                 //     if (_formKey.currentState!.validate()) {

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'custom_progress_indicator.dart';
@@ -8,7 +7,7 @@ Future<void> showLoading(BuildContext context) async {
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
-      return CustomProgressIndicator();
+      return const CustomProgressIndicator();
     },
   );
 }

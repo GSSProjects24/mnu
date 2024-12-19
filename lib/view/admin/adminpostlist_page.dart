@@ -67,11 +67,11 @@ class _AdminPostListPageState extends State<AdminPostListPage> {
 
             IconButton(
                 onPressed: () async {
-                  Get.to(() => PostCreatePage(
+                  Get.to(() => const PostCreatePage(
                         isEdit: false,
                       ));
                 },
-                icon: Icon(Icons.add_box_rounded))
+                icon: const Icon(Icons.add_box_rounded))
           ],
         ),
         body: GetX<AdminPostController>(

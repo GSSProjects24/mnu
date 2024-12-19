@@ -27,19 +27,19 @@ class _SuggestionListState extends State<SuggestionList> {
           Get.find<SessionController>().session.value.data?.userId.toString()!,
       "search": search ?? ""
     };
-    print(
+    debugPrint(
         'user id ${Get.find<SessionController>().session.value.data?.userId.toString()!}');
-    print('search : ${search}');
+    debugPrint('search : ${search}');
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_suggestion_member_list'),
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return RegisteredMembersModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -119,7 +119,7 @@ class _SuggestionListState extends State<SuggestionList> {
                           dense: true,
                           trailing: TextButton(
                             onPressed: () {
-                              print(
+                              debugPrint(
                                   'Profile Image URL: ${snapshot.data?.data?.memberDetails?[index]?.profile_image}');
                               Get.to(() => SuggestionsProfile(
                                     userid: snapshot.data?.data

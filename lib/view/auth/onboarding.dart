@@ -2,19 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
 import '../../theme/myfonts.dart';
 
 
 class OnBoarding extends StatefulWidget {
-  const OnBoarding({Key? key}) : super(key: key);
+  const OnBoarding({super.key});
 
   @override
-  _OnBoardingState createState() => _OnBoardingState();
+  OnBoardingState createState() => OnBoardingState();
 }
 
-class _OnBoardingState extends State<OnBoarding> {
+class OnBoardingState extends State<OnBoarding> {
   PageController? pageViewController;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -31,7 +29,6 @@ class _OnBoardingState extends State<OnBoarding> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        // backgroundColor: Theme.of(context).backgroundColor,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
 

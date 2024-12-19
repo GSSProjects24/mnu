@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -71,12 +72,14 @@ class _MemberPostViewState extends State<MemberPostView> {
                         Get.find<MemberPostController>().post.value =
                             (await Get.find<MemberPostController>()
                                 .loadPost(userId, 1000))!;
-                        print(Get.find<SessionController>()
-                            .session
-                            .value
-                            .data!
-                            .userId
-                            .toString());
+                        if (kDebugMode) {
+                          print(Get.find<SessionController>()
+                              .session
+                              .value
+                              .data!
+                              .userId
+                              .toString());
+                        }
                         setState(() {
                           comment.clear();
                         });
@@ -438,8 +441,7 @@ Future<void> showMyDialog2(
                   child: PhotoView(
                     imageProvider: NetworkImage(url!),
                   ))
-              : Container(
-                  child: PhotoViewGallery.builder(
+              : PhotoViewGallery.builder(
                   scrollPhysics: const BouncingScrollPhysics(),
                   builder: (BuildContext context, int index) {
                     return PhotoViewGalleryPageOptions(
@@ -459,7 +461,7 @@ Future<void> showMyDialog2(
                   // backgroundDecoration: widget.backgroundDecoration,
                   // pageController: widget.pageController,
                   // onPageChanged: onPageChanged,
-                )),
+                ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(

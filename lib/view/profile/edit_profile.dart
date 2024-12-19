@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -39,7 +38,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   Future<Map<String, dynamic>> updateMember() async {
-    print('username start');
+    debugPrint('username start');
     Map<String, dynamic> body = {
       // "username":'deepa',
       "mem_prof_id":
@@ -65,21 +64,18 @@ class _EditProfileState extends State<EditProfile> {
       "pf_no": pf_no.text,
       "doe": doe.text,
     };
-    print(body);
+    if (kDebugMode) {
+      print(body);
+    }
 
-    // print(' date of joning  value${doj.text}');
-    // print(' date of joning  value${dob.text}');
-    // print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_update_member_profile'),
         body: body);
-    // print(body);
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      // print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -91,17 +87,19 @@ class _EditProfileState extends State<EditProfile> {
       "user_id":
           Get.find<SessionController>().session.value.data?.userId.toString()
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_edit_member_profile'),
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return EditProfileModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -116,9 +114,9 @@ class _EditProfileState extends State<EditProfile> {
         body: body);
 
     if (response.statusCode == 200) {
-      print('userDelete');
+      debugPrint('userDelete');
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to Delete your account');
     }
   }
@@ -130,18 +128,22 @@ class _EditProfileState extends State<EditProfile> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "image": data
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.put(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_profile_image_upload'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body));
-    print(body);
+    if (kDebugMode) {
+      print(body);
+    }
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -181,7 +183,9 @@ class _EditProfileState extends State<EditProfile> {
     };
     // log("Req_body:${Get.find<SessionController>().session.value.data?.userId}");
 
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
         body: {
@@ -194,11 +198,11 @@ class _EditProfileState extends State<EditProfile> {
         });
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       // log("body:${jsonDecode(response.body)}");
       return MemberModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
     return MemberModel();
@@ -221,8 +225,10 @@ class _EditProfileState extends State<EditProfile> {
 
     // TODO: implement initState
     super.initState();
-    print(
-        'profile update id ${Get.find<SessionController>().session.value.data?.userId.toString()}');
+    if (kDebugMode) {
+      print(
+          'profile update id ${Get.find<SessionController>().session.value.data?.userId.toString()}');
+    }
   }
 
   String formatDateString(String? inputDate) {
@@ -676,7 +682,7 @@ class _EditProfileState extends State<EditProfile> {
                               if (value == null || value.isEmpty) {
                                 return 'Please select your doj';
                               }
-                              print("${value}asaallll");
+                              debugPrint("${value}asaallll");
 
                               return null;
                             },
@@ -754,7 +760,7 @@ class _EditProfileState extends State<EditProfile> {
                                   });
                                 }
 
-                             await   updateMember().then((value) {
+                                await updateMember().then((value) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text(
@@ -829,7 +835,9 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     );
                   } else if (value.hasError) {
-                    print(value.error);
+                    if (kDebugMode) {
+                      print(value.error);
+                    }
                     return const Center(child: Icon(Icons.error_outline));
                   } else if (value.hasData &&
                       value.data!.data!.status == false) {

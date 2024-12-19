@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 
 class LazyListView extends StatefulWidget {
+  const LazyListView({super.key});
+
   @override
-  _LazyListViewState createState() => _LazyListViewState();
+  LazyListViewState createState() => LazyListViewState();
 }
 
-class _LazyListViewState extends State<LazyListView> {
-  //list of items
+class LazyListViewState extends State<LazyListView> {
   final List<String> items = List<String>.generate(30, (i) => "Item $i");
-  //flag to check if loading
   bool isLoading = false;
-  //flag to check if all items loaded
   bool isAllLoaded = false;
 
-  ScrollController controller=ScrollController();
+  ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,8 @@ class _LazyListViewState extends State<LazyListView> {
       itemCount: items.length + 1,
       controller: controller
         ..addListener(() {
-          if (controller.position.pixels == controller.position.maxScrollExtent) {
+          if (controller.position.pixels ==
+              controller.position.maxScrollExtent) {
             _loadMore();
           }
         }),
@@ -39,13 +39,13 @@ class _LazyListViewState extends State<LazyListView> {
   Widget _buildLoader() {
     return isLoading
         ? Center(
-      child: CircularProgressIndicator(),
-    )
+            child: CircularProgressIndicator(),
+          )
         : Center(
-      child: isAllLoaded
-          ? Text("All items loaded")
-          : Text("Reached end of list"),
-    );
+            child: isAllLoaded
+                ? Text("All items loaded")
+                : Text("Reached end of list"),
+          );
   }
 
   Widget _buildItem(String item) {
@@ -63,7 +63,8 @@ class _LazyListViewState extends State<LazyListView> {
       Future.delayed(Duration(seconds: 2), () {
         if (items.length < 50) {
           setState(() {
-            items.addAll(List<String>.generate(10, (i) => "Item ${items.length + i}"));
+            items.addAll(
+                List<String>.generate(10, (i) => "Item ${items.length + i}"));
             isLoading = false;
           });
         } else {
@@ -76,4 +77,3 @@ class _LazyListViewState extends State<LazyListView> {
     }
   }
 }
-

@@ -140,14 +140,10 @@ class _FormRegistrationState extends State<FormRegistration> {
       setState(() {
         Get.find<FormRegistrationController>().signature_img = encoded;
       });
-
-      // debugPrint("onPressed " + encoded);
-      // sign.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Enter valid  signature')));
     }
-    //  int signatureLength = _signature.
   }
 
   @override
@@ -786,14 +782,14 @@ class _FormRegistrationState extends State<FormRegistration> {
                           child: Container(
                               height: 250,
                               width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: Colors.grey)),
                               child: Signature(
                                 key: signatureGlobalKey,
                                 strokeWidth: 3,
                                 color: Colors.black,
-                              ),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.grey)))),
+                              ))),
                       const SizedBox(height: 10),
                     ]),
                 Column(
@@ -964,7 +960,7 @@ class _FormRegistrationState extends State<FormRegistration> {
                                   });
                               controller.newregister(context).then(
                                 (value) {
-                                  print("*****${value.toString()}");
+                                  debugPrint("*****${value.toString()}");
                                   if (value["data"]["status"] == true) {
                                     final sign =
                                         signatureGlobalKey.currentState;

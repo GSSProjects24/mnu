@@ -36,11 +36,6 @@ class _UsersProfileState extends State<UsersProfile> {
   String? imageurl;
 
   Future<MemberModel> loadMember() async {
-    var body = {
-      "mem_prof_id":
-          Get.find<SessionController>().session.value.data?.userId.toString()
-    };
-    print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
         body: {
@@ -59,10 +54,10 @@ class _UsersProfileState extends State<UsersProfile> {
         });
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return MemberModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
     return MemberModel();

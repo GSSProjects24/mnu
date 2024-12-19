@@ -1,21 +1,18 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../controllers/sessioncontroller.dart';
 import 'package:http/http.dart' as http;
 
 import '../../main.dart';
 import '../../models/following_model.dart';
 import '../../theme/color_schemes.g.dart';
-import '../widgets/custom_progress_indicator.dart';
 import 'friends-profile.dart';
 
 class FollowingList extends StatefulWidget {
-  const FollowingList({Key? key}) : super(key: key);
+  const FollowingList({super.key});
 
   @override
   State<FollowingList> createState() => _FollowingListState();
@@ -50,37 +47,11 @@ class _FollowingListState extends State<FollowingList> {
         return null;
       }
     } catch (e) {
-      print('Error loading following data: $e');
+      debugPrint('Error loading following data: $e');
       return null;
     }
   }
 
-  // Future<FollowingModel?> loadFollowing() async {
-  //   var body = {
-  //     "user_id":
-  //         Get.find<SessionController>().session.value.data?.userId.toString() ??
-  //             '',
-  //     "page": page.toString(),
-  //     "limit": '10000',
-  //     "logged_user_id":
-  //         Get.find<SessionController>().session.value.data?.userId.toString()
-  //   };
-  //   print(Get.find<SessionController>().session.value.data?.userId);
-  //   final response = await http.post(
-  //       Uri.parse(
-  //           'http://mnuapi.graspsoftwaresolutions.com/api_following_list'),
-  //       body: body);
-  //
-  //   print(body.toString());
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     return FollowingModel.fromJson(jsonDecode(response.body));
-  //   }
-  //   else {
-  //     print(response.body);
-  //     throw Exception('Failed to load data');
-  //   }
-  // }
 
   Future<Map<String, dynamic>> unfollow({required String following}) async {
     var body = {
@@ -88,75 +59,34 @@ class _FollowingListState extends State<FollowingList> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "follower_id": following
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_unfollow_request'),
         body: body);
-    print(body);
+    if (kDebugMode) {
+      print(body);
+    }
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
 
-  // ScrollController scrollcontroller = ScrollController();
-
   bool isLoading = false;
-  //flag to check if all items loaded
   bool isAllLoaded = false;
   int totalreports = -1;
 
-  // void pagination() {
-  //   if ((scrollcontroller.position.pixels ==
-  //           scrollcontroller.position.maxScrollExtent) &&
-  //       (page <= totalPage)) {
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text('Loading......')));
-  //     setState(() {
-  //       isLoading = true;
-  //       limit += 13;
-  //
-  //       following = loadFollowing();
-  //
-  //       //add api for load the more data according to new page
-  //     });
-  //   }
-  //
-  //   // if ((scrollcontroller.position.pixels ==
-  //   //         scrollcontroller.position.minScrollExtent) &&
-  //   //     (page <= totalPage)) {
-  //   //   ScaffoldMessenger.of(context)
-  //   //       .showSnackBar(SnackBar(content: Text('Loading......')));
-  //   //
-  //   //   setState(() {
-  //   //     following = Future(() => null);
-  //   //     isLoading = true;
-  //   //     page -= 1;
-  //   //
-  //   //     following = loadFollowing();
-  //   //
-  //   //     //add api for load the more data according to new page
-  //   //   });
-  //   // }
-  //
-  //   if ((scrollcontroller.position.pixels ==
-  //           scrollcontroller.position.maxScrollExtent) &&
-  //       (page == totalPage)) {
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text('Maximum page Reached')));
-  //   }
-  // }
 
   late Future<FollowingModel?> following;
   @override
   void initState() {
-    // TODO: implement initState
-    // scrollcontroller.addListener(pagination);
     following = loadFollowing();
     super.initState();
     searchController = TextEditingController();

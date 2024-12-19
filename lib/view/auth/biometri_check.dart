@@ -45,7 +45,7 @@ class _BiometricLoginState extends State<BiometricLogin> {
         );
       }
     } catch (e) {
-      print('Failed to authenticate with biometrics: $e');
+      debugPrint('Failed to authenticate with biometrics: $e');
     }
 
     if (authenticated) {
@@ -58,8 +58,9 @@ class _BiometricLoginState extends State<BiometricLogin> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Icon(
           Icons.fingerprint,

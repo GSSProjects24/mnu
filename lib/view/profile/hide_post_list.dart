@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -71,7 +72,9 @@ class _HidePostPageState extends State<HidePostPage>
       "post_id": id,
       "comment": ''
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.put(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_delete'),
         body: body);
@@ -155,31 +158,6 @@ class _HidePostPageState extends State<HidePostPage>
       throw Exception('Failed to load data');
     }
   }
-
-  // Future block(String followerUserId) async {
-  //   debugPrint('block request start');
-  //   var body = {
-  //     "follower_user_id": followerUserId,
-  //     "user_id":
-  //         Get.find<SessionController>().session.value.data?.userId.toString(),
-  //   };
-  //   debugPrint(
-  //       'user id ${Get.find<SessionController>().session.value.data?.userId} follower user id $followerUserId');
-  //   debugPrint(
-  //       'api url http://mnuapi.graspsoftwaresolutions.com/api_block_request');
-  //   final response = await http.post(
-  //       Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_block_request'),
-  //       body: body);
-  //   debugPrint('${body}bbbbbbbbbbbbbbbbb');
-  //
-  //   if (response.statusCode == 200) {
-  //     debugPrint(response.body);
-  //     return jsonDecode(response.body);
-  //   } else {
-  //     debugPrint(response.body);
-  //     throw Exception('Failed to load data');
-  //   }
-  // }
 
   Future unHide(String postId) async {
     debugPrint('block request start');

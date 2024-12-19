@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../controllers/sessioncontroller.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +13,7 @@ import '../widgets/custom_progress_indicator.dart';
 import 'friends-profile.dart';
 
 class FollowersList extends StatefulWidget {
-  const FollowersList({Key? key}) : super(key: key);
+  const FollowersList({super.key});
 
   @override
   State<FollowersList> createState() => _FollowersListState();
@@ -27,17 +27,19 @@ class _FollowersListState extends State<FollowersList> {
       "page": '1',
       "limit": '10000'
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_followers_list'),
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return FollowersModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -48,7 +50,9 @@ class _FollowersListState extends State<FollowersList> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "follower_id": followersId
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    if (kDebugMode) {
+      print(Get.find<SessionController>().session.value.data?.userId);
+    }
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_unfollow_request'),
@@ -138,10 +142,12 @@ class _FollowersListState extends State<FollowersList> {
               builder: (BuildContext context,
                   AsyncSnapshot<FollowersModel> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CustomProgressIndicator();
+                  return const CustomProgressIndicator();
                 } else if (snapshot.hasError) {
-                  print(snapshot.error.toString());
-                  return Center(child: Icon(Icons.error_outline));
+                  if (kDebugMode) {
+                    print(snapshot.error.toString());
+                  }
+                  return const Center(child: Icon(Icons.error_outline));
                 } else if (snapshot.hasData) {
                   return ListView.builder(
                     itemCount: filteredFollowers?.length ?? 0,
@@ -184,105 +190,4 @@ class _FollowersListState extends State<FollowersList> {
       ),
     );
   }
-
-// Widget build(BuildContext context) {
-  //   return Scaffold(
-  //       appBar: AppBar(
-  //         title: Text(
-  //           'Followers',
-  //           style: TextStyle(color: Colors.white),
-  //         ),
-  //         actions: [],
-  //       ),
-  //       body: Column(
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: TextField(
-  //               controller: searchController,
-  //               onChanged: (value) => filterFollowers(value),
-  //               decoration: InputDecoration(
-  //                 hintText: 'Search followers...',
-  //                 prefixIcon: Icon(Icons.search),
-  //                 border: OutlineInputBorder(
-  //                   borderRadius: BorderRadius.circular(8.0),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           Expanded(
-  //             child: FutureBuilder(
-  //                 future: followers,
-  //                 builder:
-  //                     (BuildContext context, AsyncSnapshot<FollowersModel> snapshot) {
-  //                   if (snapshot.hasData) {
-  //                     // totalPage = snapshot.data!.data!.followDetails!.totalPage!;
-  //                     return ListView.builder(
-  //                       itemCount:
-  //                           snapshot.data?.data?.followDetails?.followers?.length ??
-  //                               0,
-  //                       itemBuilder: (BuildContext context, int index) {
-  //                         return Card(
-  //                           child: ListTile(
-  //                             onTap: () {
-  //                               // Get.to(() => ChatScreen(
-  //                               //       receiverId: snapshot.data?.data?.followDetails!.followers![index]?.followersId.toString() ?? '',
-  //                               //       receiverImageUrl: snapshot.data?.data?.followDetails?.followers![index]?.profileImage.toString() ?? '',
-  //                               //       Name: snapshot.data?.data?.followDetails?.followers?[index]?.name ?? '',
-  //                               //     ));
-  //                               Get.to(() => FriendsProfile(
-  //                                   memberNo: snapshot.data?.data?.followDetails
-  //                                           ?.followers?[index]?.followersId
-  //                                           .toString() ??
-  //                                       '',
-  //                                   name: snapshot.data?.data?.followDetails
-  //                                           ?.followers?[index]?.name ??
-  //                                       ''));
-  //                             },
-  //                             leading: CircleAvatar(
-  //                               radius: 15,
-  //                               foregroundImage: NetworkImage(snapshot
-  //                                       .data
-  //                                       ?.data
-  //                                       ?.followDetails
-  //                                       ?.followers?[index]
-  //                                       ?.profileImage ??
-  //                                   ''),
-  //                               backgroundImage: AssetImage('assets/MNU-Logo.png'),
-  //                             ),
-  //                             title: Text(
-  //                               snapshot.data?.data?.followDetails?.followers?[index]
-  //                                       ?.name ??
-  //                                   '',
-  //                               style: TextStyle(fontSize: 10),
-  //                             ),
-  //                             // trailing: TextButton(
-  //                             //     onPressed: () {
-  //                             //       unfollow(snapshot.data?.data?.followDetails?.followers?[index]?.followersId.toString() ?? '').then((value) {
-  //                             //         setState(() {
-  //                             //           followers = loadFollowers();
-  //                             //         });
-  //                             //       });
-  //                             //     },
-  //                             //     child: Text('Unfollow')),
-  //                           ),
-  //                         );
-  //                       },
-  //                     );
-  //                   } else if (snapshot.hasError) {
-  //                     print(snapshot.error.toString());
-  //                     if (snapshot.error.toString() ==
-  //                         "type 'Null' is not a subtype of type 'Map<String, dynamic>'") {
-  //                       return Center(child: Text('No followers'));
-  //                     }
-  //
-  //                     return Center(child: Icon(Icons.error_outline));
-  //                   } else {
-  //                     return CustomProgressIndicator();
-  //                   }
-  //                 }),
-  //           ),
-  //         ],
-  //       ));
-  // }
 }

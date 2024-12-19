@@ -1,11 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:mnu_app/view/widgets/custoemFormField2.dart';
-
 import '../../controllers/sessioncontroller.dart';
 import '../../models/chat_member_list_model.dart';
 import '../admin/admin-post-view.dart';
@@ -13,7 +9,7 @@ import '../widgets/custom_progress_indicator.dart';
 import 'chat_screen.dart';
 
 class ChatList2 extends StatefulWidget {
-  const ChatList2({Key? key}) : super(key: key);
+  const ChatList2({super.key});
 
   @override
   State<ChatList2> createState() => _ChatList2State();
@@ -37,10 +33,10 @@ class _ChatList2State extends State<ChatList2> {
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return ChatMemberListModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }

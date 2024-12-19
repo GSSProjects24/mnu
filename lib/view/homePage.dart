@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'package:badges/badges.dart' as badge;
 import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mnu_app/view/auth/landing-page.dart';
 import 'package:mnu_app/view/bottom-appbarwidgets/hqListPage.dart';
 import 'package:mnu_app/view/widgets/thankyouDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +26,7 @@ Future<void> loadOnboards() async {
 
 class HomePage extends StatefulWidget {
   final selectedTab;
-  const HomePage({Key? key, this.selectedTab}) : super(key: key);
+  const HomePage({super.key, this.selectedTab});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -47,26 +45,12 @@ class _HomePageState extends State<HomePage> {
 
   late Future<bool> onBoardeds;
 
-// getprofileimage() async{
-//   final SharedPreferences prefs= await SharedPreferences.getInstance();
-
-//   profileimage = prefs.getString('profile_image');
-
-//   print('${profileimage}');
   Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
@@ -95,25 +79,12 @@ class _HomePageState extends State<HomePage> {
     );
 
     if (response.statusCode == 200) {
-      // print(response.body);
       return NotificationsModel.fromJson(jsonDecode(response.body));
     } else {
-      // print(response.body);
       throw Exception('Failed to load data');
     }
   }
 
-  // Future<Map<String?, dynamic>> tokens() async {
-  //   var body = {"user_id": Get.find<SessionController>().session.value.data?.userId.toString() ?? '', "token": messaging.getToken()};
-  //   final response = await http.post(Uri.parse('http://api.nuteaiw.org/api_user_token'));
-  //   if (response.statusCode == 200) {
-  //     print('${messaging.getToken()} done*******%%%%%%%%%%%%%%%%%S');
-  //     return jsonDecode((response.body));
-  //   } else {
-  //     print('${messaging.getToken()} Falied');
-  //     throw Exception('Failed to load album');
-  //   }
-  // }
   Future<void> tokens(String token) async {
     var body = {
       "user_id":
@@ -125,15 +96,13 @@ class _HomePageState extends State<HomePage> {
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_user_token'),
         body: body);
     if (response.statusCode == 200) {
-      print('${token} done*******%%%%%%%%%%%%%%%%%S');
+      debugPrint('$token done*******%%%%%%%%%%%%%%%%%S');
       await FirebaseMessaging.instance.subscribeToTopic(
           Get.find<SessionController>().session.value.data?.userId.toString() ??
               '');
 
       var responseData = jsonDecode((response.body));
-      // return {'token': body['token'], 'data': responseData};
     } else {
-      // print('${messaging.getToken()} Falied');
       throw Exception('Failed to load album');
     }
   }
@@ -157,7 +126,9 @@ class _HomePageState extends State<HomePage> {
         });
 
     if (response.statusCode == 200) {
-      print(response.body);
+      if (kDebugMode) {
+        print(response.body);
+      }
 
       var responseData = jsonDecode((response.body));
       if (mounted) {
@@ -167,7 +138,9 @@ class _HomePageState extends State<HomePage> {
         });
       }
     } else {
-      print(response.body);
+      if (kDebugMode) {
+        print(response.body);
+      }
       throw Exception('Failed to load data');
     }
     return MemberModel();
@@ -246,9 +219,8 @@ class _HomePageState extends State<HomePage> {
     loadMember();
     debugPrint("*****************imageProfile");
     setupInteractedMessage();
-    messaging
-        .getToken()
-        .then((value) => tokens(value ?? '').then((value) => print('test')));
+    messaging.getToken().then(
+        (value) => tokens(value ?? '').then((value) => debugPrint('test')));
     FirebaseMessaging.instance.getToken().then((value) => tokens(value ?? ''));
 
     // Listen to foreground messages

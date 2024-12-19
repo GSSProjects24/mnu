@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -40,10 +41,10 @@ class _FriendRequestsState extends State<FriendRequests> {
         body: body);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return PendingRequestModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -54,20 +55,14 @@ class _FriendRequestsState extends State<FriendRequests> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "follower_user_id": followerId
     };
-
-    print('follower_user_id${followerId}..........................');
-    print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_followingrequest'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
-    print(body);
     if (response.statusCode == 200) {
-      print(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -97,8 +92,6 @@ class _FriendRequestsState extends State<FriendRequests> {
                     follower_user_id = snapshot.data!.data!.followDetails!
                         .followers![index]!.followerUserId
                         .toString();
-                    print(
-                        'list of pending ${snapshot.data!.data!.followDetails!.followers!.length}');
                     return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Card(
@@ -179,8 +172,6 @@ class _FriendRequestsState extends State<FriendRequests> {
                                           setState(() {
                                             accept_status = false;
                                           });
-                                          print(
-                                              "###############################${snapshot.data!.data!.followDetails!.followers![index]!.id.toString()}");
                                           var data = await acceptDecline(
                                               snapshot
                                                   .data!
@@ -338,7 +329,9 @@ class _FriendRequestsState extends State<FriendRequests> {
                   },
                 );
               } else if (snapshot.hasError) {
-                print(snapshot.hasError);
+                if (kDebugMode) {
+                  print(snapshot.hasError);
+                }
 
                 return const Center(child: Text('No friend Request'));
               } else {
@@ -353,7 +346,6 @@ class _FriendRequestsState extends State<FriendRequests> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          // <-- SEE HERE
           title: const FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
@@ -389,9 +381,11 @@ class _FriendRequestsState extends State<FriendRequests> {
                     ),
               ),
               onPressed: () async {
-                print(snapshot.data!.data!.followDetails!.followers![index]!
-                    .followerUserId
-                    .toString());
+                if (kDebugMode) {
+                  print(snapshot.data!.data!.followDetails!.followers![index]!
+                      .followerUserId
+                      .toString());
+                }
                 setState(() {
                   list = loadPendingList();
                 });
@@ -436,20 +430,16 @@ Future<Map<String, dynamic>> acceptDecline(
     "accept_decline_status": status,
     "user_id": userid,
   };
-  print("follow id ${id}");
-  print(" accept decline status${status}");
-  print("user id ${userid}");
-  print("sssssssssssssssssssssss${body}");
   final response = await http.post(
       Uri.parse(
           'http://mnuapi.graspsoftwaresolutions.com/api_follow_accept_decline_request'),
       body: body);
 
   if (response.statusCode == 200) {
-    print(response.body);
+    debugPrint(response.body);
     return jsonDecode(response.body);
   } else {
-    print(response.body);
+    debugPrint(response.body);
     throw Exception('Failed to load data');
   }
 }

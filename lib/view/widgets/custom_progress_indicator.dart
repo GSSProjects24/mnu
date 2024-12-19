@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-
-
 
 class CustomProgressIndicator extends StatelessWidget {
   const CustomProgressIndicator({
-    Key? key,
-  }) : super(key: key);  
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +15,11 @@ class CustomProgressIndicator extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-        const    SpinKitWaveSpinner(
-              
-              color: Color.fromARGB(255, 76, 64, 132), // Color of the spinning circles
+            const SpinKitWaveSpinner(
+              color: Color.fromARGB(
+                  255, 76, 64, 132), // Color of the spinning circles
               size: 150.0,
-               // Adjust the size of the spinner as needed
+              // Adjust the size of the spinner as needed
             ),
             Image.asset(
               'assets/MNU-Logo.png', // Replace with the path to your image

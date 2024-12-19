@@ -9,9 +9,9 @@ import '../profile/suggestionprofile.dart';
 
 class AdminPostView extends StatefulWidget {
   const AdminPostView({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   final int index;
 
@@ -65,7 +65,7 @@ class _AdminPostViewState extends State<AdminPostView> {
                         Get.find<AdminPostController>().post.value =
                             await Get.find<AdminPostController>()
                                 .loadPost('', 100);
-                        print(Get.find<SessionController>()
+                        debugPrint(Get.find<SessionController>()
                             .session
                             .value
                             .data!
@@ -90,10 +90,8 @@ class _AdminPostViewState extends State<AdminPostView> {
               children: [
                 ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: const AssetImage(
-                                          'assets/profile.png'),
-                    foregroundImage: const AssetImage(
-                                          'assets/profile.png'),
+                    backgroundImage: const AssetImage('assets/profile.png'),
+                    foregroundImage: const AssetImage('assets/profile.png'),
                   ),
                   title: Text('Rampowiz'),
                   subtitle: Text('12 m ago'),

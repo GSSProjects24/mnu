@@ -81,7 +81,8 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
       "post_id": id,
       "comment": ''
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    debugPrint(
+        Get.find<SessionController>().session.value.data?.userId.toString());
     final response = await http.put(
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_delete'),
         body: body);
@@ -866,44 +867,6 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                                                                           );
                                                                         }
                                                                       },
-                                                                      //     () async {
-                                                                      //   debugPrint(
-                                                                      //       ' report post url ${widget.apiurl} limit ${limit}, ');
-                                                                      //   showLoading(
-                                                                      //       context);
-                                                                      //   block(snapshot
-                                                                      //           .post
-                                                                      //           .value
-                                                                      //           .data!
-                                                                      //           .postDetails!
-                                                                      //           .posts![
-                                                                      //               index]!
-                                                                      //           .userDetails!
-                                                                      //           .userId
-                                                                      //           .toString())
-                                                                      //       .then(
-                                                                      //           (value) async {
-                                                                      //     if (value[
-                                                                      //             "data"]
-                                                                      //         [
-                                                                      //         "status"]) {
-                                                                      //       Get.find<ListOfPostController>()
-                                                                      //               .post
-                                                                      //               .value =
-                                                                      //           (await snapshot.loadPost(
-                                                                      //               '',
-                                                                      //               limit,
-                                                                      //               widget.apiurl))!;
-                                                                      //
-                                                                      //       Navigator.pop(
-                                                                      //           context);
-                                                                      //       Navigator.pop(
-                                                                      //           context);
-                                                                      //       Navigator.pop(
-                                                                      //           context);
-                                                                      //     }
-                                                                      //   });
-                                                                      // },
                                                                       child: const Text(
                                                                           'Report'))
                                                                 ],
@@ -1003,96 +966,6 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                                                                       },
                                                                       child: const Text(
                                                                           'Hide '))
-                                                                  // TextButton(
-                                                                  //     onPressed:
-                                                                  //         () async {
-                                                                  //       debugPrint(
-                                                                  //           'url ${widget.apiurl} limit $limit');
-                                                                  //       debugPrint(
-                                                                  //           'PostId ${snapshot.post.value.data!.postDetails!.posts![index]!.postId}');
-                                                                  //       showLoading(
-                                                                  //           context); // Show loading spinner
-                                                                  //       try {
-                                                                  //         var response =
-                                                                  //             await hide(
-                                                                  //           snapshot.post.value.data!.postDetails!.posts![index]!.postId.toString(),
-                                                                  //         );
-                                                                  //         debugPrint(
-                                                                  //             "Full Response: $response");
-                                                                  //
-                                                                  //         if (response != null &&
-                                                                  //             response["data"] != null) {
-                                                                  //           final bool?
-                                                                  //               status =
-                                                                  //               response["data"]["status"];
-                                                                  //           final String?
-                                                                  //               message =
-                                                                  //               response["data"]["message"];
-                                                                  //
-                                                                  //           if (status ==
-                                                                  //               true) {
-                                                                  //             debugPrint("Success: $message");
-                                                                  //             Get.snackbar("Hide Successfully", "", snackPosition: SnackPosition.BOTTOM);
-                                                                  //
-                                                                  //             if (mounted) {
-                                                                  //               try {
-                                                                  //                 // Perform the async operation outside setState
-                                                                  //                 var updatedPost = await snapshot.loadPost(
-                                                                  //                   '',
-                                                                  //                   limit,
-                                                                  //                   widget.apiurl,
-                                                                  //                 );
-                                                                  //
-                                                                  //                 // Update the state synchronously
-                                                                  //                 setState(() {
-                                                                  //                   Get.find<ListOfPostController>().post.value = updatedPost;
-                                                                  //                 });
-                                                                  //               } catch (e) {
-                                                                  //                 debugPrint("Error updating post: $e");
-                                                                  //                 // Handle errors appropriately
-                                                                  //               }
-                                                                  //             }
-                                                                  //             Navigator.pop(context);
-                                                                  //             Navigator.pop(context);
-                                                                  //             Navigator.pop(context);
-                                                                  //             // Navigator.push(
-                                                                  //             //   context,
-                                                                  //             //   MaterialPageRoute(
-                                                                  //             //     builder: (context) => const HomePage(selectedTab: 0),
-                                                                  //             //   ),
-                                                                  //             // );
-                                                                  //           } else {
-                                                                  //             final String? errorMsg = response["data"]["error_msg"];
-                                                                  //             debugPrint("Failure: ${errorMsg ?? "Unknown error"}");
-                                                                  //             Get.snackbar("Failed", errorMsg ?? "Something went wrong", snackPosition: SnackPosition.BOTTOM);
-                                                                  //             Navigator.pop(context);
-                                                                  //             Navigator.pop(context);
-                                                                  //             Navigator.pop(context);
-                                                                  //           }
-                                                                  //         } else {
-                                                                  //           debugPrint("Invalid response format.");
-                                                                  //           Get.snackbar("Error",
-                                                                  //               "Invalid response format.",
-                                                                  //               snackPosition: SnackPosition.BOTTOM);
-                                                                  //           Navigator.pop(context);
-                                                                  //           Navigator.pop(context);
-                                                                  //           Navigator.pop(context);
-                                                                  //         }
-                                                                  //       } catch (e) {
-                                                                  //         debugPrint(
-                                                                  //             "Exception: $e");
-                                                                  //       } finally {
-                                                                  //         Navigator.pop(
-                                                                  //             context);
-                                                                  //         Navigator.pop(
-                                                                  //             context);
-                                                                  //         Navigator.pop(
-                                                                  //             context);
-                                                                  //         // Ensure loading spinner is dismissed
-                                                                  //       }
-                                                                  //     },
-                                                                  //     child: const Text(
-                                                                  //         'Hide'))
                                                                 ],
                                                               );
                                                             });

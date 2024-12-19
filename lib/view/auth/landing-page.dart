@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mnu_app/view/widgets/thankyouDialog.dart';
@@ -16,7 +17,7 @@ Future<void> loadOnboard() async {
 }
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  const LandingPage({super.key});
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -34,7 +35,6 @@ class _LandingPageState extends State<LandingPage> {
   late Future<bool> onBoarded;
   @override
   void initState() {
-    // onBoarded = Future(() => true);
     Get.put(SessionController());
     onBoarded = getOnboard();
 
@@ -60,9 +60,9 @@ class _LandingPageState extends State<LandingPage> {
                   });
                 },
                 builder: ((session) {
-                  print(session.session.value.data);
-                  print(session.session.value.data?.userId);
-                  print(session.session.value);
+                  debugPrint(session.session.value.data.toString());
+                  debugPrint(session.session.value.data?.userId.toString());
+                  debugPrint(session.session.value.toString());
 
                   if (session.session.value.data?.userId != null &&
                       session.session.value.data?.status == true) {
@@ -76,7 +76,9 @@ class _LandingPageState extends State<LandingPage> {
                     return const BiometricLogin();
                   }
 
-                  print(session.session.value.data?.toJson());
+                  if (kDebugMode) {
+                    print(session.session.value.data?.toJson());
+                  }
                   return const Center(
                       child: Center(
                     child: CircularProgressIndicator(),

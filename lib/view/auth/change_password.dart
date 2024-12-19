@@ -1,16 +1,11 @@
 import 'package:loading_indicator/loading_indicator.dart';
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../theme/myfonts.dart';
 import '../widgets/custoemFormField2.dart';
 import '../widgets/custom-button.dart';
 import '../widgets/custom-textformfield.dart';
 import 'package:http/http.dart' as http;
-
 import 'landing-page.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -52,14 +47,11 @@ class _ChangePasswordState extends State<ChangePassword> {
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Change password'),
+          title: const Text('Change password'),
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment:  CrossAxisAlignment.center,
-
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 80.0),
@@ -69,8 +61,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       'https://img.freepik.com/free-vector/security-concept-illustration_114360-1518.jpg?w=1380&t=st=1672141941~exp=1672142541~hmac=fe076cb7df163944a7eb9fa7458adf55005590889e3e8acbfaf795349a87466c'),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
+              const Padding(
+                padding: EdgeInsets.all(12.0),
                 child: Text(
                   'We have sent you an email with OTP to reset your password.',
                   textAlign: TextAlign.center,
@@ -122,40 +114,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                 child: CustomElevatedButton(
                   onPressed: () {
                     changePassword().then((value) {
-                      print('ok');
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return Center(
+                            return const Center(
                               child: LoadingIndicator(
                                   indicatorType: Indicator.ballClipRotatePulse,
-
-                                  /// Required, The loading type of the widget
-                                  colors: const [
+                                  colors: [
                                     Colors.black,
                                     Colors.red,
                                   ],
-
-                                  /// Optional, The color collections
                                   strokeWidth: 2,
-
-                                  /// Optional, The stroke of the line, only applicable to widget which contains line
                                   backgroundColor: Colors.transparent,
-
-                                  /// Optional, Background of the widget
-                                  pathBackgroundColor: Colors.black
-
-                                  /// Optional, the stroke backgroundColor
-                                  ),
+                                  pathBackgroundColor: Colors.black),
                             );
                           });
-                      print(value["data"]["status"]);
+                      debugPrint(value["data"]["status"]);
 
                       if (value["data"]["status"]) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(value["message"])));
                         Navigator.of(context).pop();
-                        Get.to(() => LandingPage());
+                        Get.to(() => const LandingPage());
                       }
                       if (value["data"]["status"] == false) {
                         Navigator.of(context).pop();

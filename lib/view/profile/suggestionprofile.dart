@@ -37,10 +37,8 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
         body: {"user_id": widget.userid});
 
     if (response.statusCode == 200) {
-      print(response.body);
       return SuggestionMemberModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -51,18 +49,15 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "follower_user_id": widget.userid
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_followingrequest'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
-    print(body);
+
     if (response.statusCode == 200) {
-      print(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -73,18 +68,14 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
           Get.find<SessionController>().session.value.data?.userId.toString(),
       "follower_id": widget.userid
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_cancel_follow_request'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
-    print(body);
     if (response.statusCode == 200) {
-      print(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -94,7 +85,6 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
   void initState() {
     setState(() {
       follow = widget.isfollow;
-      print('${follow} dddd');
     });
     member = loadMember();
     super.initState();
@@ -414,10 +404,9 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  print(snapshot.error);
-                  return Center(child: Icon(Icons.error_outline));
+                  return const Center(child: Icon(Icons.error_outline));
                 } else {
-                  return CustomProgressIndicator();
+                  return const CustomProgressIndicator();
                 }
               })),
     );

@@ -90,7 +90,7 @@ class _HomePostViewState extends State<HomePostView> {
                               await Get.find<ListOfPostController>()
                                   .loadPost('', widget.limit, widget.apiurl!,)!
                                   .whenComplete(() => Navigator.pop(context));
-                          print(Get.find<SessionController>()
+                          debugPrint(Get.find<SessionController>()
                               .session
                               .value
                               .data!
@@ -528,7 +528,7 @@ class _HomePostViewState extends State<HomePostView> {
                                                                 .whenComplete(() =>
                                                                     Navigator.pop(
                                                                         context));
-                                                            print(Get.find<
+                                                            debugPrint(Get.find<
                                                                     SessionController>()
                                                                 .session
                                                                 .value
@@ -901,7 +901,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   initState() {
     super.initState();
-    print(widget.url);
+    debugPrint(widget.url);
     _videoPlayerController = VideoPlayerController.network(widget.url);
     _chewieController = ChewieController(
       materialProgressColors:
@@ -951,8 +951,7 @@ class _VideoAppState extends State<VideoApp> {
 
   @override
   Widget build(BuildContext context) {
-    print(_videoPlayerController.value.aspectRatio.toString() +
-        '******************************************');
+    debugPrint('${_videoPlayerController.value.aspectRatio}******************************************');
     return Scaffold(
       backgroundColor: Colors.grey,
       body: SafeArea(

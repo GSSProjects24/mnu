@@ -15,9 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 import '../../theme/myfonts.dart';
 import '../admin/admin-post-view.dart';
-import '../auth/landing-page.dart';
 import '../widgets/custom_loading.dart';
-import 'dart:typed_data';
 
 class PostCreatePage extends StatefulWidget {
   const PostCreatePage(
@@ -57,20 +55,21 @@ class _PostCreatePageState extends State<PostCreatePage> {
       "content": Content ?? '',
       "title": Title ?? ''
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    debugPrint(
+        Get.find<SessionController>().session.value.data?.userId as String?);
     final response = await http.put(
         headers: {"Content-Type": "application/json"},
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post'),
         body: jsonEncode(body));
-    print(response.body);
+    debugPrint(response.body);
 
     debugPrint(jsonEncode(body));
 
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -90,18 +89,19 @@ class _PostCreatePageState extends State<PostCreatePage> {
       "content": Content ?? '',
       "title": Title ?? ''
     };
-    print(Get.find<SessionController>().session.value.data?.userId);
+    debugPrint(
+        Get.find<SessionController>().session.value.data?.userId as String?);
     final response = await http.put(
         headers: {"Content-Type": "application/json"},
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_edit'),
         body: jsonEncode(body));
-    print('**********+${response.body}');
+    debugPrint('**********+${response.body}');
     if (response.statusCode == 200) {
-      print(jsonEncode(body));
-      print(response.body);
+      debugPrint(jsonEncode(body));
+      debugPrint(response.body);
       return jsonDecode(response.body);
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load data');
     }
   }
@@ -116,8 +116,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
         debugPrint("postId:${widget.postId}");
         loadEdit();
       });
-      print(widget.urls?.length);
-      print(widget.video?.length);
     }
 
     super.initState();
@@ -128,8 +126,6 @@ class _PostCreatePageState extends State<PostCreatePage> {
     Get.find<PostController>().dispose();
     super.dispose();
   }
-
-  late VideoPlayerController _controller;
 
   Future<void> loadEdit() async {
     setState(() {
@@ -427,7 +423,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                             postcontroller.memoryVideo1.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          print(
+                                          debugPrint(
                                               "memeoryVideo:${postcontroller.memoryVideo1}");
                                           return Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -442,10 +438,10 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                                     2))),
                                                 badgeContent: IconButton(
                                                   onPressed: () {
-                                                    print(
+                                                    debugPrint(
                                                         "postConMemory:${postcontroller.memoryVideo1[index].toString()}");
                                                     setState(() {
-                                                      print(
+                                                      debugPrint(
                                                           'Before removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
                                                       if (index <
                                                           postcontroller
@@ -477,7 +473,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                                             .videoFiles
                                                             .removeAt(index);
                                                       }
-                                                      print(
+                                                      debugPrint(
                                                           'After removal: memoryVideo: ${postcontroller.memoryVideo1.length}, videos: ${postcontroller.videos.length}, files: ${postcontroller.videoFiles.length}');
                                                     });
                                                   },
@@ -522,17 +518,17 @@ class _PostCreatePageState extends State<PostCreatePage> {
                         ),
                         ElevatedButton(
                             onPressed: () async {
-                              print("is calling");
+                              debugPrint("is calling");
                               List<String> images = postcontroller.images;
                               List<String> videos = postcontroller.videos;
                               // memoryVideo
-                              print("videoList:$videos");
-                              print("image:$images");
+                              debugPrint("videoList:$videos");
+                              debugPrint("image:$images");
                               if (_formkey.currentState!.validate()) {
                                 List<String> images = postcontroller.images;
                                 List<String> videos = postcontroller.videos;
                                 // memoryVideo
-                                print("videoList:${videos.toString()}");
+                                debugPrint("videoList:${videos.toString()}");
                                 if (widget.isEdit != true) {
                                   showLoading(context);
                                   await createPost(
@@ -562,15 +558,13 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                 if (widget.isEdit) {
                                   showLoading(context);
                                   if (kDebugMode) {
-                                    print(images.toList());
-                                    print(
+                                    debugPrint(
                                         "postcontroller : ${postcontroller.images}");
-                                    print(
+                                    debugPrint(
                                         "memoryImage length : ${postcontroller.memoryImage.length}");
-                                    print(
+                                    debugPrint(
                                         "img length : ${postcontroller.images.length}");
-                                    print("length : ${images.length}");
-                                    print(postcontroller.images.toList());
+                                    debugPrint("length : ${images.length}");
                                   }
                                   List<String> base64ImageList = postcontroller
                                       .memoryImage
@@ -584,12 +578,14 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                   }).toList();
 
                                   if (kDebugMode) {
-                                    print(
+                                    debugPrint(
                                         "memoryVideo len : ${postcontroller.memoryVideo.length}");
-                                    print("video len : ${videos.length}");
-                                    print("base64ImageList : $base64ImageList");
-                                    print("base64VideoList : $base64VideoList");
-                                    print(
+                                    debugPrint("video len : ${videos.length}");
+                                    debugPrint(
+                                        "base64ImageList : $base64ImageList");
+                                    debugPrint(
+                                        "base64VideoList : $base64VideoList");
+                                    debugPrint(
                                         "base64ImageList length : ${base64ImageList.length}");
                                   }
                                   try {
@@ -601,7 +597,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                       videos: base64VideoList,
                                     );
                                     if (kDebugMode) {
-                                      print(
+                                      debugPrint(
                                           "my_status : ${data["data"]["status"] == true}");
                                     }
                                     if (data["data"]["status"] == true) {
@@ -751,18 +747,17 @@ Future<void> showMyDialog2(
 class VideoAppUrl extends StatefulWidget {
   final Uint8List memoryVideo;
 
-  const VideoAppUrl({Key? key, required this.memoryVideo}) : super(key: key);
+  const VideoAppUrl({super.key, required this.memoryVideo});
 
   @override
-  _VideoAppUrlState createState() => _VideoAppUrlState();
+  VideoAppUrlState createState() => VideoAppUrlState();
 }
 
-class _VideoAppUrlState extends State<VideoAppUrl> {
+class VideoAppUrlState extends State<VideoAppUrl> {
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
   bool _isInitialized = false;
   late final File tempFile;
-  String? _currentMemoryVideoPath;
 
   @override
   void initState() {
@@ -770,28 +765,16 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
     _initializeVideoPlayer(widget.memoryVideo);
   }
 
-  // Function to initialize the video player with a given memory video (Uint8List)
   Future<void> _initializeVideoPlayer(Uint8List videoData) async {
     try {
-      // Dispose of previous controllers before creating a new one
       await _controller?.dispose();
       _chewieController?.dispose();
-
-      // Save the Uint8List data to a temporary file
       final tempDir = await getTemporaryDirectory();
       tempFile = File('${tempDir.path}/video.mp4');
-
-      // Explicitly cast Uint8List to List<int> before writing
-      //await tempFile.writeAsBytes(videoData as List<int>); // Cast to List<int>
       await tempFile.writeAsBytes(videoData);
-      print("tempFileInVideoAppUrl:$tempFile");
-      // Initialize the VideoPlayerController with the temporary file
+      debugPrint("tempFileInVideoAppUrl:$tempFile");
       _controller = VideoPlayerController.file(tempFile);
-
-      // Wait for initialization
       await _controller?.initialize();
-
-      // Set up the Chewie controller after the VideoPlayerController is initialized
       final videoWidth = _controller?.value.size.width ?? 0;
       final videoHeight = _controller?.value.size.height ?? 0;
       double aspectRatio = videoWidth / videoHeight;
@@ -804,12 +787,10 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
       );
 
       setState(() {
-        _currentMemoryVideoPath = tempFile.path;
         _isInitialized = true;
       });
     } catch (e) {
-      // Handle any errors here (e.g., file read/write issues or video initialization failure)
-      print("Error initializing video player: $e");
+      debugPrint("Error initializing video player: $e");
       setState(() {
         _isInitialized = false;
       });
@@ -858,7 +839,7 @@ class _VideoAppUrlState extends State<VideoAppUrl> {
               onPressed: () {
                 setState(() {
                   // '/data/user/0/com.app.mnu/cache/video.mp4'
-                  print("tempFileInIconButton:${tempFile}");
+                  debugPrint("tempFileInIconButton:$tempFile");
                   _controller!.value.isPlaying
                       ? _controller?.pause()
                       : _controller?.play();
@@ -879,19 +860,17 @@ class VideoAppUrl1 extends StatefulWidget {
   final String memoryVideo;
   final String id;
 
-  const VideoAppUrl1({Key? key, required this.memoryVideo, required this.id})
-      : super(key: key);
+  const VideoAppUrl1({super.key, required this.memoryVideo, required this.id});
 
   @override
-  _VideoAppUrl1State createState() => _VideoAppUrl1State();
+  VideoAppUrl1State createState() => VideoAppUrl1State();
 }
 
-class _VideoAppUrl1State extends State<VideoAppUrl1> {
+class VideoAppUrl1State extends State<VideoAppUrl1> {
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
   bool _isInitialized = false;
   late final File tempFile;
-  String? _currentMemoryVideoPath;
 
   @override
   void initState() {
@@ -907,7 +886,7 @@ class _VideoAppUrl1State extends State<VideoAppUrl1> {
       _chewieController?.dispose();
       if (widget.id == "0") {
         tempFile = File(videoData);
-        print("tempFileInVideoAppUrl:$tempFile");
+        debugPrint("tempFileInVideoAppUrl:$tempFile");
         _controller = VideoPlayerController.file(tempFile);
       } else {
         debugPrint("videoData$videoData");
@@ -934,8 +913,7 @@ class _VideoAppUrl1State extends State<VideoAppUrl1> {
         _isInitialized = true;
       });
     } catch (e) {
-      // Handle any errors here (e.g., file read/write issues or video initialization failure)
-      print("Error initializing video player: $e");
+      debugPrint("Error initializing video player: $e");
       setState(() {
         _isInitialized = false;
       });

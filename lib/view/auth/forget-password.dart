@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-
-import '../../theme/myfonts.dart';
 import '../widgets/custom-button.dart';
 import '../widgets/custom-textformfield.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'change_password.dart';
 
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({Key? key}) : super(key: key);
+  const ForgetPassword({super.key});
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -50,9 +48,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment:  CrossAxisAlignment.center,
-
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 80.0),
@@ -88,30 +83,19 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         return const Center(
                           child: LoadingIndicator(
                               indicatorType: Indicator.ballClipRotatePulse,
-
-                              /// Required, The loading type of the widget
                               colors: [
                                 Colors.black,
                                 Colors.red,
                               ],
-
-                              /// Optional, The color collections
                               strokeWidth: 2,
-
-                              /// Optional, The stroke of the line, only applicable to widget which contains line
                               backgroundColor: Colors.transparent,
-
-                              /// Optional, Background of the widget
-                              pathBackgroundColor: Colors.black
-
-                              /// Optional, the stroke backgroundColor
-                              ),
+                              pathBackgroundColor: Colors.black),
                         );
                       });
 
                   sendOtp(Nric.text).then((value) {
-                    print('ok');
-                    print('%%%%%%%%%%%%%${value["data"]["status"]}');
+                    debugPrint('ok');
+                    debugPrint('%%%%%%%%%%%%%${value["data"]["status"]}');
 
                     if (value["data"]["status"]) {
                       ScaffoldMessenger.of(context).showSnackBar(

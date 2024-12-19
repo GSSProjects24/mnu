@@ -32,7 +32,7 @@ class _LogInState extends State<LogIn> {
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_login'),
         body: {"username": userName.text, "password": passWord.text});
     if (kDebugMode) {
-      print('**********+${response.body}');
+      debugPrint('**********+${response.body}');
     }
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -57,20 +57,6 @@ class _LogInState extends State<LogIn> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Padding(
-              //   padding: EdgeInsets.only(top: 50.0, left: Get.width * 0.12),
-              //   child: SizedBox(
-              //     width: Get.width * 0.80,
-              //     child: ListTile(
-              //       leading: Image.asset('assets/logo.png'),
-              //       title: Text(
-              //         'mnu_app',
-              //         style: getText(context).titleLarge?.copyWith(fontWeight: FontWeight.w900, fontSize: 25),
-              //       ),
-
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 70.0),
                 child: SizedBox(
@@ -105,13 +91,6 @@ class _LogInState extends State<LogIn> {
                 padding: const EdgeInsets.only(top: 10),
                 child: CustomElevatedButton(
                   onPressed: () async {
-                    print('test');
-
-                    final prefs = await SharedPreferences.getInstance();
-                    print(prefs.getString('username') ?? 'NO DATA');
-
-                    //  Get.find<SessionController>().session.value.logOut();
-
                     if (_formKey.currentState!.validate()) {
                       showDialog(
                           context: context,
@@ -121,12 +100,7 @@ class _LogInState extends State<LogIn> {
                           });
 
                       logIn().then((value) async {
-                        print(value);
-                        print('login success ${value["data"]["status"]}');
-                        print('login success ${value["message"]}');
                         if (value["data"]["status"] == true) {
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //     SnackBar(content: Text(value["message"])));
                           Get.off(() => const LandingPage());
 
                           Navigator.of(context).pop();
@@ -170,7 +144,6 @@ class _LogInState extends State<LogIn> {
                         });
                   },
                   child: const Text('Forget MemberID?')),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mnu_app/view/auth/register.dart';
 
 import '../../main.dart';
@@ -17,7 +16,7 @@ import '../widgets/myformatter.dart';
 import 'new_registration_form.dart';
 
 class NricCheck extends StatefulWidget {
-  const NricCheck({Key? key}) : super(key: key);
+  const NricCheck({super.key});
 
   @override
   State<NricCheck> createState() => _NricCheckState();
@@ -121,88 +120,6 @@ class _NricCheckState extends State<NricCheck> {
                         onPressed: checkNricAndNavigate,
                         title: 'Check NRIC',
                       ),
-                      // child: CustomElevatedButton(
-                      //   onPressed: () {
-                      //     var response;
-                      //
-                      //     if (_formKey.currentState!.validate()) {
-                      //       showDialog(
-                      //           context: context,
-                      //           builder: (context) {
-                      //             return Center(
-                      //               child: LoadingIndicator(
-                      //                   indicatorType:
-                      //                       Indicator.ballClipRotatePulse,
-                      //
-                      //                   /// Required, The loading type of the widget
-                      //                   colors: const [
-                      //                     Colors.black,
-                      //                     Colors.red,
-                      //                   ],
-                      //
-                      //                   /// Optional, The color collections
-                      //                   strokeWidth: 2,
-                      //
-                      //                   /// Optional, The stroke of the line, only applicable to widget which contains line
-                      //                   backgroundColor: Colors.transparent,
-                      //
-                      //                   /// Optional, Background of the widget
-                      //                   pathBackgroundColor: Colors.black
-                      //
-                      //                   /// Optional, the stroke backgroundColor
-                      //                   ),
-                      //             );
-                      //           });
-                      //       checkNric(nricController.text).then((value) {
-                      //         print("********* ${value['data']['status']}");
-                      //         print("********* RESPONSE $value");
-                      //
-                      //         if (value["data"]["status"] == true) {
-                      //           ScaffoldMessenger.of(context).showSnackBar(
-                      //               SnackBar(
-                      //                   content:
-                      //                       Text(value["message"].toString())));
-                      //           Navigator.of(context).pop();
-                      //
-                      //           Get.to(() => RegisterPage(
-                      //               nric: value["data"]["icno"],
-                      //               name: value["data"]["name"]));
-                      //
-                      //           // RegisterPage(
-                      //           //       name: value["data"]["name"],
-                      //           //       nric: value["data"]["icno"],
-                      //           //     ));
-                      //         }
-                      //         if (value["data"]["status"] == false &&
-                      //             value["message"].toString() ==
-                      //                 "This nric member already registered.") {
-                      //           ScaffoldMessenger.of(context).showSnackBar(
-                      //               SnackBar(
-                      //                   content:
-                      //                       Text(value["message"].toString())));
-                      //           Navigator.of(context).pop();
-                      //         }
-                      //         if (value["data"]["status"] == false &&
-                      //             value["message"].toString() !=
-                      //                 "This nric member already registered.") {
-                      //           ScaffoldMessenger.of(context).showSnackBar(
-                      //               SnackBar(
-                      //                   content:
-                      //                       Text(value["message"].toString())));
-                      //           Navigator.of(context).pop();
-                      //           Get.to(() => FormRegistration(
-                      //               nric_no: nricController.text));
-                      //         }
-                      //       }).catchError((e) {
-                      //         ScaffoldMessenger.of(context).showSnackBar(
-                      //             SnackBar(
-                      //                 content:
-                      //                     Text('Unknown Error try again')));
-                      //       });
-                      //     }
-                      //   },
-                      //   title: 'Verify',
-                      // ),
                     ),
                   ],
                 ),
@@ -216,22 +133,20 @@ class _NricCheckState extends State<NricCheck> {
   bool isLoading = false;
   void checkNricAndNavigate() {
     setState(() {
-      isLoading = true; // Start showing the loader
+      isLoading = true;
     });
 
     checkNric(nricController.text).then((value) {
-      if (!mounted) return; // Ensure widget is still mounted
+      if (!mounted) return;
 
       setState(() {
-        isLoading = false; // Stop showing the loader
+        isLoading = false;
       });
 
-      print("********* ${value['data']['status']}");
-      print("********* RESPONSE $value");
+      debugPrint("********* ${value['data']['status']}");
+      debugPrint("********* RESPONSE $value");
 
       String message = value["message"].toString();
-
-      // Check if the NRIC is already registered
       if (value["data"]["status"] == true) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
