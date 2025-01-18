@@ -1,21 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mnu_app/view/widgets/custom_progress_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../controllers/sessioncontroller.dart';
 import '../../models/sessionModel.dart';
-import '../../theme/myfonts.dart';
 import '../admin/admin-post-view.dart';
 import '../widgets/custoemFormField2.dart';
 import '../widgets/custom-button.dart';
 import 'forget-password.dart';
 import 'package:http/http.dart' as http;
-
 import 'landing-page.dart';
 import 'nric-check.dart';
 
@@ -111,7 +105,6 @@ class _LogInState extends State<LogIn> {
                               .value
                               .login(value);
                           // await Get.find<SessionController>().session.value.loadSession();
-                          // ignore: use_build_context_synchronously
                         } else if (value["data"]["status"] == false) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(value["message"])));
@@ -164,21 +157,21 @@ class _LogInState extends State<LogIn> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Not a Member yet?",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.to(() => NricCheck());
+                        Get.to(() => const NricCheck());
                       },
-                      child: Text('Join Now')),
+                      child: const Text('Join Now')),
                   SizedBox(
                     height: Get.height * 0.05,
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               )
             ],

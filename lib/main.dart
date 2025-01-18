@@ -10,7 +10,6 @@ import 'package:mnu_app/theme/color_schemes.g.dart';
 import 'package:mnu_app/theme/myfonts.dart';
 import 'package:mnu_app/view/auth/landing-page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:upgrader/upgrader.dart';
 import 'controllers/sessioncontroller.dart';
 import 'view/chat/chat_screen.dart';
 
@@ -163,18 +162,12 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
           useMaterial3: true, colorScheme: darkColorScheme, textTheme: myfonts),
       // home: const LandingPage());
-      home: UpgradeAlert(
-        upgrader: Upgrader(
-          durationUntilAlertAgain: const Duration(milliseconds: 10),
-          debugLogging: true,
-        ),
-        child: AnimatedSplashScreen(
-          animationDuration: const Duration(seconds: 1),
-          splashIconSize: 250,
-          splash: 'assets/MNU-Logo.png',
-          nextScreen: const LandingPage(),
-          splashTransition: SplashTransition.fadeTransition,
-        ),
+      home: AnimatedSplashScreen(
+        animationDuration: const Duration(seconds: 1),
+        splashIconSize: 250,
+        splash: 'assets/MNU-Logo.png',
+        nextScreen: const LandingPage(),
+        splashTransition: SplashTransition.fadeTransition,
       ),
       // debugShowCheckedModeBanner: false,
     );

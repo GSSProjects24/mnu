@@ -1510,30 +1510,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
                 );
               },
             );
-          }
-
-              // if (snapshot.post.value.data == null ||
-              //     snapshot.post.value.data == 0) {
-              //   if ( widget.isMember ==true ) {
-              //     return const Center(
-              //       child: Text('No posts found'),
-              //     );
-              //   } else {
-              //     // If not a member, show "No posts"
-              //     return const Center(
-              //       child: CustomProgressIndicator(),
-              //     );
-              //   }
-              //   return const Center(
-              //      child: Text('No posts'),
-              //   //  child: CircularProgressIndicator(),
-              //   );
-              // } else {
-              //   return const Center(
-              //     child: CustomProgressIndicator(),
-              //   );
-              // }
-              )),
+          })),
     );
   }
 }
