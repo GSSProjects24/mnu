@@ -48,15 +48,14 @@ class _PostCreatePageState extends State<PostCreatePage> {
       String? Title,
       String? Content}) async {
     var body = {
-      "user_id":
-          Get.find<SessionController>().session.value.data?.userId.toString(),
+      // "user_id": Get.find<SessionController>().session.value.data?.userId.toString(),
+      "user_id": Get.find<SessionController>().session.value.data?.userId?.toString() ?? '',
       "image": images,
       "video": videos,
       "content": Content ?? '',
       "title": Title ?? ''
     };
-    debugPrint(
-        Get.find<SessionController>().session.value.data?.userId as String?);
+    debugPrint('User ID Type: ${Get.find<SessionController>().session.value.data?.userId.runtimeType}');
     final response = await http.put(
         headers: {"Content-Type": "application/json"},
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post'),
@@ -83,14 +82,15 @@ class _PostCreatePageState extends State<PostCreatePage> {
     var body = {
       "post_id": postId,
       "user_id":
-          Get.find<SessionController>().session.value.data?.userId.toString(),
+          Get.find<SessionController>().session.value.data?.userId.toString() ?? '',
       "image": images,
       "video": videos,
       "content": Content ?? '',
       "title": Title ?? ''
     };
-    debugPrint(
-        Get.find<SessionController>().session.value.data?.userId as String?);
+    debugPrint('User ID Type: ${Get.find<SessionController>().session.value.data?.userId.runtimeType}');
+
+    // debugPrint('Get.find<SessionController>().session.value.data?.userId ${Get.find<SessionController>().session.value.data?.userId}');
     final response = await http.put(
         headers: {"Content-Type": "application/json"},
         Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_edit'),
@@ -589,6 +589,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                                         "base64ImageList length : ${base64ImageList.length}");
                                   }
                                   try {
+                                    debugPrint('post try');
                                     final data = await editPost(
                                       Content: content.text,
                                       postId: widget.postId,
