@@ -35,7 +35,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>App want's to Authenticate </string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Our app requires microphone access to record audio when capturing videos. This allows you to include sound , both during recording and after posting</string>
+	<string>This app require access to the microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Would like to use your gallery to upload profile image.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
