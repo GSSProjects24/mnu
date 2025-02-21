@@ -8,8 +8,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:mnu_app/theme/color_schemes.g.dart';
 import 'package:mnu_app/theme/myfonts.dart';
+import 'package:mnu_app/view/auth/biometri_check.dart';
 import 'package:mnu_app/view/auth/landing-page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:mnu_app/view/auth/login.dart';
 import 'controllers/sessioncontroller.dart';
 import 'view/chat/chat_screen.dart';
 
@@ -17,7 +19,7 @@ ValueNotifier isNotified = ValueNotifier(false);
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
+  // make sure you call initializeApp before using other Firebase services.
   await Firebase.initializeApp();
 
   if (kDebugMode) {
@@ -27,7 +29,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,15 +50,14 @@ void main() async {
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  // NotificationSettings settings = await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: false,
-  //   provisional: false,
-  //   sound: true,
-  // );
+
+
+  // Request permission for notifications
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -69,7 +72,7 @@ void main() async {
 //       if(message.data['receiverid']!=null){
 //         Get.to(ChatScreen(receiverId: message.data['receiverid'], receiverImageUrl:message.data['imageurl'], Name: message.data['username']));
 //       }
-      });
+          });
       flutterLocalNotificationsPlugin.show(
           message.notification.hashCode,
           message.notification!.title,
@@ -98,7 +101,7 @@ void main() async {
   });
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await FirebaseMessaging.instance.subscribeToTopic('admin');
+  //await FirebaseMessaging.instance.subscribeToTopic('admin');
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -161,7 +164,7 @@ class _MyAppState extends State<MyApp> {
           colorScheme: clrschm),
       darkTheme: ThemeData(
           useMaterial3: true, colorScheme: darkColorScheme, textTheme: myfonts),
-      // home: const LandingPage());
+      //  home: const LandingPage()
       home: AnimatedSplashScreen(
         animationDuration: const Duration(seconds: 1),
         splashIconSize: 250,
