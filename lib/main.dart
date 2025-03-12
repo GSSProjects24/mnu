@@ -29,9 +29,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
-
-
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,8 +47,6 @@ void main() async {
     ),
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-
 
   // Request permission for notifications
   NotificationSettings settings = await messaging.requestPermission(
@@ -72,7 +68,7 @@ void main() async {
 //       if(message.data['receiverid']!=null){
 //         Get.to(ChatScreen(receiverId: message.data['receiverid'], receiverImageUrl:message.data['imageurl'], Name: message.data['username']));
 //       }
-          });
+      });
       flutterLocalNotificationsPlugin.show(
           message.notification.hashCode,
           message.notification!.title,

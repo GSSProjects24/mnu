@@ -3,7 +3,6 @@ import 'package:local_auth/local_auth.dart';
 
 import '../homePage.dart';
 
-
 class BiometricLogin extends StatefulWidget {
   const BiometricLogin({super.key});
 
@@ -35,7 +34,7 @@ class _BiometricLoginState extends State<BiometricLogin> {
       } else {
         // Authenticate with biometrics
 
-        authenticated = await localAuth.authenticate( 
+        authenticated = await localAuth.authenticate(
           // options: AuthenticationOptions(biometricOnly: true),
 
           localizedReason:

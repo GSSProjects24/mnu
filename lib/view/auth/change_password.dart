@@ -2,6 +2,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mnu_app/view/auth/login.dart';
 import '../widgets/custoemFormField2.dart';
 import '../widgets/custom-button.dart';
 import '../widgets/custom-textformfield.dart';
@@ -18,7 +19,11 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  bool isLoading = false;
   Future<Map<String, dynamic>> changePassword() async {
+    setState(() {
+      isLoading = true;
+    });
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_change_password'),
@@ -47,7 +52,10 @@ class _ChangePasswordState extends State<ChangePassword> {
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Change password'),
+          title: const Text(
+            'Change password',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -111,37 +119,75 @@ class _ChangePasswordState extends State<ChangePassword> {
                   obscureText: true),
               SizedBox(
                 height: Get.height * 0.06,
+                width: Get.width * 0.65,
                 child: CustomElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      // changePassword().then((value) {
+                      //   debugPrint(value["data"]["status"]);
+                      //
+                      //   if (value["data"]["status"] == true) {
+                      //     setState(() {
+                      //       isLoading = false;
+                      //     });
+                      //     // showDialog(
+                      //     //     context: context,
+                      //     //     builder: (context) {
+                      //     //       return const Center(
+                      //     //         child: LoadingIndicator(
+                      //     //             indicatorType:
+                      //     //                 Indicator.ballClipRotatePulse,
+                      //     //             colors: [
+                      //     //               Colors.black,
+                      //     //               Colors.red,
+                      //     //             ],
+                      //     //             strokeWidth: 2,
+                      //     //             backgroundColor: Colors.transparent,
+                      //     //             pathBackgroundColor: Colors.black),
+                      //     //       );
+                      //     //     });
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //         SnackBar(content: Text(value["message"])));
+                      //     debugPrint("login here in change password");
+                      //     //Navigator.of(context).pop();
+                      //     //Get.to(() => const LandingPage());
+                      //     Get.offAll(() => const LogIn());
+                      //   }
+                      //   if (value["data"]["status"] == false) {
+                      //     setState(() {
+                      //       isLoading = false;
+                      //     });
+                      //     Navigator.of(context).pop();
+                      //
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //         SnackBar(content: Text(value["message"])));
+                      //   }
+                      // });
                       changePassword().then((value) {
-                        debugPrint(value["data"]["status"]);
+                        debugPrint(
+                            "Status: ${value["data"]["status"]}"); // Debugging output
 
-                        if (value["data"]["status"] == true) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const Center(
-                                  child: LoadingIndicator(
-                                      indicatorType:
-                                          Indicator.ballClipRotatePulse,
-                                      colors: [
-                                        Colors.black,
-                                        Colors.red,
-                                      ],
-                                      strokeWidth: 2,
-                                      backgroundColor: Colors.transparent,
-                                      pathBackgroundColor: Colors.black),
-                                );
-                              });
+                        // Ensure 'status' is treated as a bool explicitly
+                        bool status = value["data"]["status"] is bool
+                            ? value["data"]["status"]
+                            : false;
+
+                        if (status) {
+                          setState(() {
+                            isLoading = false;
+                          });
+
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(value["message"])));
+
+                          debugPrint(
+                              "Navigating to login after password change");
                           Navigator.of(context).pop();
                           Get.to(() => const LandingPage());
-                        }
-                        if (value["data"]["status"] == false) {
-                          Navigator.of(context).pop();
-
+                        } else {
+                          setState(() {
+                            isLoading = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(value["message"])));
                         }

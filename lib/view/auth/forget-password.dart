@@ -17,7 +17,11 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
+  bool isLoading = false;
   Future<Map<String, dynamic>> sendOtp(String nric) async {
+    setState(() {
+      isLoading = true;
+    });
     final response = await http.post(
         Uri.parse(
             'http://mnuapi.graspsoftwaresolutions.com/api_forget_password'),
@@ -75,48 +79,59 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 obscureText: false,
               ),
               const SizedBox(height: 20),
-              CustomElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    sendOtp(Nric.text).then((value) {
-                      debugPrint('ok');
-                      debugPrint('%%%%%%%%%%%%%${value["data"]["status"]}');
+              isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : CustomElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          sendOtp(Nric.text).then((value) {
+                            debugPrint('ok');
+                            debugPrint(
+                                '%%%%%%%%%%%%%${value["data"]["status"]}');
 
-                      if (value["data"]["status"] == true) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const Center(
-                                child: LoadingIndicator(
-                                    indicatorType:
-                                        Indicator.ballClipRotatePulse,
-                                    colors: [
-                                      Colors.black,
-                                      Colors.red,
-                                    ],
-                                    strokeWidth: 2,
-                                    backgroundColor: Colors.transparent,
-                                    pathBackgroundColor: Colors.black),
-                              );
-                            });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(value["message"])));
-                        Navigator.of(context).pop();
-                        Get.to(() => ChangePassword(
-                              userId: value["data"]["user_id"].toString(),
-                            ));
-                      }
-                      if (value["data"]["status"] == false) {
-                        Navigator.of(context).pop();
+                            if (value["data"]["status"] == true) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                      child: LoadingIndicator(
+                                          indicatorType:
+                                              Indicator.ballClipRotatePulse,
+                                          colors: [
+                                            Colors.black,
+                                            Colors.red,
+                                          ],
+                                          strokeWidth: 2,
+                                          backgroundColor: Colors.transparent,
+                                          pathBackgroundColor: Colors.black),
+                                    );
+                                  });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(value["message"])));
+                              Navigator.of(context).pop();
+                              Get.to(() => ChangePassword(
+                                    userId: value["data"]["user_id"].toString(),
+                                  ));
+                              debugPrint(
+                                  "userIdforgotpwd:${value["data"]["user_id"].toString()}");
+                            }
+                            if (value["data"]["status"] == false) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              //Navigator.of(context).pop();
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(value["message"])));
-                      }
-                    });
-                  }
-                },
-                title: 'Send OTP',
-              ),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(value["message"])));
+                            }
+                          });
+                        }
+                      },
+                      title: 'Send OTP',
+                    ),
               const SizedBox(
                 height: 20,
               )

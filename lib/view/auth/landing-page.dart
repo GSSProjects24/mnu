@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mnu_app/view/homePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../controllers/sessioncontroller.dart';
 import '../../models/sessionModel.dart';
@@ -64,14 +65,17 @@ class _LandingPageState extends State<LandingPage> {
 
                   if (session.session.value.data?.userId != null &&
                       session.session.value.data?.status == true) {
-                    return const BiometricLogin();
+                    return const HomePage();
+                    //BiometricLogin();
                   }
                   if (session.session.value.data?.userId == null) {
+                    debugPrint("login here");
                     return const LogIn();
                   }
                   if (session.session.value.data?.userId != null &&
                       session.session.value.data?.status == false) {
-                    return const BiometricLogin();
+                    return const HomePage();
+                    //BiometricLogin();
                   }
 
                   if (kDebugMode) {

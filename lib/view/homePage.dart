@@ -241,13 +241,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<String?> getMessagingToken() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    String? token = await messaging.getToken();
-
-    return token;
-  }
+  // Future<String?> getMessagingToken() async {
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //
+  //   String? token = await messaging.getToken();
+  //
+  //   return token;
+  // }
 
   @override
   Widget build(BuildContext context) {
