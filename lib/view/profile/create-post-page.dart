@@ -58,7 +58,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
     debugPrint('User ID Type: ${Get.find<SessionController>().session.value.data?.userId.runtimeType}');
     final response = await http.put(
         headers: {"Content-Type": "application/json"},
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post'),
         body: jsonEncode(body));
     debugPrint(response.body);
 
@@ -93,7 +93,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
     // debugPrint('Get.find<SessionController>().session.value.data?.userId ${Get.find<SessionController>().session.value.data?.userId}');
     final response = await http.put(
         headers: {"Content-Type": "application/json"},
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_edit'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_edit'),
         body: jsonEncode(body));
     debugPrint('**********+${response.body}');
     if (response.statusCode == 200) {

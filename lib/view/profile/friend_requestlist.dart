@@ -37,7 +37,7 @@ class _FriendRequestsState extends State<FriendRequests> {
 
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_pending_followrequest_list'),
+            'https://api.malayannursesunion.xyz/api_pending_followrequest_list'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -57,7 +57,7 @@ class _FriendRequestsState extends State<FriendRequests> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_followingrequest'),
+            'https://api.malayannursesunion.xyz/api_followingrequest'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
@@ -432,7 +432,7 @@ Future<Map<String, dynamic>> acceptDecline(
   };
   final response = await http.post(
       Uri.parse(
-          'http://mnuapi.graspsoftwaresolutions.com/api_follow_accept_decline_request'),
+          'https://api.malayannursesunion.xyz/api_follow_accept_decline_request'),
       body: body);
 
   if (response.statusCode == 200) {

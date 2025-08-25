@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mnu_app/models/delete_user_model.dart';
 import 'package:mnu_app/view/profile/hide_post_list.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controllers/sessioncontroller.dart';
 import '../../main.dart';
@@ -34,10 +36,10 @@ class UsersProfile extends StatefulWidget {
 
 class _UsersProfileState extends State<UsersProfile> {
   String? imageurl;
-
+  bool deleteLoad = false;
   Future<MemberModel> loadMember() async {
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_getuser'),
         body: {
           "user_id": Get.find<SessionController>()
               .session
@@ -70,7 +72,7 @@ class _UsersProfileState extends State<UsersProfile> {
           Get.find<SessionController>().session.value.data?.userId.toString()
     };
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_logout'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_logout'),
         body: body);
     if (response.statusCode == 200) {
       showDialog(
@@ -87,12 +89,61 @@ class _UsersProfileState extends State<UsersProfile> {
       throw Exception('Failed to load album');
     }
   }
+  Future deleteUser(BuildContext context) async {
+    var body = {
+      "user_id": Get.find<SessionController>().session.value.data?.userId.toString()
+    };
+
+    final response = await http.post(
+      Uri.parse('https://api.malayannursesunion.xyz/api_delete_user'),
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("Raw Response: ${response.body}");
+
+      final deleteUserModel = deleteUserModelFromJson(response.body);
+
+      if (deleteUserModel.success == true && deleteUserModel.data?.status == true) {
+        debugPrint("Account deletion successful ✅");
+
+        setState(() {
+          deleteLoad = false;
+        });
+
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.clear();
+
+          // 🔴 Unsubscribe from FCM topic
+          await FirebaseMessaging.instance.unsubscribeFromTopic(
+            Get.find<SessionController>().session.value.data?.userId.toString() ?? '',
+          );
+
+          // 🔴 Clear session
+          Get.find<SessionController>().session.value.logOut();
+          Get.find<SessionController>().session.value = Session();
+
+          // 🔴 Navigate same as logout
+          Get.offAll(() => const LandingPage());
+        });
+      } else {
+        debugPrint("Account deletion failed ❌ : ${deleteUserModel.message}");
+        Get.snackbar("Error", deleteUserModel.message ?? "Failed to delete account");
+      }
+    } else {
+      debugPrint("Error Response: ${response.body}");
+      throw Exception('Failed to delete account');
+    }
+  }
+
 
   late Future<MemberModel> member;
   @override
   void initState() {
     // TODO: implement initState
     member = loadMember();
+
     super.initState();
   }
 
@@ -338,8 +389,8 @@ class _UsersProfileState extends State<UsersProfile> {
                                                             ?.userId
                                                             .toString() ==
                                                         "1"
-                                                    ? "http://mnuapi.graspsoftwaresolutions.com/api_member_post_list"
-                                                    : 'http://mnuapi.graspsoftwaresolutions.com/api_member_post_list',
+                                                    ? "https://api.malayannursesunion.xyz/api_member_post_list"
+                                                    : 'https://api.malayannursesunion.xyz/api_member_post_list',
                                                 isMember: true,
                                               ));
                                       debugPrint("result:$result");
@@ -481,7 +532,7 @@ class _UsersProfileState extends State<UsersProfile> {
                                           const HidePostPage(
                                               title: "Hide Post",
                                               apiurl:
-                                                  "http://mnuapi.graspsoftwaresolutions.com/api_post_hide_list"));
+                                                  "https://api.malayannursesunion.xyz/api_post_hide_list"));
                                       debugPrint("result:$result");
                                       if (result == null) {
                                         setState(() {
@@ -712,6 +763,43 @@ class _UsersProfileState extends State<UsersProfile> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ListTile(
+                            leading: const Icon(Icons.delete_forever, color: Colors.red),
+                            title: const Text(
+                              "Delete Account",
+                              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text("Delete Account"),
+                                  content: const Text(
+                                      "Are you sure you want to delete your account? This action cannot be undone."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context); // cancel
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context); // close dialog
+                                        await deleteUser(context); // 🔴 call delete method
+                                      },
+                                      child: const Text("Yes"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+
                         // Padding(
                         //   padding: const EdgeInsets.only(left: 8.0),
                         //   child: ListTile(

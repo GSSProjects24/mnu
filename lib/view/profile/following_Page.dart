@@ -36,7 +36,7 @@ class _FollowingListState extends State<FollowingList> {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_following_list'),
+            'https://api.malayannursesunion.xyz/api_following_list'),
         body: body,
       );
 
@@ -64,7 +64,7 @@ class _FollowingListState extends State<FollowingList> {
     }
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_unfollow_request'),
+            'https://api.malayannursesunion.xyz/api_unfollow_request'),
         body: body);
     if (kDebugMode) {
       print(body);

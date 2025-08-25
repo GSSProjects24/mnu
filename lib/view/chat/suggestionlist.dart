@@ -32,7 +32,7 @@ class _SuggestionListState extends State<SuggestionList> {
     debugPrint('search : ${search}');
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_suggestion_member_list'),
+            'https://api.malayannursesunion.xyz/api_suggestion_member_list'),
         body: body);
 
     if (response.statusCode == 200) {

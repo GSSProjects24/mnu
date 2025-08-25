@@ -84,7 +84,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
     debugPrint(
         Get.find<SessionController>().session.value.data?.userId.toString());
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_delete'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_delete'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -104,7 +104,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_single_post_view'),
+            'https://api.malayannursesunion.xyz/api_single_post_view'),
         body: body);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -132,7 +132,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
     debugPrint(
         "UserId${Get.find<SessionController>().session.value.data?.userId}");
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_view_add'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_view_add'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -154,7 +154,7 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
     };
     final response = await http.post(
       Uri.parse(
-          'http://mnuapi.graspsoftwaresolutions.com/api_push_notification'),
+          'https://api.malayannursesunion.xyz/api_push_notification'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
@@ -176,9 +176,9 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
     debugPrint(
         'user id ${Get.find<SessionController>().session.value.data?.userId} follower user id $followerUserId');
     debugPrint(
-        'api url http://mnuapi.graspsoftwaresolutions.com/api_block_request');
+        'api url https://api.malayannursesunion.xyz/api_block_request');
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_block_request'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_block_request'),
         body: body);
     debugPrint('${body}bbbbbbbbbbbbbbbbb');
 
@@ -201,9 +201,9 @@ class _HomeListPostPageState extends State<HomeListPostPage> {
     debugPrint(
         'user id ${Get.find<SessionController>().session.value.data?.userId} follower user id $postId');
     debugPrint(
-        'api url http://mnuapi.graspsoftwaresolutions.com/api_post_hide');
+        'api url https://api.malayannursesunion.xyz/api_post_hide');
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_hide'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_hide'),
         body: body);
 
     if (response.statusCode == 200) {

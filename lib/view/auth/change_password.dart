@@ -26,7 +26,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     });
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_change_password'),
+            'https://api.malayannursesunion.xyz/api_change_password'),
         body: {
           "password": password.text,
           "confirm_password": confirmPassword.text,

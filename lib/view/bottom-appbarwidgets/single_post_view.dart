@@ -87,7 +87,7 @@ class _SinglePostViewState extends State<SinglePostView> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_single_post_view'),
+            'https://api.malayannursesunion.xyz/api_single_post_view'),
         body: body);
     debugPrint('**********+${response.body}');
     if (response.statusCode == 200) {
@@ -382,13 +382,13 @@ class _SinglePostViewState extends State<SinglePostView> {
                         //                   child: GestureDetector(
                         //                       // onTap: () {
                         //                       //   showMyDialog(context,
-                        //                       //       'http://mnuapi.graspsoftwaresolutions.com/public/images/user.png',null);
+                        //                       //       'https://api.malayannursesunion.xyz/public/images/user.png',null);
                         //                       // },
                         //                       child: Center(
                         //                     child: Text('No Videos'),
                         //                   )
                         //                       // Image.network(
-                        //                       //   'http://mnuapi.graspsoftwaresolutions.com/public/images/user.png',
+                        //                       //   'https://api.malayannursesunion.xyz/public/images/user.png',
                         //                       //   fit: BoxFit.cover,
                         //                       // ),
                         //                       ),

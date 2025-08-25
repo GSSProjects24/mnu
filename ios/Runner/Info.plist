@@ -35,7 +35,8 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>App want's to Authenticate </string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app require access to the microphone</string>
+	<key>NSMicrophoneUsageDescription</key>
+     <string>This app uses the microphone to record audio while capturing videos, so you can share videos with sound in your posts.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Would like to use your gallery to upload profile image.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -46,7 +47,7 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen</string>api_delete_user
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

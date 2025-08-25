@@ -29,7 +29,7 @@ class _ChatList2State extends State<ChatList2> {
       "search": search ?? ""
     };
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_chat_mem_list'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_chat_mem_list'),
         body: body);
 
     if (response.statusCode == 200) {

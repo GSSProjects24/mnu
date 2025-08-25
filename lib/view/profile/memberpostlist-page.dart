@@ -50,7 +50,7 @@ class _MemberPostListPageState extends State<MemberPostListPage> {
       print(Get.find<SessionController>().session.value.data?.userId);
     }
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_delete'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_delete'),
         body: body);
 
     if (response.statusCode == 200) {

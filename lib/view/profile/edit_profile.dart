@@ -70,7 +70,7 @@ class _EditProfileState extends State<EditProfile> {
 
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_update_member_profile'),
+            'https://api.malayannursesunion.xyz/api_update_member_profile'),
         body: body);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -92,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
     }
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_edit_member_profile'),
+            'https://api.malayannursesunion.xyz/api_edit_member_profile'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -110,7 +110,7 @@ class _EditProfileState extends State<EditProfile> {
           Get.find<SessionController>().session.value.data?.userId.toString()
     };
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_delete_user'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_delete_user'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -133,7 +133,7 @@ class _EditProfileState extends State<EditProfile> {
     }
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_profile_image_upload'),
+            'https://api.malayannursesunion.xyz/api_profile_image_upload'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body));
     if (kDebugMode) {
@@ -187,7 +187,7 @@ class _EditProfileState extends State<EditProfile> {
       print(Get.find<SessionController>().session.value.data?.userId);
     }
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_getuser'),
         body: {
           "user_id": Get.find<SessionController>()
               .session
@@ -470,7 +470,7 @@ class _EditProfileState extends State<EditProfile> {
                                   //     //     .value
                                   //     //     .data
                                   //     //     ?.profile_image ??
-                                  //     //     'http://mnuapi.graspsoftwaresolutions.com/public/images/user.png'):MemoryImage(data.memoryImage.first),
+                                  //     //     'https://api.malayannursesunion.xyz/public/images/user.png'):MemoryImage(data.memoryImage.first),
                                   //   ),
                                   // ),
                                 ),

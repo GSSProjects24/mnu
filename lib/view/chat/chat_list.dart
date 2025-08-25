@@ -35,7 +35,7 @@ class _ChatListState extends State<ChatList> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_chat_member_list'),
+            'https://api.malayannursesunion.xyz/api_chat_member_list'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -55,7 +55,7 @@ class _ChatListState extends State<ChatList> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_user_chat_delete'),
+            'https://api.malayannursesunion.xyz/api_user_chat_delete'),
         body: body);
     if (response.statusCode == 200) {
       debugPrint(response.body);

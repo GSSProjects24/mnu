@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
     };
 
     final response = await http.put(
-      Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_member_register'),
+      Uri.parse('https://api.malayannursesunion.xyz/api_member_register'),
       body: body,
     );
 

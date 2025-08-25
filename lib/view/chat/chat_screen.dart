@@ -99,7 +99,7 @@ class _ChatScreenState extends State<ChatScreen> {
     };
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_user_chat_overall_delete'),
+            'https://api.malayannursesunion.xyz/api_user_chat_overall_delete'),
         body: body);
 
     if (response.statusCode == 200) {

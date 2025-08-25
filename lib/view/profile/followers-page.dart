@@ -32,7 +32,7 @@ class _FollowersListState extends State<FollowersList> {
     }
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_followers_list'),
+            'https://api.malayannursesunion.xyz/api_followers_list'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -55,7 +55,7 @@ class _FollowersListState extends State<FollowersList> {
     }
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_unfollow_request'),
+            'https://api.malayannursesunion.xyz/api_unfollow_request'),
         body: body);
 
     if (response.statusCode == 200) {

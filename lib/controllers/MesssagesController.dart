@@ -27,7 +27,7 @@ class MessagesController extends GetxController {
       "limit": limit
     };
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_chat_list'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_chat_list'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -47,7 +47,7 @@ class MessagesController extends GetxController {
     };
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_user_chat_seen'),
+            'https://api.malayannursesunion.xyz/api_user_chat_seen'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -69,7 +69,7 @@ class MessagesController extends GetxController {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_usermultiple_chat_delete'),
+            'https://api.malayannursesunion.xyz/api_usermultiple_chat_delete'),
         headers: {"Content-Type": 'application/json'},
         body: jsonEncode(body));
 
@@ -92,7 +92,7 @@ class MessagesController extends GetxController {
       "message": messages
     };
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_user_chat'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_user_chat'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -109,7 +109,7 @@ class MessagesController extends GetxController {
     var body = {"status": status, "chat_id": chatId};
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_user_sender_chat_delete'),
+            'https://api.malayannursesunion.xyz/api_user_sender_chat_delete'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -133,7 +133,7 @@ class MessagesController extends GetxController {
     };
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_user_receiver_chat_delete'),
+            'https://api.malayannursesunion.xyz/api_user_receiver_chat_delete'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -156,7 +156,7 @@ class MessagesController extends GetxController {
     };
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_user_chat_overall_delete'),
+            'https://api.malayannursesunion.xyz/api_user_chat_overall_delete'),
         body: body);
 
     if (response.statusCode == 200) {

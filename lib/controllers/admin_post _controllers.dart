@@ -17,7 +17,7 @@ class AdminPostController extends GetxController {
       required String comment_user_id,
       required String comment}) async {
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_comment'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_comment'),
         body: {
           "post_id": post_id,
           "comment_user_id": comment_user_id,
@@ -39,7 +39,7 @@ class AdminPostController extends GetxController {
 
   Future<Post> loadPost(String? search, int limit) async {
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_list'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_list'),
         body: {
           "user_id": Get.find<SessionController>()
                   .session
@@ -71,7 +71,7 @@ class AdminPostController extends GetxController {
 
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_comment_delete'),
+            'https://api.malayannursesunion.xyz/api_comment_delete'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -93,7 +93,7 @@ class AdminPostController extends GetxController {
     };
 
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_like'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_like'),
         body: body);
 
     if (response.statusCode == 200) {

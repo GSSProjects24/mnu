@@ -42,7 +42,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_pending_followrequest_list'),
+            'https://api.malayannursesunion.xyz/api_pending_followrequest_list'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -63,7 +63,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_notification_view_change_full'),
+            'https://api.malayannursesunion.xyz/api_notification_view_change_full'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -87,7 +87,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     };
     final response = await http.post(
       Uri.parse(
-          'http://mnuapi.graspsoftwaresolutions.com/api_push_notification'),
+          'https://api.malayannursesunion.xyz/api_push_notification'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
@@ -106,7 +106,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     debugPrint(Get.find<SessionController>().session.value.data?.userId.toString());
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_push_notification_clearall'),
+            'https://api.malayannursesunion.xyz/api_push_notification_clearall'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
     if (kDebugMode) {

@@ -28,7 +28,7 @@ class ListOfPostController extends GetxController {
       "comment": comment
     };
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_comment'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_comment'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
 
@@ -74,7 +74,7 @@ class ListOfPostController extends GetxController {
     };
     final response = await http.put(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_post_reply_comment'),
+            'https://api.malayannursesunion.xyz/api_post_reply_comment'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
 
@@ -124,7 +124,7 @@ class ListOfPostController extends GetxController {
 
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_comment_delete'),
+            'https://api.malayannursesunion.xyz/api_comment_delete'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -146,7 +146,7 @@ class ListOfPostController extends GetxController {
     };
 
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_like'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_like'),
         body: body);
 
     if (response.statusCode == 200) {

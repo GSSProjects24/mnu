@@ -61,7 +61,7 @@ class _FormRegistrationState extends State<FormRegistration> {
   RegExp emailRegex = RegExp(r'\S+@\S+\.\S+');
   Future<Companynames> fetchCompany() async {
     final response = await http.get(Uri.parse(
-        'http://mnuapi.graspsoftwaresolutions.com/api_company_detail'));
+        'https://api.malayannursesunion.xyz/api_company_detail'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -76,7 +76,7 @@ class _FormRegistrationState extends State<FormRegistration> {
 
   Future<Racelist> fetchRace() async {
     final response = await http.get(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_race_detail'));
+        Uri.parse('https://api.malayannursesunion.xyz/api_race_detail'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,

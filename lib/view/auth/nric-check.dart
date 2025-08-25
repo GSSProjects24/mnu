@@ -29,7 +29,7 @@ class _NricCheckState extends State<NricCheck> {
     var body = {"nric_no": nric};
 
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/member_nric_check'),
+        Uri.parse('https://api.malayannursesunion.xyz/member_nric_check'),
         body: body);
 
     if (response.statusCode == 200) {

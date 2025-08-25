@@ -23,8 +23,10 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   Future<Map<String, dynamic>> logIn() async {
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_login'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_login'),
         body: {"username": userName.text, "password": passWord.text});
+    print("$userName ,$passWord");
+    print("https://api.malayannursesunion.xyz/api_login");
     if (kDebugMode) {
       debugPrint('**********+${response.body}');
     }

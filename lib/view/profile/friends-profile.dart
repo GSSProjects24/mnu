@@ -49,7 +49,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
       print(Get.find<SessionController>().session.value.data?.userId);
     }
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_getuser'),
         body: {
           "user_id": widget.memberNo,
           "logged_user_id": Get.find<SessionController>()
@@ -80,7 +80,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
     }
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_unfollow_request'),
+            'https://api.malayannursesunion.xyz/api_unfollow_request'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -103,7 +103,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
 
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_update_company_name'),
+            'https://api.malayannursesunion.xyz/api_update_company_name'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -116,7 +116,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
 
   Future<Companynames> fetchCompany() async {
     final response = await http.get(Uri.parse(
-        'http://mnuapi.graspsoftwaresolutions.com/api_company_detail'));
+        'https://api.malayannursesunion.xyz/api_company_detail'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -141,7 +141,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
     }
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_followers_list'),
+            'https://api.malayannursesunion.xyz/api_followers_list'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -249,7 +249,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
                                     showMyDialog(
                                         context,
                                         snapshot.data?.data?.profile_image ??
-                                            'http://mnuapi.graspsoftwaresolutions.com/public/images/user.png');
+                                            'https://api.malayannursesunion.xyz/public/images/user.png');
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
@@ -649,7 +649,7 @@ Future<void> showMyDialog(BuildContext context, String url) async {
                 imageProvider: NetworkImage(
                   (url.isNotEmpty)
                       ? url
-                      : 'http://mnuapi.graspsoftwaresolutions.com/public/images/user.png',
+                      : 'https://api.malayannursesunion.xyz/public/images/user.png',
                 ),
               )),
           Padding(

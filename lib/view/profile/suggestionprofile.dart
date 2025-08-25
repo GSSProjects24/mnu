@@ -33,7 +33,7 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
   Future<SuggestionMemberModel> loadMember() async {
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_edit_member_profile'),
+            'https://api.malayannursesunion.xyz/api_edit_member_profile'),
         body: {"user_id": widget.userid});
 
     if (response.statusCode == 200) {
@@ -51,7 +51,7 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_followingrequest'),
+            'https://api.malayannursesunion.xyz/api_followingrequest'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
 
@@ -70,7 +70,7 @@ class _SuggestionsProfileState extends State<SuggestionsProfile> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_cancel_follow_request'),
+            'https://api.malayannursesunion.xyz/api_cancel_follow_request'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {

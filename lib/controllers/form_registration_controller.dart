@@ -77,7 +77,7 @@ class FormRegistrationController extends GetxController {
     debugPrint("data:$body");
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_new_member_register'),
+            'https://api.malayannursesunion.xyz/api_new_member_register'),
         body: jsonEncode(body),
         headers: {"Content-Type": "application/json"});
 

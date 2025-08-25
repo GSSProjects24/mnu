@@ -29,7 +29,7 @@ class _MembercardState extends State<Membercard> {
   ScreenshotController screenshotController = ScreenshotController();
   Future<MemberModel> loadMember() async {
     final response = await http.post(
-      Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
+      Uri.parse('https://api.malayannursesunion.xyz/api_getuser'),
       body: {
         "user_id":
             Get.find<SessionController>().session.value.data?.userId.toString(),
@@ -53,7 +53,7 @@ class _MembercardState extends State<Membercard> {
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_edit_member_profile'),
+            'https://api.malayannursesunion.xyz/api_edit_member_profile'),
         body: body);
 
     if (response.statusCode == 200) {

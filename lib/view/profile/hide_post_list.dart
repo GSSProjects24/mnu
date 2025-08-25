@@ -76,7 +76,7 @@ class _HidePostPageState extends State<HidePostPage>
       print(Get.find<SessionController>().session.value.data?.userId);
     }
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_delete'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_delete'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -96,7 +96,7 @@ class _HidePostPageState extends State<HidePostPage>
     };
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_single_post_view'),
+            'https://api.malayannursesunion.xyz/api_single_post_view'),
         body: body);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -125,7 +125,7 @@ class _HidePostPageState extends State<HidePostPage>
     debugPrint(
         "UserId${Get.find<SessionController>().session.value.data?.userId}");
     final response = await http.put(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_view_add'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_view_add'),
         body: body);
 
     if (response.statusCode == 200) {
@@ -147,7 +147,7 @@ class _HidePostPageState extends State<HidePostPage>
     };
     final response = await http.post(
       Uri.parse(
-          'http://mnuapi.graspsoftwaresolutions.com/api_push_notification'),
+          'https://api.malayannursesunion.xyz/api_push_notification'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
@@ -169,9 +169,9 @@ class _HidePostPageState extends State<HidePostPage>
     debugPrint(
         'user id ${Get.find<SessionController>().session.value.data?.userId} follower user id $postId');
     debugPrint(
-        'api url http://mnuapi.graspsoftwaresolutions.com/api_post_unhide');
+        'api url https://api.malayannursesunion.xyz/api_post_unhide');
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_post_unhide'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_post_unhide'),
         body: body);
 
     if (response.statusCode == 200) {

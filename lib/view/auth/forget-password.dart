@@ -24,7 +24,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     });
     final response = await http.post(
         Uri.parse(
-            'http://mnuapi.graspsoftwaresolutions.com/api_forget_password'),
+            'https://api.malayannursesunion.xyz/api_forget_password'),
         body: {"nric_no": Nric.text});
 
     if (response.statusCode == 200) {

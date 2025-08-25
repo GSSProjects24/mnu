@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
     };
     final response = await http.post(
       Uri.parse(
-          'http://mnuapi.graspsoftwaresolutions.com/api_push_notification'),
+          'https://api.malayannursesunion.xyz/api_push_notification'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
@@ -92,11 +92,15 @@ class _HomePageState extends State<HomePage> {
               '',
       "token": token
     };
+
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_user_token'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_user_token'),
         body: body);
     if (response.statusCode == 200) {
       debugPrint('$token done*******%%%%%%%%%%%%%%%%%S');
+      debugPrint( Get.find<SessionController>().session.value.data?.userId.toString() ??
+          '');
+
       await FirebaseMessaging.instance.subscribeToTopic(
           Get.find<SessionController>().session.value.data?.userId.toString() ??
               '');
@@ -109,7 +113,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<MemberModel> loadMember() async {
     final response = await http.post(
-        Uri.parse('http://mnuapi.graspsoftwaresolutions.com/api_getuser'),
+        Uri.parse('https://api.malayannursesunion.xyz/api_getuser'),
         body: {
           "user_id": Get.find<SessionController>()
               .session
@@ -149,13 +153,13 @@ class _HomePageState extends State<HomePage> {
   List<Widget> bottombarwidgets = [
     const HomeListPostPage(
         title: 'Timeline',
-        apiurl: 'http://mnuapi.graspsoftwaresolutions.com/api_post_list',
+        apiurl: 'https://api.malayannursesunion.xyz/api_post_list',
         isHome: true),
     // LazyListView(),
     const ChatList(),
     const HQListPostPage(
         title: 'HQ posts',
-        apiurl: 'http://mnuapi.graspsoftwaresolutions.com/api_admin_post_list',
+        apiurl: 'https://api.malayannursesunion.xyz/api_admin_post_list',
         isHq: true),
     const UsersProfile(),
     // const NotificationsPage(
